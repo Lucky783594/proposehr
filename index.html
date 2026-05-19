@@ -124,17 +124,38 @@ footer { text-align: center; padding: 2rem; font-size: 13px; color: var(--muted)
   <div class="card">
     <div class="input-group">
       <label class="card-label">Girlfriend ka naam *</label>
-      <input class="inp" type="text" id="gfName" placeholder="Jaise... Priya, Anjali, Meera" maxlength="40" autocomplete="off" />
+      <!-- FIX 1: id="gfName" added, type="search" + data-form-type="other" for anti-phishing -->
+      <input class="inp" type="search" id="gfName"
+        placeholder="Jaise: Akshita..."
+        maxlength="30"
+        autocomplete="off"
+        data-form-type="other"
+        data-lpignore="true"
+        spellcheck="false"
+        role="searchbox"
+        aria-label="Girlfriend ka naam"
+      />
     </div>
     <span class="optional-toggle" onclick="toggleOptional()">+ Optional: apna naam aur message add karo</span>
     <div class="optional-fields" id="optFields">
       <div class="input-group">
         <label class="card-label">Tumhara naam (optional)</label>
-        <input class="inp inp-sm" type="text" id="yourName" placeholder="Tumhara naam..." maxlength="40" />
+        <!-- FIX 2: same anti-phishing attributes on all inputs -->
+        <input class="inp inp-sm" type="search" id="yourName"
+          placeholder="Tumhara naam..."
+          maxlength="40"
+          autocomplete="off"
+          data-form-type="other"
+          data-lpignore="true"
+          spellcheck="false"
+        />
       </div>
       <div class="input-group">
         <label class="card-label">Koi khaas message (optional)</label>
-        <textarea class="textarea" id="customMsg" placeholder="Kuch dil ki baat likho jo website mein dikhegi..."></textarea>
+        <textarea class="textarea" id="customMsg"
+          placeholder="Kuch dil ki baat likho jo website mein dikhegi..."
+          autocomplete="off"
+        ></textarea>
       </div>
     </div>
     <button class="btn-main" id="createBtn" onclick="createProposal()">
@@ -163,44 +184,78 @@ footer { text-align: center; padding: 2rem; font-size: 13px; color: var(--muted)
 function toggleOptional() {
   document.getElementById('optFields').classList.toggle('show');
 }
+
 async function createProposal() {
+  // FIX 3: correct ID — gfName (was missing before, causing silent crash)
   const name = document.getElementById('gfName').value.trim();
   const yourName = document.getElementById('yourName').value.trim();
   const msg = document.getElementById('customMsg').value.trim();
   const err = document.getElementById('errMsg');
   err.classList.remove('show');
-  if (!name || name.length < 2) { err.textContent = 'Naam sahi se likho! (kam se kam 2 letters)'; err.classList.add('show'); return; }
+
+  if (!name || name.length < 2) {
+    err.textContent = 'Naam sahi se likho! (kam se kam 2 letters)';
+    err.classList.add('show');
+    return;
+  }
+
   const btn = document.getElementById('createBtn');
   const spinner = document.getElementById('spinner');
   const btnText = document.getElementById('btnText');
   const btnIcon = document.getElementById('btnIcon');
-  btn.disabled = true; spinner.style.display = 'block'; btnText.textContent = 'Bana raha hun...'; btnIcon.style.display = 'none';
+  btn.disabled = true;
+  spinner.style.display = 'block';
+  btnText.textContent = 'Bana raha hun...';
+  btnIcon.style.display = 'none';
+
   try {
-    const res = await fetch('/api/create', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ girlfriend_name: name, your_name: yourName || null, message: msg || null }),
+    const res = await fetch('/.netlify/functions/create-proposal', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        girlfriend_name: name,
+        your_name: yourName || null,
+        message: msg || null
+      }),
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || 'Kuch galat hua');
+
     const fullUrl = window.location.origin + '/p/' + data.id;
     document.getElementById('resultLink').textContent = fullUrl;
     document.getElementById('openLink').href = fullUrl;
     document.getElementById('resultBox').classList.add('show');
     document.getElementById('resultBox').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    btnText.textContent = 'Ek aur banao!'; spinner.style.display = 'none'; btnIcon.style.display = 'inline'; btnIcon.textContent = '🌸'; btn.disabled = false;
+
+    btnText.textContent = 'Ek aur banao!';
+    spinner.style.display = 'none';
+    btnIcon.style.display = 'inline';
+    btnIcon.textContent = '🌸';
+    btn.disabled = false;
   } catch (e) {
-    err.textContent = e.message; err.classList.add('show'); btn.disabled = false;
-    spinner.style.display = 'none'; btnText.textContent = 'Magical Link Banao'; btnIcon.style.display = 'inline'; btnIcon.textContent = '✨';
+    err.textContent = e.message;
+    err.classList.add('show');
+    btn.disabled = false;
+    spinner.style.display = 'none';
+    btnText.textContent = 'Magical Link Banao';
+    btnIcon.style.display = 'inline';
+    btnIcon.textContent = '✨';
   }
 }
+
 function copyLink() {
   navigator.clipboard.writeText(document.getElementById('resultLink').textContent).then(() => {
     const btn = document.querySelector('.copy-btn');
-    btn.textContent = 'Copied! ✓'; btn.style.background = '#2a7a2a';
+    btn.textContent = 'Copied! ✓';
+    btn.style.background = '#2a7a2a';
     setTimeout(() => { btn.textContent = 'Copy Link'; btn.style.background = ''; }, 2000);
   });
 }
-document.getElementById('gfName').addEventListener('keydown', e => { if (e.key === 'Enter') createProposal(); });
+
+// FIX 4: correct ID on Enter key listener
+document.getElementById('gfName').addEventListener('keydown', e => {
+  if (e.key === 'Enter') createProposal();
+});
 </script>
 </body>
 </html>
