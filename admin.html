@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ProposeHer Admin 🔐</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600&family=Sacramento&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --rose: #c0525a; --rose-light: #f7dde0; --gold: #b8965a;
+  --bg: #0f0a0b; --surface: #1a1012; --surface2: #231519;
+  --border: rgba(192,82,90,0.15); --text: #f5ede8; --muted: #8a6a6e;
+}
+body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+/* LOGIN */
+#login-screen {
+  min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem;
+  background: radial-gradient(ellipse at center, rgba(192,82,90,0.08) 0%, transparent 70%);
+}
+.login-box {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 20px;
+  padding: 3rem 2.5rem; width: 100%; max-width: 380px; text-align: center;
+}
+.login-logo { font-family: 'Sacramento', cursive; font-size: 42px; color: var(--rose); margin-bottom: 0.5rem; }
+.login-sub { font-size: 13px; color: var(--muted); margin-bottom: 2rem; }
+.login-inp {
+  width: 100%; padding: 0.85rem 1.2rem; background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 10px; color: var(--text); font-size: 16px; outline: none; transition: border-color 0.3s;
+  font-family: 'DM Sans', sans-serif; letter-spacing: 0.1em; text-align: center;
+}
+.login-inp:focus { border-color: var(--rose); }
+.login-btn {
+  width: 100%; margin-top: 1rem; padding: 0.9rem; background: var(--rose); color: #fff;
+  border: none; border-radius: 10px; font-size: 16px; cursor: pointer; transition: all 0.3s;
+  font-family: 'DM Sans', sans-serif; font-weight: 500;
+}
+.login-btn:hover { background: #a8444c; }
+.login-err { color: #e57373; font-size: 13px; margin-top: 0.8rem; display: none; }
+.login-err.show { display: block; }
+
+/* DASHBOARD */
+#dashboard { display: none; }
+#dashboard.show { display: block; }
+
+/* SIDEBAR */
+.layout { display: flex; min-height: 100vh; }
+.sidebar {
+  width: 220px; background: var(--surface); border-right: 1px solid var(--border);
+  padding: 1.5rem 1rem; display: flex; flex-direction: column; gap: 0.5rem;
+  position: fixed; top: 0; left: 0; bottom: 0; overflow-y: auto; z-index: 100;
+}
+.sidebar-logo { font-family: 'Sacramento', cursive; font-size: 28px; color: var(--rose); padding: 0.5rem 0.8rem 1.5rem; }
+.nav-item {
+  padding: 0.7rem 1rem; border-radius: 8px; cursor: pointer; font-size: 14px;
+  color: var(--muted); transition: all 0.2s; display: flex; align-items: center; gap: 8px;
+}
+.nav-item:hover, .nav-item.active { background: rgba(192,82,90,0.12); color: var(--text); }
+.nav-item.active { color: var(--rose); }
+.sidebar-footer { margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--border); }
+.logout-btn { width: 100%; padding: 0.6rem; background: transparent; color: var(--muted); border: 1px solid var(--border); border-radius: 8px; font-size: 13px; cursor: pointer; transition: all 0.3s; }
+.logout-btn:hover { background: rgba(192,82,90,0.1); color: var(--rose); }
+
+/* MAIN */
+.main { margin-left: 220px; padding: 2rem; flex: 1; }
+.page-header { margin-bottom: 2rem; }
+.page-title { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 300; color: var(--text); }
+.page-sub { font-size: 13px; color: var(--muted); margin-top: 0.3rem; }
+
+/* STATS GRID */
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+.stat-card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+  padding: 1.5rem; position: relative; overflow: hidden;
+}
+.stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(to right, var(--rose), transparent); }
+.stat-num { font-size: 36px; font-weight: 600; color: var(--text); line-height: 1; }
+.stat-label { font-size: 12px; color: var(--muted); margin-top: 0.4rem; letter-spacing: 0.1em; text-transform: uppercase; }
+.stat-icon { position: absolute; top: 1rem; right: 1rem; font-size: 20px; opacity: 0.4; }
+
+/* TABLE */
+.table-section { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin-bottom: 2rem; }
+.table-header { padding: 1.2rem 1.5rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+.table-title { font-size: 15px; font-weight: 500; color: var(--text); }
+.search-inp {
+  padding: 0.5rem 1rem; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px;
+  color: var(--text); font-size: 13px; outline: none; width: 200px; font-family: 'DM Sans', sans-serif;
+}
+.search-inp:focus { border-color: var(--rose); }
+.search-inp::placeholder { color: var(--muted); }
+table { width: 100%; border-collapse: collapse; }
+th { padding: 0.8rem 1rem; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); text-align: left; border-bottom: 1px solid var(--border); }
+td { padding: 0.9rem 1rem; font-size: 13px; border-bottom: 1px solid rgba(192,82,90,0.05); vertical-align: middle; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: rgba(192,82,90,0.03); }
+.name-cell { font-family: 'Cormorant Garamond', serif; font-size: 18px; color: var(--rose); }
+.badge { display: inline-block; padding: 3px 10px; border-radius: 50px; font-size: 11px; font-weight: 500; }
+.badge-yes { background: rgba(72,187,120,0.15); color: #68d391; }
+.badge-no { background: rgba(192,82,90,0.1); color: var(--muted); }
+.badge-views { background: rgba(184,150,90,0.15); color: var(--gold); }
+.link-cell { font-size: 11px; color: var(--muted); font-family: monospace; }
+.link-cell a { color: var(--rose); text-decoration: none; }
+.link-cell a:hover { text-decoration: underline; }
+.delete-btn { padding: 4px 12px; background: transparent; border: 1px solid rgba(192,82,90,0.3); border-radius: 6px; color: var(--rose); font-size: 12px; cursor: pointer; transition: all 0.2s; }
+.delete-btn:hover { background: rgba(192,82,90,0.15); }
+.empty-state { text-align: center; padding: 4rem 2rem; color: var(--muted); }
+.empty-state div { font-size: 40px; margin-bottom: 1rem; }
+
+/* TOP NAMES */
+.names-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 0.8rem; padding: 1.5rem; }
+.name-tag {
+  background: var(--surface2); border: 1px solid var(--border); border-radius: 10px;
+  padding: 0.8rem 1rem; display: flex; justify-content: space-between; align-items: center;
+}
+.name-tag-name { font-family: 'Cormorant Garamond', serif; font-size: 18px; color: var(--rose); text-transform: capitalize; }
+.name-tag-count { font-size: 12px; color: var(--muted); background: rgba(192,82,90,0.1); padding: 2px 8px; border-radius: 50px; }
+
+/* TABS */
+.tab-btns { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; }
+.tab-btn { padding: 0.5rem 1.2rem; background: transparent; border: 1px solid var(--border); border-radius: 8px; color: var(--muted); font-size: 13px; cursor: pointer; transition: all 0.2s; }
+.tab-btn.active { background: rgba(192,82,90,0.12); border-color: var(--rose); color: var(--rose); }
+
+/* LOADING */
+.loading-row td { text-align: center; padding: 3rem; color: var(--muted); font-size: 14px; }
+
+/* REFRESH */
+.refresh-btn { padding: 0.5rem 1rem; background: transparent; border: 1px solid var(--border); border-radius: 8px; color: var(--muted); font-size: 13px; cursor: pointer; transition: all 0.2s; }
+.refresh-btn:hover { border-color: var(--rose); color: var(--rose); }
+.refresh-btn.spinning { animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* TOAST */
+.toast { position: fixed; bottom: 2rem; right: 2rem; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 0.8rem 1.5rem; font-size: 14px; color: var(--text); z-index: 9999; transform: translateY(100px); opacity: 0; transition: all 0.3s; }
+.toast.show { transform: translateY(0); opacity: 1; }
+.toast.success { border-color: rgba(72,187,120,0.4); }
+.toast.error { border-color: rgba(192,82,90,0.4); color: var(--rose); }
+
+@media (max-width: 768px) {
+  .sidebar { width: 100%; height: auto; position: static; flex-direction: row; flex-wrap: wrap; }
+  .main { margin-left: 0; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  table { font-size: 12px; }
+  .search-inp { width: 140px; }
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">ProposeHer</div>
+    <p class="login-sub">Admin Panel · Sirf tumhare liye 🔐</p>
+    <input class="login-inp" type="password" id="adminPass" placeholder="Password daalo..." />
+    <button class="login-btn" onclick="doLogin()">Login →</button>
+    <p class="login-err" id="loginErr">Galat password! Dobara try karo.</p>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard">
+  <div class="layout">
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <div class="sidebar-logo">ProposeHer</div>
+      <div class="nav-item active" onclick="showTab('overview')">📊 Overview</div>
+      <div class="nav-item" onclick="showTab('proposals')">💌 All Proposals</div>
+      <div class="nav-item" onclick="showTab('names')">🌸 Top Names</div>
+      <div class="sidebar-footer">
+        <button class="logout-btn" onclick="logout()">← Logout</button>
+      </div>
+    </div>
+
+    <!-- MAIN -->
+    <div class="main">
+
+      <!-- OVERVIEW TAB -->
+      <div id="tab-overview">
+        <div class="page-header">
+          <h1 class="page-title">Dashboard Overview</h1>
+          <p class="page-sub">Real-time stats — sab kuch ek jagah</p>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card"><span class="stat-icon">💌</span><div class="stat-num" id="statTotal">—</div><div class="stat-label">Total Proposals</div></div>
+          <div class="stat-card"><span class="stat-icon">👁️</span><div class="stat-num" id="statViews">—</div><div class="stat-label">Total Views</div></div>
+          <div class="stat-card"><span class="stat-icon">💕</span><div class="stat-num" id="statYes">—</div><div class="stat-label">Yes Clicked</div></div>
+          <div class="stat-card"><span class="stat-icon">🔥</span><div class="stat-num" id="statToday">—</div><div class="stat-label">Aaj ke Proposals</div></div>
+          <div class="stat-card"><span class="stat-icon">📈</span><div class="stat-num" id="statConv">—%</div><div class="stat-label">Yes Rate</div></div>
+        </div>
+        <div class="table-section">
+          <div class="table-header"><span class="table-title">Recent 10 Proposals</span><button class="refresh-btn" onclick="loadData()">↻ Refresh</button></div>
+          <table><thead><tr><th>Naam</th><th>Views</th><th>Yes?</th><th>Date</th><th>Link</th></tr></thead>
+          <tbody id="recentBody"><tr class="loading-row"><td colspan="5">Loading...</td></tr></tbody></table>
+        </div>
+      </div>
+
+      <!-- ALL PROPOSALS TAB -->
+      <div id="tab-proposals" style="display:none;">
+        <div class="page-header" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;">
+          <div><h1 class="page-title">All Proposals</h1><p class="page-sub" id="propCount">Loading...</p></div>
+          <input class="search-inp" type="text" id="searchInp" placeholder="Naam se search..." oninput="filterTable()" />
+        </div>
+        <div class="table-section">
+          <table><thead><tr><th>Naam</th><th>Tumhara Naam</th><th>Views</th><th>Yes?</th><th>IP</th><th>Date</th><th>Link</th><th>Action</th></tr></thead>
+          <tbody id="allBody"><tr class="loading-row"><td colspan="8">Loading...</td></tr></tbody></table>
+        </div>
+      </div>
+
+      <!-- TOP NAMES TAB -->
+      <div id="tab-names" style="display:none;">
+        <div class="page-header"><h1 class="page-title">Top Names</h1><p class="page-sub">Sabse zyada propose ki gayi names</p></div>
+        <div class="table-section">
+          <div class="names-grid" id="namesGrid"><p style="padding:2rem;color:var(--muted)">Loading...</p></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+let adminKey = '';
+let allProposals = [];
+
+function doLogin() {
+  const pass = document.getElementById('adminPass').value;
+  if (!pass) return;
+  adminKey = pass;
+  loadData();
+}
+
+document.getElementById('adminPass').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+
+async function loadData() {
+  try {
+    const res = await fetch('/api/stats', { headers: { 'x-admin-key': adminKey } });
+    if (res.status === 401) {
+      document.getElementById('loginErr').classList.add('show');
+      adminKey = '';
+      return;
+    }
+    const data = await res.json();
+
+    // Show dashboard
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('dashboard').classList.add('show');
+    document.getElementById('loginErr').classList.remove('show');
+
+    // Stats
+    document.getElementById('statTotal').textContent = data.stats.total;
+    document.getElementById('statViews').textContent = data.stats.totalViews;
+    document.getElementById('statYes').textContent = data.stats.yesCount;
+    document.getElementById('statToday').textContent = data.stats.todayCount;
+    document.getElementById('statConv').textContent = data.stats.conversionRate + '%';
+
+    allProposals = data.proposals;
+    document.getElementById('propCount').textContent = allProposals.length + ' total proposals';
+
+    // Recent 10
+    renderRecent(allProposals.slice(0, 10));
+    // All
+    renderAll(allProposals);
+    // Names
+    renderNames(data.topNames);
+
+  } catch (e) {
+    showToast('Error loading data', 'error');
+  }
+}
+
+function renderRecent(proposals) {
+  const tbody = document.getElementById('recentBody');
+  if (!proposals.length) { tbody.innerHTML = '<tr class="loading-row"><td colspan="5">Koi proposal nahi abhi</td></tr>'; return; }
+  tbody.innerHTML = proposals.map(p => `
+    <tr>
+      <td class="name-cell">${esc(p.girlfriend_name)}</td>
+      <td><span class="badge badge-views">👁 ${p.views || 0}</span></td>
+      <td><span class="badge ${p.yes_clicked ? 'badge-yes' : 'badge-no'}">${p.yes_clicked ? '💕 Yes!' : 'Pending'}</span></td>
+      <td style="color:var(--muted);font-size:12px">${formatDate(p.created_at)}</td>
+      <td class="link-cell"><a href="/p/${p.id}" target="_blank">/p/${p.id}</a></td>
+    </tr>
+  `).join('');
+}
+
+function renderAll(proposals) {
+  const tbody = document.getElementById('allBody');
+  if (!proposals.length) { tbody.innerHTML = '<tr class="loading-row"><td colspan="8">Koi proposal nahi</td></tr>'; return; }
+  tbody.innerHTML = proposals.map(p => `
+    <tr id="row-${p.id}">
+      <td class="name-cell">${esc(p.girlfriend_name)}</td>
+      <td style="color:var(--muted);font-size:12px">${p.your_name ? esc(p.your_name) : '—'}</td>
+      <td><span class="badge badge-views">👁 ${p.views || 0}</span></td>
+      <td><span class="badge ${p.yes_clicked ? 'badge-yes' : 'badge-no'}">${p.yes_clicked ? '💕 Yes!' : '—'}</span></td>
+      <td style="color:var(--muted);font-size:11px;font-family:monospace">${p.creator_ip ? p.creator_ip.split(',')[0].trim().substring(0,15) : '—'}</td>
+      <td style="color:var(--muted);font-size:12px">${formatDate(p.created_at)}</td>
+      <td class="link-cell"><a href="/p/${p.id}" target="_blank">/p/${p.id} ↗</a></td>
+      <td><button class="delete-btn" onclick="deleteProposal('${p.id}')">Delete</button></td>
+    </tr>
+  `).join('');
+}
+
+function renderNames(names) {
+  const grid = document.getElementById('namesGrid');
+  if (!names.length) { grid.innerHTML = '<p style="padding:2rem;color:var(--muted)">Data nahi hai abhi</p>'; return; }
+  grid.innerHTML = names.map((n, i) => `
+    <div class="name-tag">
+      <span class="name-tag-name">${i+1}. ${esc(n.name)}</span>
+      <span class="name-tag-count">${n.count}x</span>
+    </div>
+  `).join('');
+}
+
+function filterTable() {
+  const q = document.getElementById('searchInp').value.toLowerCase();
+  const filtered = allProposals.filter(p =>
+    p.girlfriend_name.toLowerCase().includes(q) || (p.your_name || '').toLowerCase().includes(q)
+  );
+  renderAll(filtered);
+}
+
+async function deleteProposal(id) {
+  if (!confirm('Yeh proposal delete karna chahte ho?')) return;
+  try {
+    const res = await fetch('/api/delete?id=' + id, { method: 'POST', headers: { 'x-admin-key': adminKey } });
+    if (res.ok) {
+      document.getElementById('row-' + id)?.remove();
+      allProposals = allProposals.filter(p => p.id !== id);
+      document.getElementById('statTotal').textContent = allProposals.length;
+      document.getElementById('propCount').textContent = allProposals.length + ' total proposals';
+      showToast('Proposal delete ho gaya ✓', 'success');
+    }
+  } catch (e) {
+    showToast('Delete fail hua', 'error');
+  }
+}
+
+function showTab(tab) {
+  ['overview','proposals','names'].forEach(t => {
+    document.getElementById('tab-' + t).style.display = t === tab ? 'block' : 'none';
+  });
+  document.querySelectorAll('.nav-item').forEach((el, i) => {
+    el.classList.toggle('active', ['overview','proposals','names'][i] === tab);
+  });
+}
+
+function logout() {
+  adminKey = '';
+  document.getElementById('dashboard').classList.remove('show');
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('adminPass').value = '';
+}
+
+function showToast(msg, type = '') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast ' + type + ' show';
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+function formatDate(str) {
+  if (!str) return '—';
+  const d = new Date(str);
+  return d.toLocaleDateString('hi-IN', { day: '2-digit', month: 'short', year: '2-digit' });
+}
+
+function esc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+</script>
+</body>
+</html>

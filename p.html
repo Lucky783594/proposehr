@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tumhare liye... 💕</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Sacramento&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --rose: #c0525a; --rose-light: #f7dde0; --rose-pale: #fdf0f1;
+  --gold: #b8965a; --cream: #faf7f2; --dark: #2a1a1c; --muted: #8a6a6e; --petals: #e8a0a8;
+}
+html { scroll-behavior: smooth; }
+body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--dark); overflow-x: hidden; }
+
+/* LOADING */
+#loading {
+  position: fixed; inset: 0; background: var(--cream);
+  display: flex; align-items: center; justify-content: center; flex-direction: column;
+  z-index: 9999; gap: 1rem;
+}
+.load-logo { font-family: 'Sacramento', cursive; font-size: 48px; color: var(--rose); animation: pulse 1.5s ease-in-out infinite; }
+.load-dots { display: flex; gap: 6px; }
+.load-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--rose-light); animation: dotBounce 1.2s ease-in-out infinite; }
+.load-dot:nth-child(2) { animation-delay: 0.2s; }
+.load-dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes dotBounce { 0%,80%,100% { transform: scale(0.8); opacity: 0.4; } 40% { transform: scale(1.2); opacity: 1; } }
+@keyframes pulse { 0%,100% { opacity: 0.6; } 50% { opacity: 1; } }
+
+/* NOT FOUND */
+#not-found { display: none; position: fixed; inset: 0; background: var(--cream); align-items: center; justify-content: center; flex-direction: column; text-align: center; padding: 2rem; z-index: 9998; }
+#not-found.show { display: flex; }
+#not-found h2 { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 300; color: var(--dark); margin: 1rem 0 0.5rem; }
+#not-found p { color: var(--muted); font-size: 15px; }
+#not-found a { margin-top: 1.5rem; display: inline-block; padding: 0.7rem 2rem; background: var(--rose); color: #fff; border-radius: 50px; text-decoration: none; font-style: italic; font-family: 'Cormorant Garamond', serif; font-size: 18px; }
+
+/* MAIN CONTENT */
+#main-content { display: none; }
+#main-content.show { display: block; }
+
+/* Petal */
+.petal { position: fixed; pointer-events: none; z-index: 1; animation: petalFall linear infinite; opacity: 0; }
+@keyframes petalFall { 0% { transform: translateY(-20px) rotate(0deg); opacity: 0; } 10% { opacity: 0.7; } 90% { opacity: 0.4; } 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
+
+/* Sections */
+section { min-height: 100vh; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+
+/* HERO */
+#hero { background: linear-gradient(160deg, #fff5f6 0%, #fdf0f1 40%, #fff8ee 100%); text-align: center; flex-direction: column; padding: 2rem; }
+.hero-decor { position: absolute; width: 600px; height: 600px; border-radius: 50%; background: radial-gradient(circle, rgba(192,82,90,0.06) 0%, transparent 70%); top: 50%; left: 50%; transform: translate(-50%, -50%); animation: glow 4s ease-in-out infinite; }
+@keyframes glow { 0%,100% { transform: translate(-50%,-50%) scale(1); opacity: 0.5; } 50% { transform: translate(-50%,-50%) scale(1.1); opacity: 1; } }
+.hero-line { font-size: clamp(11px,2vw,13px); letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.5rem; opacity: 0; animation: fadeUp 1s ease 0.3s forwards; }
+.hero-name { font-family: 'Sacramento', cursive; font-size: clamp(80px,18vw,160px); color: var(--rose); line-height: 0.9; opacity: 0; animation: fadeUp 1.2s ease 0.6s forwards; text-shadow: 2px 4px 40px rgba(192,82,90,0.15); }
+.hero-subtitle { font-family: 'Cormorant Garamond', serif; font-size: clamp(18px,4vw,26px); font-style: italic; font-weight: 300; color: var(--muted); margin-top: 1.5rem; opacity: 0; animation: fadeUp 1s ease 1s forwards; }
+.hero-hearts { margin-top: 3rem; font-size: 24px; opacity: 0; animation: fadeUp 1s ease 1.4s forwards; letter-spacing: 0.5em; }
+.scroll-hint { position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; opacity: 0; animation: fadeUp 1s ease 2s forwards; }
+.scroll-hint span { font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--muted); }
+.scroll-arrow { width: 1px; height: 40px; background: linear-gradient(to bottom, var(--rose), transparent); animation: scrollDown 1.5s ease-in-out infinite; }
+@keyframes scrollDown { 0%,100% { transform: scaleY(1); opacity: 1; } 50% { transform: scaleY(0.6); opacity: 0.4; } }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+/* STORY */
+#story { background: #fff; flex-direction: column; padding: 5rem 2rem; }
+.section-tag { font-size: 11px; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; }
+.section-heading { font-family: 'Cormorant Garamond', serif; font-size: clamp(32px,6vw,52px); font-weight: 300; color: var(--dark); margin-bottom: 3.5rem; text-align: center; }
+.section-heading em { font-style: italic; color: var(--rose); }
+.timeline { width: 100%; max-width: 560px; position: relative; }
+.timeline::before { content: ''; position: absolute; left: 22px; top: 0; bottom: 0; width: 1px; background: linear-gradient(to bottom, transparent, var(--rose-light), var(--rose-light), transparent); }
+.timeline-item { display: flex; gap: 2rem; margin-bottom: 3rem; opacity: 0; transform: translateX(-20px); transition: all 0.7s ease; }
+.timeline-item.visible { opacity: 1; transform: translateX(0); }
+.tl-dot { flex-shrink: 0; width: 44px; height: 44px; border-radius: 50%; background: var(--rose-pale); border: 1.5px solid var(--rose-light); display: flex; align-items: center; justify-content: center; font-size: 18px; position: relative; z-index: 1; }
+.tl-content h3 { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 600; color: var(--dark); margin-bottom: 0.4rem; }
+.tl-content p { font-size: 14px; color: var(--muted); line-height: 1.7; }
+
+/* REASONS */
+#reasons { background: var(--rose-pale); flex-direction: column; padding: 5rem 2rem; }
+.reasons-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; max-width: 800px; width: 100%; }
+.reason-card { background: #fff; border: 1px solid rgba(192,82,90,0.1); border-radius: 16px; padding: 1.8rem; text-align: center; opacity: 0; transform: translateY(20px); transition: all 0.6s ease; position: relative; overflow: hidden; }
+.reason-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: linear-gradient(to right, var(--rose-light), var(--rose), var(--rose-light)); transform: scaleX(0); transition: transform 0.4s ease; }
+.reason-card:hover::after { transform: scaleX(1); }
+.reason-card.visible { opacity: 1; transform: translateY(0); }
+.reason-emoji { font-size: 32px; margin-bottom: 0.8rem; display: block; }
+.reason-card h3 { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 600; color: var(--dark); margin-bottom: 0.5rem; }
+.reason-card p { font-size: 13px; color: var(--muted); line-height: 1.7; }
+
+/* LETTER */
+#letter { background: linear-gradient(160deg, #fff8ee 0%, #fdf0f1 100%); flex-direction: column; padding: 5rem 2rem; }
+.letter-envelope { max-width: 560px; width: 100%; background: #fff; border: 1px solid rgba(184,150,90,0.2); border-radius: 4px; padding: 3rem 2.5rem; position: relative; box-shadow: 0 8px 60px rgba(192,82,90,0.08); opacity: 0; transform: translateY(30px) rotate(-1deg); transition: all 0.8s ease; }
+.letter-envelope.visible { opacity: 1; transform: translateY(0) rotate(-0.3deg); }
+.letter-stamp { position: absolute; top: 1.5rem; right: 1.5rem; width: 50px; height: 60px; border: 2px solid var(--rose-light); border-radius: 2px; display: flex; align-items: center; justify-content: center; font-size: 22px; box-shadow: inset 0 0 0 4px var(--rose-pale); }
+.letter-to { font-family: 'Cormorant Garamond', serif; font-size: 14px; font-style: italic; color: var(--muted); margin-bottom: 1.5rem; }
+.letter-body { font-family: 'Cormorant Garamond', serif; font-size: clamp(16px,3vw,20px); line-height: 1.9; color: var(--dark); font-weight: 300; }
+.letter-body em { color: var(--rose); font-style: italic; }
+.custom-msg-block { margin-top: 1rem; padding: 1rem; background: var(--rose-pale); border-left: 3px solid var(--rose-light); border-radius: 0 8px 8px 0; font-style: italic; color: var(--rose); display: none; }
+.custom-msg-block.show { display: block; }
+.letter-sign { margin-top: 2rem; font-family: 'Sacramento', cursive; font-size: 32px; color: var(--rose); }
+
+/* PROPOSAL */
+#proposal { background: var(--dark); flex-direction: column; padding: 5rem 2rem; text-align: center; position: relative; overflow: hidden; }
+#proposal::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at center, rgba(192,82,90,0.15) 0%, transparent 70%); }
+.prop-el { position: relative; z-index: 2; opacity: 0; transition: all 0.8s ease; }
+.prop-el.visible { opacity: 1; }
+.proposal-sub { font-size: 11px; letter-spacing: 0.35em; text-transform: uppercase; color: var(--petals); margin-bottom: 2rem; }
+.proposal-big { font-family: 'Sacramento', cursive; font-size: clamp(60px,15vw,120px); color: #fff; line-height: 1; margin-bottom: 0.5rem; text-shadow: 0 0 60px rgba(192,82,90,0.4); transform: scale(0.9); transition: all 1s ease; }
+.proposal-big.visible { transform: scale(1); }
+.proposal-name-big { font-family: 'Sacramento', cursive; font-size: clamp(70px,18vw,140px); color: var(--rose); line-height: 1; margin-bottom: 2.5rem; text-shadow: 0 0 80px rgba(192,82,90,0.5); transform: scale(0.9); transition: all 1s ease 0.2s; }
+.proposal-name-big.visible { transform: scale(1); }
+.proposal-question { font-family: 'Cormorant Garamond', serif; font-size: clamp(18px,3.5vw,28px); color: rgba(255,255,255,0.8); font-style: italic; font-weight: 300; margin-bottom: 3.5rem; max-width: 500px; line-height: 1.6; }
+.btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+.btn-yes { padding: 1rem 3rem; background: var(--rose); color: #fff; border: none; border-radius: 50px; font-family: 'Cormorant Garamond', serif; font-size: 20px; font-style: italic; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 30px rgba(192,82,90,0.4); }
+.btn-yes:hover { transform: scale(1.07); box-shadow: 0 8px 50px rgba(192,82,90,0.6); }
+.btn-no { padding: 1rem 3rem; background: transparent; color: rgba(255,255,255,0.5); border: 1px solid rgba(255,255,255,0.2); border-radius: 50px; font-family: 'Cormorant Garamond', serif; font-size: 20px; font-style: italic; cursor: pointer; transition: all 0.3s; position: relative; }
+
+/* YES */
+#yes-page { display: none; position: fixed; inset: 0; background: var(--dark); z-index: 1000; align-items: center; justify-content: center; flex-direction: column; text-align: center; padding: 2rem; }
+#yes-page.show { display: flex; }
+.yes-emoji { font-size: 80px; animation: bounceIn 0.8s ease; }
+.yes-title { font-family: 'Sacramento', cursive; font-size: clamp(60px,14vw,110px); color: var(--rose); margin: 1rem 0; animation: fadeUp 1s ease 0.4s both; text-shadow: 0 0 80px rgba(192,82,90,0.5); }
+.yes-name { color: #fff; }
+.yes-subtitle { font-family: 'Cormorant Garamond', serif; font-size: clamp(16px,3vw,22px); color: rgba(255,255,255,0.8); font-style: italic; font-weight: 300; animation: fadeUp 1s ease 0.7s both; max-width: 400px; line-height: 1.7; }
+@keyframes bounceIn { 0% { transform: scale(0); opacity: 0; } 60% { transform: scale(1.2); } 100% { transform: scale(1); opacity: 1; } }
+.confetti-piece { position: fixed; width: 8px; height: 8px; pointer-events: none; z-index: 1001; animation: confettiFall 3s ease-in forwards; }
+@keyframes confettiFall { 0% { opacity: 1; top: -10px; } 100% { opacity: 0; top: 110vh; } }
+.music-btn { position: fixed; bottom: 1.5rem; right: 1.5rem; width: 44px; height: 44px; border-radius: 50%; background: var(--rose); border: none; color: white; font-size: 18px; cursor: pointer; z-index: 500; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(192,82,90,0.4); transition: transform 0.3s; }
+.music-btn:hover { transform: scale(1.1); }
+.music-btn.playing { animation: musicPulse 1.5s ease-in-out infinite; }
+@keyframes musicPulse { 0%,100% { box-shadow: 0 4px 20px rgba(192,82,90,0.4); } 50% { box-shadow: 0 4px 40px rgba(192,82,90,0.7); } }
+</style>
+</head>
+<body>
+
+<!-- LOADING -->
+<div id="loading">
+  <div class="load-logo">ProposeHer</div>
+  <div class="load-dots">
+    <div class="load-dot"></div><div class="load-dot"></div><div class="load-dot"></div>
+  </div>
+</div>
+
+<!-- NOT FOUND -->
+<div id="not-found">
+  <div style="font-size:48px">💔</div>
+  <h2>Yeh link nahi mila...</h2>
+  <p>Shayad link galat hai ya delete ho gaya.</p>
+  <a href="/">Naya link banao →</a>
+</div>
+
+<!-- MAIN CONTENT -->
+<div id="main-content">
+  <div id="petals-container"></div>
+  <button class="music-btn" id="musicBtn">♪</button>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-decor"></div>
+    <div style="position:relative;z-index:2;">
+      <p class="hero-line">Sirf tere liye ✦ Just for you</p>
+      <h1 class="hero-name" id="heroName">...</h1>
+      <p class="hero-subtitle">Kuch kehna hai tujhe... dil se</p>
+      <div class="hero-hearts">🌸 💕 🌸</div>
+    </div>
+    <div class="scroll-hint"><span>Scroll karo</span><div class="scroll-arrow"></div></div>
+  </section>
+
+  <!-- STORY -->
+  <section id="story">
+    <div style="text-align:center;width:100%;">
+      <p class="section-tag">Hamari kahani</p>
+      <h2 class="section-heading">Jab se <em>tujhse</em> mili nazar...</h2>
+      <div class="timeline" style="margin:0 auto;">
+        <div class="timeline-item"><div class="tl-dot">✨</div><div class="tl-content"><h3>Pehli mulaqaat</h3><p>Online hua ek anjana sa connection — kya pata tha yahi meri duniya badal dega. Teri pehli message pe hi kuch hua dil mein.</p></div></div>
+        <div class="timeline-item"><div class="tl-dot">💬</div><div class="tl-content"><h3>Ghanton ki baatein</h3><p>Raat ke 2 baj jaate, baatein khatam na hoti. Teri awaaz mein kuch aisa tha jo dil ko sukoon deta tha.</p></div></div>
+        <div class="timeline-item"><div class="tl-dot">🌙</div><div class="tl-content"><h3>Samajh aaya</h3><p>Ek din achanak samajh aaya — yeh sirf dosti nahi hai. Tujhe sochte sochte din guzarne lage.</p></div></div>
+        <div class="timeline-item"><div class="tl-dot">💗</div><div class="tl-content"><h3>Aaj ka din</h3><p>Aaj woh pal aaya hai jab dil ki baat zubaan pe aani chahiye. Sirf tere liye yeh page, yeh alfaaz, yeh dil...</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REASONS -->
+  <section id="reasons">
+    <div style="text-align:center;width:100%;">
+      <p class="section-tag">Kyun tujhe chahta hun</p>
+      <h2 class="section-heading">Woh <em>hazar wajah</em>...</h2>
+      <div class="reasons-grid" style="margin:0 auto;">
+        <div class="reason-card"><span class="reason-emoji">😊</span><h3>Teri muskaan</h3><p>Teri ek smile se mera poora din ban jaata hai.</p></div>
+        <div class="reason-card"><span class="reason-emoji">🧠</span><h3>Tera dimag</h3><p>Teri intelligence mujhe aur zyada attract karti hai.</p></div>
+        <div class="reason-card"><span class="reason-emoji">🤝</span><h3>Tera saath</h3><p>Silence mein bhi comfortable hun main tere saath.</p></div>
+        <div class="reason-card"><span class="reason-emoji">💫</span><h3>Teri rooh</h3><p>Is fake duniya mein tere jaisi asli insaan bahut kam milti hai.</p></div>
+        <div class="reason-card"><span class="reason-emoji">🌙</span><h3>Teri raatein</h3><p>Raat ko baat karte karte jo tujhe jaanta hun — woh version mujhe sabse zyada pyaara lagta hai.</p></div>
+        <div class="reason-card"><span class="reason-emoji">🌺</span><h3>Bas tu</h3><p>Koi reason nahi chahiye. Tu hai — yahi kaafi hai.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LETTER -->
+  <section id="letter">
+    <div style="text-align:center;width:100%;max-width:600px;margin:0 auto;">
+      <p class="section-tag">Dil ki baat</p>
+      <h2 class="section-heading">Ek <em>chhoti si</em> letter</h2>
+      <div class="letter-envelope" style="margin:0 auto;text-align:left;">
+        <div class="letter-stamp">💌</div>
+        <p class="letter-to" id="letterTo">Mere pyaari ... ke liye</p>
+        <div class="letter-body">
+          <p>Yaar,</p><br>
+          <p>Pata nahi kaisa likhu yeh sab — main koi writer nahi hun, lekin <em>tere liye kuch feel karta hun jo alfaazon mein band karna mushkil hai.</em></p><br>
+          <p>Jab se tujhse mila hun, har din thoda acha lagta hai. Teri baatein, teri hasi, tera gussa — sab kuch. Main chahta hun ki tujhe sab kuch batata rahun, sab share karta rahun.</p><br>
+          <p>Yeh page banaya hai sirf isliye ki ek baar <em>properly bol sakun — tu mujhe bahut pasand hai.</em> Aur main chahta hun ki hum ek nayi kahani likhein saath mein.</p><br>
+          <p>Will you be mine? 🌹</p>
+          <div class="custom-msg-block" id="customMsgBlock"></div>
+        </div>
+        <p class="letter-sign" id="letterSign">Tere liye ✦</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROPOSAL -->
+  <section id="proposal">
+    <div style="position:relative;z-index:2;text-align:center;display:flex;flex-direction:column;align-items:center;">
+      <p class="prop-el proposal-sub" id="ps1">The moment has come ✦</p>
+      <div class="prop-el proposal-big" id="ps2">Will You Be</div>
+      <div class="prop-el proposal-name-big" id="ps3">Mine?</div>
+      <p class="prop-el proposal-question" id="ps4">Kya tu meri girlfriend banegi? Main promise karta hun — har khushi mein tera saath dunga, har mushkil mein sath rakhunga.</p>
+      <div class="prop-el btns" id="ps5">
+        <button class="btn-yes" onclick="sayYes()">Haan, bilkul! 💕</button>
+        <button class="btn-no" id="noBtn" onmouseover="moveNoBtn()" onclick="moveNoBtn()">Abhi nahi...</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- YES PAGE -->
+<div id="yes-page">
+  <div class="yes-emoji" id="yesEmoji">🌹</div>
+  <div class="yes-title">Yay! <span class="yes-name" id="yesName"></span> 💕</div>
+  <p class="yes-subtitle">Shukriya... Tu mere liye sabse khaas hai. Ab hum saath hain! 🌸</p>
+</div>
+
+<script>
+// Get proposal ID from URL path /p/:id
+const pathParts = window.location.pathname.split('/');
+const proposalId = pathParts[pathParts.length - 1];
+
+let proposalData = null;
+
+async function loadProposal() {
+  if (!proposalId || proposalId === 'p') {
+    showNotFound(); return;
+  }
+  try {
+    const res = await fetch('/api/get?id=' + proposalId);
+    if (!res.ok) { showNotFound(); return; }
+    proposalData = await res.json();
+    initPage(proposalData);
+  } catch (e) {
+    showNotFound();
+  }
+}
+
+function initPage(data) {
+  const name = data.girlfriend_name;
+  document.title = name + ' ke liye... 💕';
+
+  // Update all name placeholders
+  document.getElementById('heroName').textContent = name;
+  document.getElementById('letterTo').textContent = 'Mere pyaari ' + name + ' ke liye...';
+  document.getElementById('ps3').textContent = 'Mine, ' + name + '?';
+  document.getElementById('yesName').textContent = name;
+
+  // Custom message
+  if (data.custom_message) {
+    const cmb = document.getElementById('customMsgBlock');
+    cmb.textContent = '"' + data.custom_message + '"';
+    cmb.classList.add('show');
+  }
+
+  // Your name in letter sign
+  if (data.your_name) {
+    document.getElementById('letterSign').textContent = data.your_name + ' ✦';
+  }
+
+  // Hide loading, show content
+  setTimeout(() => {
+    document.getElementById('loading').style.opacity = '0';
+    document.getElementById('loading').style.transition = 'opacity 0.5s';
+    setTimeout(() => {
+      document.getElementById('loading').style.display = 'none';
+      document.getElementById('main-content').classList.add('show');
+      startPetals();
+      startObservers();
+    }, 500);
+  }, 800);
+}
+
+function showNotFound() {
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('not-found').classList.add('show');
+}
+
+// Petals
+function startPetals() {
+  const emojis = ['🌸','🌺','💮','🌹','✿'];
+  function create() {
+    const p = document.createElement('div');
+    p.className = 'petal';
+    p.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+    p.style.left = Math.random()*100 + 'vw';
+    p.style.fontSize = (12 + Math.random()*14) + 'px';
+    p.style.animationDuration = (6 + Math.random()*8) + 's';
+    p.style.animationDelay = Math.random()*3 + 's';
+    document.getElementById('petals-container').appendChild(p);
+    setTimeout(() => p.remove(), 14000);
+  }
+  setInterval(create, 800);
+}
+
+// Scroll observers
+function startObservers() {
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.2 });
+  document.querySelectorAll('.timeline-item,.reason-card,.letter-envelope').forEach(el => obs.observe(el));
+
+  // Stagger
+  document.querySelectorAll('.timeline-item').forEach((el,i) => el.style.transitionDelay = (i*0.15)+'s');
+  document.querySelectorAll('.reason-card').forEach((el,i) => el.style.transitionDelay = (i*0.1)+'s');
+
+  // Proposal section
+  const propObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if(e.isIntersecting) {
+        document.querySelectorAll('.prop-el').forEach(el => el.classList.add('visible'));
+      }
+    });
+  }, { threshold: 0.3 });
+  propObs.observe(document.getElementById('proposal'));
+}
+
+// No button escape
+function moveNoBtn() {
+  const btn = document.getElementById('noBtn');
+  btn.style.position = 'fixed';
+  btn.style.left = Math.min(Math.max(10 + Math.random()*75, 10), 80) + 'vw';
+  btn.style.top = Math.min(Math.max(10 + Math.random()*70, 10), 85) + 'vh';
+  btn.style.zIndex = '600';
+  btn.style.transition = 'all 0.3s cubic-bezier(0.68,-0.55,0.27,1.55)';
+}
+
+// Yes
+async function sayYes() {
+  // Track in backend
+  if (proposalId) {
+    fetch('/api/yes?id=' + proposalId, { method: 'POST' }).catch(() => {});
+  }
+  document.getElementById('yes-page').classList.add('show');
+  launchConfetti();
+  const emojis = ['🎊','💕','🌹','✨'];
+  let i = 0;
+  setInterval(() => { document.getElementById('yesEmoji').textContent = emojis[i % emojis.length]; i++; }, 800);
+}
+
+function launchConfetti() {
+  const colors = ['#c0525a','#f7dde0','#b8965a','#f5ead8','#fff','#e8a0a8'];
+  for(let i=0; i<120; i++) {
+    const c = document.createElement('div');
+    c.className = 'confetti-piece';
+    c.style.left = Math.random()*100 + 'vw';
+    c.style.background = colors[Math.floor(Math.random()*colors.length)];
+    c.style.borderRadius = Math.random()>0.5 ? '50%' : '2px';
+    c.style.transform = 'rotate(' + Math.random()*360 + 'deg)';
+    c.style.animationDelay = Math.random()*2 + 's';
+    c.style.animationDuration = (2+Math.random()*2) + 's';
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 5000);
+  }
+}
+
+// Music
+let playing = false, audioCtx;
+document.getElementById('musicBtn').addEventListener('click', () => {
+  if (!playing) {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const gain = audioCtx.createGain();
+    gain.gain.value = 0.07;
+    gain.connect(audioCtx.destination);
+    const notes = [261.63, 293.66, 329.63, 392.00, 440.00, 493.88, 523.25];
+    let idx = 0;
+    function next() {
+      if (!playing) return;
+      const osc = audioCtx.createOscillator();
+      osc.type = 'sine';
+      osc.frequency.value = notes[idx % notes.length];
+      osc.connect(gain);
+      osc.start(); osc.stop(audioCtx.currentTime + 0.4);
+      idx++;
+      setTimeout(next, 500);
+    }
+    playing = true;
+    document.getElementById('musicBtn').textContent = '♫';
+    document.getElementById('musicBtn').classList.add('playing');
+    next();
+  } else {
+    playing = false;
+    document.getElementById('musicBtn').textContent = '♪';
+    document.getElementById('musicBtn').classList.remove('playing');
+    if (audioCtx) audioCtx.close();
+  }
+});
+
+// Init
+loadProposal();
+</script>
+</body>
+</html>

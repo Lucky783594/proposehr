@@ -1,0 +1,39 @@
+[build]
+  functions = "netlify/functions"
+  publish = "."
+
+[[redirects]]
+  from = "/api/create"
+  to = "/.netlify/functions/create"
+  status = 200
+
+[[redirects]]
+  from = "/api/get"
+  to = "/.netlify/functions/get"
+  status = 200
+
+[[redirects]]
+  from = "/api/stats"
+  to = "/.netlify/functions/stats"
+  status = 200
+
+[[redirects]]
+  from = "/api/yes"
+  to = "/.netlify/functions/yes"
+  status = 200
+
+[[redirects]]
+  from = "/api/delete"
+  to = "/.netlify/functions/delete"
+  status = 200
+
+[[redirects]]
+  from = "/p/*"
+  to = "/p.html"
+  status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
