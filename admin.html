@@ -28,10 +28,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 .login-inp {
   width: 100%; padding: 0.85rem 1.2rem; background: var(--surface2); border: 1px solid var(--border);
   border-radius: 10px; color: var(--text); font-size: 16px; outline: none; transition: border-color 0.3s;
-  font-family: 'DM Sans', sans-serif; letter-spacing: 0.15em; text-align: center;
-  /* FIX 2: Anti-phishing — password field ko login form na samjhe */
-  -webkit-text-security: disc;
-  type: text;
+  font-family: 'DM Sans', sans-serif; letter-spacing: 0.1em; text-align: center;
 }
 .login-inp:focus { border-color: var(--rose); }
 .login-btn {
@@ -89,8 +86,6 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 .search-inp {
   padding: 0.5rem 1rem; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px;
   color: var(--text); font-size: 13px; outline: none; width: 200px; font-family: 'DM Sans', sans-serif;
-  /* FIX 3: Anti-phishing on search input */
-  autocomplete: off;
 }
 .search-inp:focus { border-color: var(--rose); }
 .search-inp::placeholder { color: var(--muted); }
@@ -132,7 +127,7 @@ tr:hover td { background: rgba(192,82,90,0.03); }
 /* REFRESH */
 .refresh-btn { padding: 0.5rem 1rem; background: transparent; border: 1px solid var(--border); border-radius: 8px; color: var(--muted); font-size: 13px; cursor: pointer; transition: all 0.2s; }
 .refresh-btn:hover { border-color: var(--rose); color: var(--rose); }
-.spinning { animation: spin 1s linear infinite; }
+.refresh-btn.spinning { animation: spin 1s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
 /* TOAST */
@@ -157,14 +152,7 @@ tr:hover td { background: rgba(192,82,90,0.03); }
   <div class="login-box">
     <div class="login-logo">ProposeHer</div>
     <p class="login-sub">Admin Panel · Sirf tumhare liye 🔐</p>
-    <!-- FIX 2: type="text" + custom masking via JS — password type phishing trigger karta hai Google ko -->
-    <input class="login-inp" type="text" id="adminPass"
-      placeholder="Admin key daalo..."
-      autocomplete="off"
-      data-form-type="other"
-      data-lpignore="true"
-      spellcheck="false"
-    />
+    <input class="login-inp" type="password" id="adminPass" placeholder="Password daalo..." />
     <button class="login-btn" onclick="doLogin()">Login →</button>
     <p class="login-err" id="loginErr">Galat password! Dobara try karo.</p>
   </div>
@@ -201,10 +189,7 @@ tr:hover td { background: rgba(192,82,90,0.03); }
           <div class="stat-card"><span class="stat-icon">📈</span><div class="stat-num" id="statConv">—%</div><div class="stat-label">Yes Rate</div></div>
         </div>
         <div class="table-section">
-          <div class="table-header">
-            <span class="table-title">Recent 10 Proposals</span>
-            <button class="refresh-btn" id="refreshBtn" onclick="loadData()">↻ Refresh</button>
-          </div>
+          <div class="table-header"><span class="table-title">Recent 10 Proposals</span><button class="refresh-btn" onclick="loadData()">↻ Refresh</button></div>
           <table><thead><tr><th>Naam</th><th>Views</th><th>Yes?</th><th>Date</th><th>Link</th></tr></thead>
           <tbody id="recentBody"><tr class="loading-row"><td colspan="5">Loading...</td></tr></tbody></table>
         </div>
@@ -214,14 +199,7 @@ tr:hover td { background: rgba(192,82,90,0.03); }
       <div id="tab-proposals" style="display:none;">
         <div class="page-header" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;">
           <div><h1 class="page-title">All Proposals</h1><p class="page-sub" id="propCount">Loading...</p></div>
-          <!-- FIX 3: search input anti-phishing -->
-          <input class="search-inp" type="search" id="searchInp"
-            placeholder="Naam se search..."
-            autocomplete="off"
-            data-form-type="other"
-            data-lpignore="true"
-            oninput="filterTable()"
-          />
+          <input class="search-inp" type="text" id="searchInp" placeholder="Naam se search..." oninput="filterTable()" />
         </div>
         <div class="table-section">
           <table><thead><tr><th>Naam</th><th>Tumhara Naam</th><th>Views</th><th>Yes?</th><th>IP</th><th>Date</th><th>Link</th><th>Action</th></tr></thead>
@@ -247,45 +225,23 @@ tr:hover td { background: rgba(192,82,90,0.03); }
 let adminKey = '';
 let allProposals = [];
 
-// FIX 2: Mask input chars manually (password jaisa dikhega, type="password" nahi hoga)
-document.getElementById('adminPass').addEventListener('input', function() {
-  const realVal = this.dataset.real || '';
-  // store actual value in data attribute, show dots visually via CSS
-});
-
-// Simple masking using CSS trick
-const passInp = document.getElementById('adminPass');
-passInp.style.webkitTextSecurity = 'disc';
-passInp.style.textSecurity = 'disc';
-
 function doLogin() {
-  const pass = document.getElementById('adminPass').value.trim();
+  const pass = document.getElementById('adminPass').value;
   if (!pass) return;
   adminKey = pass;
   loadData();
 }
 
-document.getElementById('adminPass').addEventListener('keydown', e => {
-  if (e.key === 'Enter') doLogin();
-});
+document.getElementById('adminPass').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
 
 async function loadData() {
-  const refreshBtn = document.getElementById('refreshBtn');
-  if (refreshBtn) refreshBtn.classList.add('spinning');
-
   try {
-    // FIX 1: Correct Netlify function endpoint (was /api/stats)
-    const res = await fetch('/.netlify/functions/get-stats', {
-      headers: { 'x-admin-key': adminKey }
-    });
-
+    const res = await fetch('/api/stats', { headers: { 'x-admin-key': adminKey } });
     if (res.status === 401) {
       document.getElementById('loginErr').classList.add('show');
       adminKey = '';
-      if (refreshBtn) refreshBtn.classList.remove('spinning');
       return;
     }
-
     const data = await res.json();
 
     // Show dashboard
@@ -303,60 +259,52 @@ async function loadData() {
     allProposals = data.proposals;
     document.getElementById('propCount').textContent = allProposals.length + ' total proposals';
 
+    // Recent 10
     renderRecent(allProposals.slice(0, 10));
+    // All
     renderAll(allProposals);
+    // Names
     renderNames(data.topNames);
 
   } catch (e) {
-    showToast('Error loading data: ' + e.message, 'error');
+    showToast('Error loading data', 'error');
   }
-
-  if (refreshBtn) refreshBtn.classList.remove('spinning');
 }
 
 function renderRecent(proposals) {
   const tbody = document.getElementById('recentBody');
-  if (!proposals.length) {
-    tbody.innerHTML = '<tr class="loading-row"><td colspan="5">Koi proposal nahi abhi</td></tr>';
-    return;
-  }
+  if (!proposals.length) { tbody.innerHTML = '<tr class="loading-row"><td colspan="5">Koi proposal nahi abhi</td></tr>'; return; }
   tbody.innerHTML = proposals.map(p => `
     <tr>
       <td class="name-cell">${esc(p.girlfriend_name)}</td>
       <td><span class="badge badge-views">👁 ${p.views || 0}</span></td>
       <td><span class="badge ${p.yes_clicked ? 'badge-yes' : 'badge-no'}">${p.yes_clicked ? '💕 Yes!' : 'Pending'}</span></td>
       <td style="color:var(--muted);font-size:12px">${formatDate(p.created_at)}</td>
-      <td class="link-cell"><a href="/p/${esc(p.id)}" target="_blank">/p/${esc(p.id)}</a></td>
+      <td class="link-cell"><a href="/p/${p.id}" target="_blank">/p/${p.id}</a></td>
     </tr>
   `).join('');
 }
 
 function renderAll(proposals) {
   const tbody = document.getElementById('allBody');
-  if (!proposals.length) {
-    tbody.innerHTML = '<tr class="loading-row"><td colspan="8">Koi proposal nahi</td></tr>';
-    return;
-  }
+  if (!proposals.length) { tbody.innerHTML = '<tr class="loading-row"><td colspan="8">Koi proposal nahi</td></tr>'; return; }
   tbody.innerHTML = proposals.map(p => `
-    <tr id="row-${esc(p.id)}">
+    <tr id="row-${p.id}">
       <td class="name-cell">${esc(p.girlfriend_name)}</td>
       <td style="color:var(--muted);font-size:12px">${p.your_name ? esc(p.your_name) : '—'}</td>
       <td><span class="badge badge-views">👁 ${p.views || 0}</span></td>
       <td><span class="badge ${p.yes_clicked ? 'badge-yes' : 'badge-no'}">${p.yes_clicked ? '💕 Yes!' : '—'}</span></td>
-      <td style="color:var(--muted);font-size:11px;font-family:monospace">${p.creator_ip ? esc(p.creator_ip.split(',')[0].trim().substring(0,15)) : '—'}</td>
+      <td style="color:var(--muted);font-size:11px;font-family:monospace">${p.creator_ip ? p.creator_ip.split(',')[0].trim().substring(0,15) : '—'}</td>
       <td style="color:var(--muted);font-size:12px">${formatDate(p.created_at)}</td>
-      <td class="link-cell"><a href="/p/${esc(p.id)}" target="_blank">/p/${esc(p.id)} ↗</a></td>
-      <td><button class="delete-btn" onclick="deleteProposal('${esc(p.id)}')">Delete</button></td>
+      <td class="link-cell"><a href="/p/${p.id}" target="_blank">/p/${p.id} ↗</a></td>
+      <td><button class="delete-btn" onclick="deleteProposal('${p.id}')">Delete</button></td>
     </tr>
   `).join('');
 }
 
 function renderNames(names) {
   const grid = document.getElementById('namesGrid');
-  if (!names || !names.length) {
-    grid.innerHTML = '<p style="padding:2rem;color:var(--muted)">Data nahi hai abhi</p>';
-    return;
-  }
+  if (!names.length) { grid.innerHTML = '<p style="padding:2rem;color:var(--muted)">Data nahi hai abhi</p>'; return; }
   grid.innerHTML = names.map((n, i) => `
     <div class="name-tag">
       <span class="name-tag-name">${i+1}. ${esc(n.name)}</span>
@@ -368,8 +316,7 @@ function renderNames(names) {
 function filterTable() {
   const q = document.getElementById('searchInp').value.toLowerCase();
   const filtered = allProposals.filter(p =>
-    p.girlfriend_name.toLowerCase().includes(q) ||
-    (p.your_name || '').toLowerCase().includes(q)
+    p.girlfriend_name.toLowerCase().includes(q) || (p.your_name || '').toLowerCase().includes(q)
   );
   renderAll(filtered);
 }
@@ -377,22 +324,16 @@ function filterTable() {
 async function deleteProposal(id) {
   if (!confirm('Yeh proposal delete karna chahte ho?')) return;
   try {
-    // FIX 1: Correct Netlify function endpoint (was /api/delete)
-    const res = await fetch('/.netlify/functions/delete-proposal?id=' + encodeURIComponent(id), {
-      method: 'POST',
-      headers: { 'x-admin-key': adminKey }
-    });
+    const res = await fetch('/api/delete?id=' + id, { method: 'POST', headers: { 'x-admin-key': adminKey } });
     if (res.ok) {
       document.getElementById('row-' + id)?.remove();
       allProposals = allProposals.filter(p => p.id !== id);
       document.getElementById('statTotal').textContent = allProposals.length;
       document.getElementById('propCount').textContent = allProposals.length + ' total proposals';
       showToast('Proposal delete ho gaya ✓', 'success');
-    } else {
-      showToast('Delete fail hua — permission check karo', 'error');
     }
   } catch (e) {
-    showToast('Delete fail hua: ' + e.message, 'error');
+    showToast('Delete fail hua', 'error');
   }
 }
 
