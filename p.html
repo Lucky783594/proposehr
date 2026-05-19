@@ -376,29 +376,35 @@ function launchConfetti() {
 }
 
 // Music
-let audio = new Audio("assets/music/music.mp3");
-audio.loop = true;
-audio.volume = 0.6;
-
-let playing = false;
-
+let playing = false, audioCtx;
 document.getElementById('musicBtn').addEventListener('click', () => {
-
   if (!playing) {
-    audio.play().catch(err => console.log("Autoplay blocked:", err));
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const gain = audioCtx.createGain();
+    gain.gain.value = 0.07;
+    gain.connect(audioCtx.destination);
+    const notes = [261.63, 293.66, 329.63, 392.00, 440.00, 493.88, 523.25];
+    let idx = 0;
+    function next() {
+      if (!playing) return;
+      const osc = audioCtx.createOscillator();
+      osc.type = 'sine';
+      osc.frequency.value = notes[idx % notes.length];
+      osc.connect(gain);
+      osc.start(); osc.stop(audioCtx.currentTime + 0.4);
+      idx++;
+      setTimeout(next, 500);
+    }
     playing = true;
-
     document.getElementById('musicBtn').textContent = '♫';
     document.getElementById('musicBtn').classList.add('playing');
-
+    next();
   } else {
-    audio.pause();
     playing = false;
-
     document.getElementById('musicBtn').textContent = '♪';
     document.getElementById('musicBtn').classList.remove('playing');
+    if (audioCtx) audioCtx.close();
   }
-
 });
 
 // Init
