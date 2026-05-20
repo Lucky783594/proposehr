@@ -3,204 +3,429 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="ProposeHer — Apni girlfriend ka naam daalo aur ek magical proposal link banao. Free, instant aur romantic.">
+<meta property="og:title" content="ProposeHer — Dil Ki Baat, Khaas Andaaz Mein 💕">
+<meta property="og:description" content="Uska naam daalo, ek magical proposal link milega sirf uske liye.">
+<meta property="og:type" content="website">
+<meta name="robots" content="index, follow">
 <title>ProposeHer — Dil Ki Baat, Khaas Andaaz Mein 💕</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Sacramento&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Sacramento&family=DM+Sans:wght@300;400;500&family=Dancing+Script:wght@500;700&display=swap" rel="stylesheet">
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-:root {
-  --rose: #c0525a; --rose-light: #f7dde0; --gold: #b8965a;
-  --cream: #faf7f2; --dark: #1e1012; --muted: #8a6a6e; --card: #fff;
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --rose:#c0525a;--rose-light:#f7dde0;--gold:#b8965a;
+  --cream:#faf7f2;--dark:#1e1012;--card:#fff;--muted:#6b4e52;
+  --blue:#2d6a9f;--ink:#1a1a2e;
 }
-body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--dark); min-height: 100vh; overflow-x: hidden; }
-.blob { position: fixed; border-radius: 50%; filter: blur(80px); pointer-events: none; z-index: 0; opacity: 0.35; }
-.blob1 { width: 500px; height: 500px; background: #f7dde0; top: -100px; left: -150px; }
-.blob2 { width: 400px; height: 400px; background: #f5ead8; bottom: -100px; right: -100px; }
-nav {
-  position: fixed; top: 0; left: 0; right: 0;
-  padding: 1.2rem 2rem; display: flex; align-items: center; justify-content: space-between;
-  z-index: 100; background: rgba(250,247,242,0.85); backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(192,82,90,0.08);
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--dark);min-height:100vh;overflow-x:hidden;}
+.skip-link{position:absolute;top:-40px;left:1rem;background:var(--rose);color:#fff;padding:8px 16px;border-radius:0 0 8px 8px;font-size:14px;text-decoration:none;z-index:9999;transition:top 0.2s;}
+.skip-link:focus{top:0;}
+.blob{position:fixed;border-radius:50%;pointer-events:none;z-index:0;opacity:0.45;}
+.blob1{width:500px;height:500px;background:#f7dde0;top:-100px;left:-150px;}
+.blob2{width:400px;height:400px;background:#f5ead8;bottom:-100px;right:-100px;}
+nav{position:fixed;top:0;left:0;right:0;padding:1.2rem 2rem;display:flex;align-items:center;justify-content:space-between;z-index:100;background:rgba(250,247,242,0.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(192,82,90,0.08);}
+.logo{font-family:'Sacramento',cursive;font-size:28px;color:var(--rose);}
+.nav-admin{font-size:12px;letter-spacing:0.15em;color:var(--muted);text-decoration:none;text-transform:uppercase;transition:color 0.3s;}
+.nav-admin:hover{color:var(--rose);}
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:6rem 1.5rem 4rem;position:relative;z-index:1;}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:var(--rose-light);color:var(--rose);border-radius:50px;padding:6px 16px;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:2rem;animation:fadeUp 0.8s ease both;}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(38px,8vw,72px);font-weight:300;line-height:1.1;color:var(--dark);margin-bottom:1.2rem;animation:fadeUp 0.8s ease 0.15s both;}
+.hero-title em{font-style:italic;color:var(--rose);}
+.hero-sub{font-size:clamp(15px,2.5vw,18px);color:var(--muted);font-weight:300;max-width:480px;line-height:1.7;margin-bottom:3rem;animation:fadeUp 0.8s ease 0.3s both;}
+.card{background:var(--card);border:1px solid rgba(192,82,90,0.1);border-radius:20px;padding:2.5rem 2rem;width:100%;max-width:500px;box-shadow:0 8px 60px rgba(192,82,90,0.08);animation:fadeUp 0.8s ease 0.45s both;}
+
+/* ===== THEME SELECTOR ===== */
+.theme-section{margin-bottom:1.5rem;}
+.card-label{font-size:11px;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold);margin-bottom:0.8rem;display:block;}
+.themes-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;}
+.theme-option{
+  border:2px solid rgba(192,82,90,0.12);
+  border-radius:12px;padding:0.9rem 1rem;
+  cursor:pointer;transition:all 0.25s;
+  background:#fff;text-align:left;
+  position:relative;overflow:hidden;
 }
-.logo { font-family: 'Sacramento', cursive; font-size: 28px; color: var(--rose); }
-.nav-admin { font-size: 12px; letter-spacing: 0.15em; color: var(--muted); text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
-.nav-admin:hover { color: var(--rose); }
-.hero {
-  min-height: 100vh; display: flex; align-items: center; justify-content: center;
-  flex-direction: column; text-align: center; padding: 6rem 1.5rem 4rem; position: relative; z-index: 1;
+.theme-option:hover{border-color:rgba(192,82,90,0.3);transform:translateY(-1px);}
+.theme-option.selected{border-color:var(--rose);box-shadow:0 0 0 3px rgba(192,82,90,0.1);}
+.theme-option.selected::after{
+  content:'✓';position:absolute;top:8px;right:10px;
+  font-size:13px;color:var(--rose);font-weight:600;
 }
-.hero-badge {
-  display: inline-flex; align-items: center; gap: 6px;
-  background: var(--rose-light); color: var(--rose); border-radius: 50px;
-  padding: 6px 16px; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;
-  margin-bottom: 2rem; animation: fadeUp 0.8s ease both;
+.theme-preview{
+  height:44px;border-radius:6px;margin-bottom:0.6rem;
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;letter-spacing:0.1em;
+  overflow:hidden;position:relative;
 }
-.hero-title {
-  font-family: 'Cormorant Garamond', serif; font-size: clamp(38px, 8vw, 72px);
-  font-weight: 300; line-height: 1.1; color: var(--dark); margin-bottom: 1.2rem;
-  animation: fadeUp 0.8s ease 0.15s both;
+/* Theme 1: Romantic Rose */
+.theme-rose .theme-preview{background:linear-gradient(135deg,#fdf0f1,#f7dde0);}
+.theme-rose .theme-preview-name{font-family:'Sacramento',cursive;font-size:22px;color:#c0525a;}
+/* Theme 2: College Blue */
+.theme-blue .theme-preview{background:#2d6a9f;position:relative;}
+.theme-blue .theme-preview::before{content:'';position:absolute;inset:0;background-image:repeating-linear-gradient(transparent,transparent 8px,rgba(255,255,255,0.06) 8px,rgba(255,255,255,0.06) 9px);}
+.theme-blue .theme-preview-name{font-family:'Dancing Script',cursive;font-size:22px;color:#fff;position:relative;z-index:1;}
+.theme-name-label{font-size:12px;font-weight:500;color:var(--dark);display:block;}
+.theme-desc{font-size:11px;color:var(--muted);margin-top:2px;}
+
+/* ===== EMAIL FIELD (notification) ===== */
+.notify-section{
+  background:#fdf0f1;
+  border:1px solid rgba(192,82,90,0.12);
+  border-radius:12px;
+  padding:1rem 1.2rem;
+  margin-bottom:1.2rem;
 }
-.hero-title em { font-style: italic; color: var(--rose); }
-.hero-sub {
-  font-size: clamp(15px, 2.5vw, 18px); color: var(--muted); font-weight: 300;
-  max-width: 480px; line-height: 1.7; margin-bottom: 3rem;
-  animation: fadeUp 0.8s ease 0.3s both;
+.notify-title{
+  font-size:12px;font-weight:500;color:var(--dark);
+  display:flex;align-items:center;gap:6px;margin-bottom:0.3rem;
 }
-.card {
-  background: var(--card); border: 1px solid rgba(192,82,90,0.1); border-radius: 20px;
-  padding: 2.5rem 2rem; width: 100%; max-width: 460px;
-  box-shadow: 0 8px 60px rgba(192,82,90,0.08); animation: fadeUp 0.8s ease 0.45s both;
+.notify-desc{font-size:11px;color:var(--muted);margin-bottom:0.8rem;line-height:1.5;}
+
+/* ===== INPUTS ===== */
+.input-group{margin-bottom:1rem;}
+.inp{width:100%;padding:0.85rem 1.2rem;border:1.5px solid rgba(192,82,90,0.15);border-radius:12px;font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--dark);background:var(--cream);outline:none;transition:border-color 0.3s,box-shadow 0.3s;}
+.inp:focus{border-color:var(--rose);box-shadow:0 0 0 3px rgba(192,82,90,0.08);}
+.inp::placeholder{color:#c9a8ac;font-style:italic;}
+.inp-sm{font-size:15px;padding:0.7rem 1.2rem;font-family:'DM Sans',sans-serif;}
+.inp-email{font-size:14px;padding:0.65rem 1rem;font-family:'DM Sans',sans-serif;border-radius:8px;}
+.textarea{width:100%;padding:0.85rem 1.2rem;border:1.5px solid rgba(192,82,90,0.15);border-radius:12px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--dark);background:var(--cream);outline:none;resize:none;height:80px;transition:border-color 0.3s;line-height:1.6;}
+.textarea:focus{border-color:var(--rose);}
+.textarea::placeholder{color:#c9a8ac;}
+.optional-toggle{font-size:12px;color:var(--muted);cursor:pointer;text-decoration:underline;margin-bottom:1rem;display:block;text-align:right;}
+.optional-fields{display:none;}
+.optional-fields.show{display:block;}
+
+.btn-main{width:100%;padding:1rem;background:var(--rose);color:#fff;border:none;border-radius:12px;font-family:'Cormorant Garamond',serif;font-size:20px;font-style:italic;cursor:pointer;transition:all 0.3s;box-shadow:0 4px 24px rgba(192,82,90,0.3);margin-top:0.5rem;display:flex;align-items:center;justify-content:center;gap:8px;will-change:transform;}
+.btn-main:hover{transform:translateY(-2px);box-shadow:0 8px 40px rgba(192,82,90,0.4);}
+.btn-main:focus-visible{outline:3px solid var(--dark);outline-offset:3px;}
+.btn-main:disabled{opacity:0.6;cursor:not-allowed;transform:none;}
+
+.result-box{display:none;margin-top:1.5rem;padding:1.2rem;background:#fdf0f1;border:1px solid rgba(192,82,90,0.15);border-radius:12px;text-align:center;}
+.result-box.show{display:block;animation:fadeUp 0.5s ease both;}
+.result-label{font-size:12px;color:var(--muted);margin-bottom:0.5rem;letter-spacing:0.1em;text-transform:uppercase;}
+.result-link{font-size:13px;color:var(--rose);font-weight:500;word-break:break-all;display:block;margin-bottom:0.8rem;}
+
+/* Theme badge in result */
+.result-theme-badge{
+  display:inline-block;padding:3px 10px;border-radius:50px;font-size:11px;
+  font-weight:500;margin-bottom:0.8rem;
 }
-.card-label { font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.6rem; display: block; }
-.input-group { margin-bottom: 1.2rem; }
-.inp {
-  width: 100%; padding: 0.85rem 1.2rem; border: 1.5px solid rgba(192,82,90,0.15);
-  border-radius: 12px; font-family: 'Cormorant Garamond', serif; font-size: 20px;
-  color: var(--dark); background: var(--cream); outline: none; transition: border-color 0.3s, box-shadow 0.3s;
+.badge-rose{background:var(--rose-light);color:var(--rose);}
+.badge-blue{background:#e8f0f9;color:var(--blue);}
+
+.copy-btn{padding:0.5rem 1.5rem;background:var(--dark);color:#fff;border:none;border-radius:8px;font-size:13px;cursor:pointer;transition:all 0.3s;margin-right:8px;}
+.copy-btn:hover{background:var(--rose);}
+.open-btn{padding:0.5rem 1.5rem;background:transparent;color:var(--rose);border:1.5px solid var(--rose);border-radius:8px;font-size:13px;cursor:pointer;transition:all 0.3s;text-decoration:none;display:inline-block;}
+.open-btn:hover{background:var(--rose);color:#fff;}
+.err-msg{color:#b03030;font-size:13px;margin-top:8px;display:none;}
+.err-msg.show{display:block;}
+
+/* Notification tip in result */
+.notify-tip{
+  margin-top:0.8rem;padding:0.7rem 0.8rem;
+  background:#fff;border-radius:8px;
+  border:1px solid rgba(192,82,90,0.1);
+  font-size:12px;color:var(--muted);
+  display:flex;align-items:flex-start;gap:6px;
 }
-.inp:focus { border-color: var(--rose); box-shadow: 0 0 0 3px rgba(192,82,90,0.08); }
-.inp::placeholder { color: #c9a8ac; font-style: italic; }
-.inp-sm { font-size: 15px; padding: 0.7rem 1.2rem; font-family: 'DM Sans', sans-serif; }
-.textarea {
-  width: 100%; padding: 0.85rem 1.2rem; border: 1.5px solid rgba(192,82,90,0.15);
-  border-radius: 12px; font-family: 'DM Sans', sans-serif; font-size: 14px;
-  color: var(--dark); background: var(--cream); outline: none; resize: none; height: 80px;
-  transition: border-color 0.3s; line-height: 1.6;
-}
-.textarea:focus { border-color: var(--rose); }
-.textarea::placeholder { color: #c9a8ac; }
-.optional-toggle { font-size: 12px; color: var(--muted); cursor: pointer; text-decoration: underline; margin-bottom: 1rem; display: block; text-align: right; }
-.optional-fields { display: none; }
-.optional-fields.show { display: block; }
-.btn-main {
-  width: 100%; padding: 1rem; background: var(--rose); color: #fff; border: none;
-  border-radius: 12px; font-family: 'Cormorant Garamond', serif; font-size: 20px;
-  font-style: italic; cursor: pointer; transition: all 0.3s;
-  box-shadow: 0 4px 24px rgba(192,82,90,0.3); margin-top: 0.5rem;
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-}
-.btn-main:hover { transform: translateY(-2px); box-shadow: 0 8px 40px rgba(192,82,90,0.4); }
-.btn-main:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
-.result-box {
-  display: none; margin-top: 1.5rem; padding: 1.2rem;
-  background: linear-gradient(135deg, #fdf0f1, #fff8ee);
-  border: 1px solid rgba(192,82,90,0.15); border-radius: 12px; text-align: center;
-}
-.result-box.show { display: block; animation: fadeUp 0.5s ease both; }
-.result-label { font-size: 12px; color: var(--muted); margin-bottom: 0.5rem; letter-spacing: 0.1em; text-transform: uppercase; }
-.result-link { font-size: 14px; color: var(--rose); font-weight: 500; word-break: break-all; display: block; margin-bottom: 0.8rem; }
-.copy-btn { padding: 0.5rem 1.5rem; background: var(--dark); color: #fff; border: none; border-radius: 8px; font-size: 13px; cursor: pointer; transition: all 0.3s; margin-right: 8px; }
-.copy-btn:hover { background: var(--rose); }
-.open-btn { padding: 0.5rem 1.5rem; background: transparent; color: var(--rose); border: 1px solid var(--rose); border-radius: 8px; font-size: 13px; cursor: pointer; transition: all 0.3s; text-decoration: none; display: inline-block; }
-.open-btn:hover { background: var(--rose); color: #fff; }
-.err-msg { color: var(--rose); font-size: 13px; margin-top: 8px; display: none; }
-.err-msg.show { display: block; }
-.features {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 1rem; max-width: 800px; margin: 4rem auto 2rem; padding: 0 1.5rem;
-  position: relative; z-index: 1;
-}
-.feat { background: #fff; border: 1px solid rgba(192,82,90,0.08); border-radius: 14px; padding: 1.5rem; text-align: center; }
-.feat-icon { font-size: 28px; margin-bottom: 0.6rem; display: block; }
-.feat h3 { font-family: 'Cormorant Garamond', serif; font-size: 18px; margin-bottom: 0.3rem; }
-.feat p { font-size: 13px; color: var(--muted); line-height: 1.6; }
-footer { text-align: center; padding: 2rem; font-size: 13px; color: var(--muted); position: relative; z-index: 1; }
-.spinner { width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.4); border-top-color: #fff; border-radius: 50%; animation: spin 0.6s linear infinite; display: none; }
-@keyframes spin { to { transform: rotate(360deg); } }
-@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-@media (max-width: 480px) { .card { padding: 1.8rem 1.3rem; } .hero-title { font-size: 34px; } }
+
+.features{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;max-width:800px;margin:4rem auto 2rem;padding:0 1.5rem;position:relative;z-index:1;}
+.feat{background:#fff;border:1px solid rgba(192,82,90,0.08);border-radius:14px;padding:1.5rem;text-align:center;}
+.feat-icon{font-size:28px;margin-bottom:0.6rem;display:block;}
+.feat h3{font-family:'Cormorant Garamond',serif;font-size:18px;margin-bottom:0.3rem;}
+.feat p{font-size:13px;color:var(--muted);line-height:1.6;}
+footer{text-align:center;padding:2rem;font-size:13px;color:var(--muted);position:relative;z-index:1;}
+footer a{color:var(--muted);}
+.spinner{width:18px;height:18px;border:2px solid rgba(255,255,255,0.4);border-top-color:#fff;border-radius:50%;animation:spin 0.6s linear infinite;display:none;will-change:transform;}
+@keyframes spin{to{transform:rotate(360deg);}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:0.01ms!important;transition-duration:0.01ms!important;}}
+@media(max-width:480px){.card{padding:1.8rem 1.3rem;}.hero-title{font-size:34px;}.themes-grid{grid-template-columns:1fr 1fr;}}
 </style>
 </head>
 <body>
-<div class="blob blob1"></div>
-<div class="blob blob2"></div>
-<nav>
-  <div class="logo">ProposeHer</div>
-  <a href="/admin.html" class="nav-admin">Admin ↗</a>
+
+<a href="#main-content" class="skip-link">Main content pe jao</a>
+<div class="blob blob1" aria-hidden="true"></div>
+<div class="blob blob2" aria-hidden="true"></div>
+
+<nav aria-label="Main navigation">
+  <div class="logo" role="img" aria-label="ProposeHer">ProposeHer</div>
+  <a href="/admin.html" class="nav-admin" aria-label="Admin panel">Admin ↗</a>
 </nav>
-<div class="hero">
-  <div class="hero-badge">💕 Free · Instant · Romantic</div>
-  <h1 class="hero-title">Uska naam daalo,<br><em>dil ki baat</em> pahuncha do</h1>
-  <p class="hero-sub">Ek magical proposal website sirf uske liye — ek unique link, sirf uska naam, sirf tumhara pyaar.</p>
-  <div class="card">
-    <div class="input-group">
-      <label class="card-label">Girlfriend ka naam *</label>
-      <input class="inp" type="text" id="gfName" placeholder="Jaise... Akshita" maxlength="40" autocomplete="off" />
-    </div>
-    <span class="optional-toggle" onclick="toggleOptional()">+ Optional: apna naam aur message add karo</span>
-    <div class="optional-fields" id="optFields">
-      <div class="input-group">
-        <label class="card-label">Tumhara naam (optional)</label>
-        <input class="inp inp-sm" type="text" id="yourName" placeholder="Tumhara naam..." maxlength="40" />
+
+<main id="main-content">
+  <div class="hero">
+    <div class="hero-badge" aria-hidden="true">💕 Free · Instant · Romantic</div>
+    <h1 class="hero-title">Uska naam daalo,<br><em>dil ki baat</em> pahuncha do</h1>
+    <p class="hero-sub">Ek magical proposal website sirf uske liye — ek unique link, sirf uska naam, sirf tumhara pyaar.</p>
+
+    <div class="card" role="region" aria-label="Proposal link generator">
+
+      <!-- THEME SELECTOR -->
+      <div class="theme-section">
+        <label class="card-label" id="theme-label">Theme chuno *</label>
+        <div class="themes-grid" role="radiogroup" aria-labelledby="theme-label">
+
+          <div class="theme-option theme-rose selected"
+            role="radio" aria-checked="true" tabindex="0"
+            id="theme-romantic"
+            onclick="selectTheme('romantic', this)"
+            onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();selectTheme('romantic',this)}"
+            aria-label="Romantic Rose theme - classic romantic"
+          >
+            <div class="theme-preview" aria-hidden="true">
+              <span class="theme-preview-name">💕</span>
+            </div>
+            <span class="theme-name-label">Romantic Rose</span>
+            <span class="theme-desc">Classic · Dreamy · Soft</span>
+          </div>
+
+          <div class="theme-option theme-blue"
+            role="radio" aria-checked="false" tabindex="0"
+            id="theme-college"
+            onclick="selectTheme('college', this)"
+            onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();selectTheme('college',this)}"
+            aria-label="College Story theme - notebook style"
+          >
+            <div class="theme-preview" aria-hidden="true">
+              <span class="theme-preview-name">📚</span>
+            </div>
+            <span class="theme-name-label">College Story</span>
+            <span class="theme-desc">Notebook · Retro · Bold</span>
+          </div>
+
+        </div>
       </div>
+
+      <!-- GF NAME -->
       <div class="input-group">
-        <label class="card-label">Koi khaas message (optional)</label>
-        <textarea class="textarea" id="customMsg" placeholder="Kuch dil ki baat likho jo website mein dikhegi..."></textarea>
+        <label class="card-label" for="gfName">Girlfriend ka naam *</label>
+        <input class="inp" type="search" id="gfName"
+          name="gf-name"
+          placeholder="Jaise: Akshita..."
+          maxlength="30"
+          autocomplete="off"
+          data-form-type="other"
+          data-lpignore="true"
+          spellcheck="false"
+          aria-required="true"
+          aria-describedby="errMsg"
+        />
       </div>
-    </div>
-    <button class="btn-main" id="createBtn" onclick="createProposal()">
-      <span id="btnText">Magical Link Banao</span>
-      <div class="spinner" id="spinner"></div>
-      <span id="btnIcon">✨</span>
-    </button>
-    <p class="err-msg" id="errMsg"></p>
-    <div class="result-box" id="resultBox">
-      <p class="result-label">Tumhara magical link ready hai! 🎉</p>
-      <span class="result-link" id="resultLink"></span>
-      <button class="copy-btn" onclick="copyLink()">Copy Link</button>
-      <a class="open-btn" id="openLink" target="_blank">Preview ↗</a>
-      <p style="margin-top:0.8rem; font-size:12px; color:var(--muted);">Yeh link share karo apni GF ke saath 💕</p>
+
+      <!-- NOTIFICATION EMAIL -->
+      <div class="notify-section" role="region" aria-label="Notification settings">
+        <div class="notify-title">
+          <span aria-hidden="true">🔔</span>
+          Notification — Jab woh "Haan" kahe, tujhe pata chale!
+        </div>
+        <p class="notify-desc">Apna email ya WhatsApp number dalo. Jab GF proposal accept kare — tumhe turant notification milegi.</p>
+        <label class="card-label" for="notifyContact" style="font-size:10px;margin-bottom:0.4rem;">Tumhara email ya phone (optional)</label>
+        <input class="inp inp-email" type="search" id="notifyContact"
+          name="notify-contact"
+          placeholder="email@gmail.com ya 98XXXXXXXX"
+          maxlength="60"
+          autocomplete="off"
+          data-form-type="other"
+          data-lpignore="true"
+          spellcheck="false"
+          aria-label="Notification ke liye email ya phone number"
+        />
+      </div>
+
+      <!-- OPTIONAL FIELDS -->
+      <span class="optional-toggle"
+        role="button" tabindex="0"
+        id="optToggle"
+        aria-expanded="false"
+        aria-controls="optFields"
+        onclick="toggleOptional()"
+        onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleOptional();}"
+      >+ Optional: apna naam aur message add karo</span>
+
+      <div class="optional-fields" id="optFields" aria-hidden="true">
+        <div class="input-group">
+          <label class="card-label" for="yourName">Tumhara naam (optional)</label>
+          <input class="inp inp-sm" type="search" id="yourName"
+            name="your-name" placeholder="Tumhara naam..."
+            maxlength="40" autocomplete="off"
+            data-form-type="other" data-lpignore="true" spellcheck="false"
+          />
+        </div>
+        <div class="input-group">
+          <label class="card-label" for="customMsg">Koi khaas message (optional)</label>
+          <textarea class="textarea" id="customMsg"
+            name="custom-message"
+            placeholder="Kuch dil ki baat likho..."
+            autocomplete="off" maxlength="300"
+          ></textarea>
+        </div>
+      </div>
+
+      <button class="btn-main" id="createBtn"
+        onclick="createProposal()"
+        aria-label="Magical proposal link banao"
+      >
+        <span id="btnText">Magical Link Banao</span>
+        <div class="spinner" id="spinner" role="status" aria-label="Link ban raha hai"></div>
+        <span id="btnIcon" aria-hidden="true">✨</span>
+      </button>
+
+      <p class="err-msg" id="errMsg" role="alert" aria-live="assertive"></p>
+
+      <div class="result-box" id="resultBox" role="status" aria-live="polite">
+        <p class="result-label">Tumhara magical link ready hai! 🎉</p>
+        <div id="resultThemeBadge"></div>
+        <span class="result-link" id="resultLink"></span>
+        <div style="margin-bottom:0.5rem;">
+          <button class="copy-btn" onclick="copyLink()" aria-label="Link copy karo">Copy Link</button>
+          <a class="open-btn" id="openLink" target="_blank" rel="noopener noreferrer">Preview ↗</a>
+        </div>
+        <div class="notify-tip" id="notifyTip" style="display:none;">
+          <span aria-hidden="true">🔔</span>
+          <span id="notifyTipText"></span>
+        </div>
+        <p style="margin-top:0.8rem;font-size:12px;color:var(--muted);">Yeh link share karo apni GF ke saath 💕</p>
+      </div>
     </div>
   </div>
-</div>
-<div class="features">
-  <div class="feat"><span class="feat-icon">⚡</span><h3>Instant</h3><p>2 second mein link ready. Koi signup nahi.</p></div>
-  <div class="feat"><span class="feat-icon">🌸</span><h3>Personal</h3><p>Sirf uska naam dikhega. Sirf uske liye.</p></div>
-  <div class="feat"><span class="feat-icon">📱</span><h3>Mobile Ready</h3><p>Phone aur PC dono pe perfectly chalti hai.</p></div>
-  <div class="feat"><span class="feat-icon">🔒</span><h3>Safe</h3><p>Secure database. Koi spam nahi.</p></div>
-</div>
-<footer>Made with 💕 · ProposeHer</footer>
+
+  <section aria-labelledby="features-heading" style="position:relative;z-index:1;padding-bottom:2rem;">
+    <h2 id="features-heading" style="text-align:center;font-family:'Cormorant Garamond',serif;font-size:clamp(24px,4vw,36px);font-weight:300;color:var(--dark);margin:0 0 1.5rem;padding:0 1.5rem;">
+      Kyun <em style="color:var(--rose);font-style:italic;">ProposeHer?</em>
+    </h2>
+    <div class="features">
+      <div class="feat"><span class="feat-icon" aria-hidden="true">⚡</span><h3>Instant</h3><p>2 second mein link ready. Koi signup nahi.</p></div>
+      <div class="feat"><span class="feat-icon" aria-hidden="true">🎨</span><h3>2 Themes</h3><p>Romantic Rose ya College Story — apna vibe chuno.</p></div>
+      <div class="feat"><span class="feat-icon" aria-hidden="true">🔔</span><h3>Notification</h3><p>GF "Haan" kahe toh turant tujhe pata chalega!</p></div>
+      <div class="feat"><span class="feat-icon" aria-hidden="true">📱</span><h3>Mobile Ready</h3><p>Phone aur PC dono pe perfectly chalti hai.</p></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>Made with 💕 · ProposeHer · <a href="/admin.html">Admin</a></p>
+</footer>
+
 <script>
-function toggleOptional() {
-  document.getElementById('optFields').classList.toggle('show');
+let selectedTheme = 'romantic';
+
+function selectTheme(theme, el) {
+  selectedTheme = theme;
+  document.querySelectorAll('.theme-option').forEach(opt => {
+    opt.classList.remove('selected');
+    opt.setAttribute('aria-checked', 'false');
+  });
+  el.classList.add('selected');
+  el.setAttribute('aria-checked', 'true');
 }
+
+function toggleOptional() {
+  const fields = document.getElementById('optFields');
+  const toggle = document.getElementById('optToggle');
+  const isOpen = fields.classList.toggle('show');
+  fields.setAttribute('aria-hidden', String(!isOpen));
+  toggle.setAttribute('aria-expanded', String(isOpen));
+}
+
 async function createProposal() {
   const name = document.getElementById('gfName').value.trim();
   const yourName = document.getElementById('yourName').value.trim();
   const msg = document.getElementById('customMsg').value.trim();
+  const notifyContact = document.getElementById('notifyContact').value.trim();
   const err = document.getElementById('errMsg');
   err.classList.remove('show');
-  if (!name || name.length < 2) { err.textContent = 'Naam sahi se likho! (kam se kam 2 letters)'; err.classList.add('show'); return; }
+  err.textContent = '';
+
+  if (!name || name.length < 2) {
+    err.textContent = 'Naam sahi se likho! (kam se kam 2 letters)';
+    err.classList.add('show');
+    document.getElementById('gfName').focus();
+    return;
+  }
+
   const btn = document.getElementById('createBtn');
   const spinner = document.getElementById('spinner');
   const btnText = document.getElementById('btnText');
   const btnIcon = document.getElementById('btnIcon');
-  btn.disabled = true; spinner.style.display = 'block'; btnText.textContent = 'Bana raha hun...'; btnIcon.style.display = 'none';
+  btn.disabled = true;
+  spinner.style.display = 'block';
+  btnText.textContent = 'Bana raha hun...';
+  btnIcon.style.display = 'none';
+  btn.setAttribute('aria-busy', 'true');
+
   try {
-    const res = await fetch('/api/create', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ girlfriend_name: name, your_name: yourName || null, message: msg || null }),
+    const res = await fetch('/.netlify/functions/create-proposal', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        girlfriend_name: name,
+        your_name: yourName || null,
+        message: msg || null,
+        theme: selectedTheme,
+        notify_contact: notifyContact || null
+      }),
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || 'Kuch galat hua');
+
     const fullUrl = window.location.origin + '/p/' + data.id;
     document.getElementById('resultLink').textContent = fullUrl;
     document.getElementById('openLink').href = fullUrl;
+
+    // Theme badge
+    const badge = document.getElementById('resultThemeBadge');
+    if (selectedTheme === 'romantic') {
+      badge.innerHTML = '<span class="result-theme-badge badge-rose">🌸 Romantic Rose Theme</span>';
+    } else {
+      badge.innerHTML = '<span class="result-theme-badge badge-blue">📚 College Story Theme</span>';
+    }
+
+    // Notification tip
+    if (notifyContact) {
+      const tipEl = document.getElementById('notifyTip');
+      const tipText = document.getElementById('notifyTipText');
+      tipText.textContent = `Jab GF "Haan" karegi — "${notifyContact}" pe notification milegi! 🎉`;
+      tipEl.style.display = 'flex';
+    }
+
     document.getElementById('resultBox').classList.add('show');
     document.getElementById('resultBox').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    btnText.textContent = 'Ek aur banao!'; spinner.style.display = 'none'; btnIcon.style.display = 'inline'; btnIcon.textContent = '🌸'; btn.disabled = false;
+
+    btnText.textContent = 'Ek aur banao!';
+    spinner.style.display = 'none';
+    btnIcon.style.display = 'inline';
+    btnIcon.textContent = '🌸';
+    btn.disabled = false;
+    btn.setAttribute('aria-busy', 'false');
   } catch (e) {
-    err.textContent = e.message; err.classList.add('show'); btn.disabled = false;
-    spinner.style.display = 'none'; btnText.textContent = 'Magical Link Banao'; btnIcon.style.display = 'inline'; btnIcon.textContent = '✨';
+    err.textContent = e.message;
+    err.classList.add('show');
+    btn.disabled = false;
+    btn.setAttribute('aria-busy', 'false');
+    spinner.style.display = 'none';
+    btnText.textContent = 'Magical Link Banao';
+    btnIcon.style.display = 'inline';
+    btnIcon.textContent = '✨';
   }
 }
+
 function copyLink() {
-  navigator.clipboard.writeText(document.getElementById('resultLink').textContent).then(() => {
+  const url = document.getElementById('resultLink').textContent;
+  navigator.clipboard.writeText(url).then(() => {
     const btn = document.querySelector('.copy-btn');
-    btn.textContent = 'Copied! ✓'; btn.style.background = '#2a7a2a';
+    btn.textContent = 'Copied! ✓';
+    btn.style.background = '#2a7a2a';
     setTimeout(() => { btn.textContent = 'Copy Link'; btn.style.background = ''; }, 2000);
   });
 }
-document.getElementById('gfName').addEventListener('keydown', e => { if (e.key === 'Enter') createProposal(); });
+
+document.getElementById('gfName').addEventListener('keydown', e => {
+  if (e.key === 'Enter') createProposal();
+});
 </script>
 </body>
 </html>
