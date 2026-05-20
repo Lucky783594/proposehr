@@ -58,10 +58,8 @@ exports.handler = async (event) => {
     const creatorIp = event.headers['x-forwarded-for'] || event.headers['client-ip'] || null;
 
     // Supabase mein insert
-    const { data, error } = await supabase
-      .from('proposals')
-      .insert([{
-        id,
+    const { error } = await supabase.from('proposals').insert({
+      id,
         girlfriend_name: cleanName,
         your_name: cleanYourName,
         custom_message: cleanMsg,
@@ -71,24 +69,38 @@ exports.handler = async (event) => {
         views: 0,
         yes_clicked: false,
         created_at: new Date().toISOString()
-      }])
-      .select('id')
-      .single();
-
+    });
+    
     if (error) throw error;
 
     return {
       statusCode: 200,
       headers,
-      body: JSON.stringify({ id: data.id, theme: cleanTheme })
+      body: JSON.stringify({ id, url: `/p/${id}` }),
     };
-
   } catch (err) {
-    console.error('create-proposal error:', err);
+    console.error(err);
     return {
       statusCode: 500,
       headers,
-      body: JSON.stringify({ error: 'Server error. Dobara try karo.' })
+      body: JSON.stringify({ error: 'Server error. Dobara try karo.' }),
     };
   }
 };
+//     if (error) throw error;
+
+//     return {
+//       statusCode: 200,
+//       headers,
+//       body: JSON.stringify({ id: data.id, theme: cleanTheme })
+//     };
+
+//   } catch (err) {
+//     console.error('create-proposal error:', err);
+//     return {
+//       statusCode: 500,
+//       headers,
+//       body: JSON.stringify({ error: 'Server error. Dobara try karo.' })
+//     };
+//   }
+// };
