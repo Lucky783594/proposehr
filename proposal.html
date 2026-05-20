@@ -389,9 +389,8 @@ let proposalTheme = 'romantic';
 
 // Get ID from URL: /p/abc123
 function getIdFromUrl() {
-  const path = window.location.pathname;
-  const match = path.match(/\/p\/([a-zA-Z0-9\-_]+)/);
-  return match ? match[1] : null;
+  const pathParts = window.location.pathname.split('/');
+  return pathParts[pathParts.length - 1];
 }
 
 // Init
