@@ -34,7 +34,7 @@ exports.handler = async (event) => {
   try {
     const { data, error } = await supabase
       .from('proposals')
-      .select('id, girlfriend_name, your_name, message, theme, yes_clicked')
+      .select('id, girlfriend_name, your_name, custom_message, theme, yes_clicked')
       .eq('id', id)
       .single();
 

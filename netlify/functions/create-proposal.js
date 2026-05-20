@@ -1,12 +1,19 @@
 // netlify/functions/create-proposal.js
-// Supabase mein save karo + theme store karo + notify_contact save karo
+// FIX: custom_message column (not message), all 20 themes supported
 
 const { createClient } = require('@supabase/supabase-js');
-
 const supabase = createClient(
   process.env.SUPABASE_URL,
   process.env.SUPABASE_SERVICE_KEY
 );
+
+// All valid themes
+const VALID_THEMES = [
+  'romantic','college','starry','royale','garden',
+  'sunset','fairy','vintage','ocean','monsoon',
+  'mountain','desert','neon','pastel','minimalist',
+  'bollywood','retro','winter','spring','autumn'
+];
 
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') {
@@ -15,8 +22,11 @@ exports.handler = async (event) => {
 
   const headers = {
     'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Content-Type',
     'Content-Type': 'application/json'
   };
+
+  if (event.httpMethod === 'OPTIONS') return { statusCode: 200, headers, body: '' };
 
   try {
     const body = JSON.parse(event.body || '{}');
@@ -26,30 +36,25 @@ exports.handler = async (event) => {
       return { statusCode: 400, headers, body: JSON.stringify({ error: 'Naam sahi se likho!' }) };
     }
 
-    // Sanitize
-    const cleanName = girlfriend_name.trim().slice(0, 30);
-    const cleanYourName = your_name ? your_name.trim().slice(0, 40) : null;
-    const cleanMsg = message ? message.trim().slice(0, 300) : null;
-    // theme: 'romantic' ya 'college'
-    const cleanTheme = theme === 'college' ? 'college' : 'romantic';
-    const cleanNotify = notify_contact ? notify_contact.trim().slice(0, 60) : null;
+    const cleanName    = girlfriend_name.trim().slice(0, 30);
+    const cleanYour    = your_name ? your_name.trim().slice(0, 40) : null;
+    const cleanMsg     = message ? message.trim().slice(0, 300) : null;
+    const cleanTheme   = VALID_THEMES.includes(theme) ? theme : 'romantic';
+    const cleanNotify  = notify_contact ? notify_contact.trim().slice(0, 60) : null;
+    const creatorIp    = event.headers['x-forwarded-for'] || event.headers['client-ip'] || null;
 
-    // Creator IP
-    const creatorIp = event.headers['x-forwarded-for'] || event.headers['client-ip'] || null;
-
-    // Supabase mein insert
     const { data, error } = await supabase
       .from('proposals')
       .insert([{
         girlfriend_name: cleanName,
-        your_name: cleanYourName,
-        message: cleanMsg,
-        theme: cleanTheme,           // NEW: theme column
-        notify_contact: cleanNotify, // NEW: notification email/phone
-        creator_ip: creatorIp,
-        views: 0,
-        yes_clicked: false,
-        created_at: new Date().toISOString()
+        your_name:       cleanYour,
+        custom_message:  cleanMsg,   // FIX: column is custom_message
+        theme:           cleanTheme,
+        notify_contact:  cleanNotify,
+        creator_ip:      creatorIp,
+        views:           0,
+        yes_clicked:     false,
+        created_at:      new Date().toISOString()
       }])
       .select('id')
       .single();
@@ -64,10 +69,6 @@ exports.handler = async (event) => {
 
   } catch (err) {
     console.error('create-proposal error:', err);
-    return {
-      statusCode: 500,
-      headers,
-      body: JSON.stringify({ error: 'Server error. Dobara try karo.' })
-    };
+    return { statusCode: 500, headers, body: JSON.stringify({ error: 'Server error. Dobara try karo.' }) };
   }
 };
