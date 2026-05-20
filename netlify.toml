@@ -28,8 +28,8 @@
   status = 200
 
 [[redirects]]
-  from = "/proposal/*"
-  to = "/proposal.html"
+  from = "/p/*"
+  to = "/p.html"
   status = 200
 
 [[headers]]
