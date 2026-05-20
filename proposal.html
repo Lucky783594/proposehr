@@ -189,8 +189,6 @@ body{overflow-x:hidden;min-height:100vh;}
 @keyframes fadeUp{from{opacity:0;transform:translateY(25px);}to{opacity:1;transform:translateY(0);}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:0.01ms!important;transition-duration:0.01ms!important;}}
 @media(max-width:480px){#theme-college .c-story-timeline::before{left:70px;}#theme-college .c-story-item{grid-template-columns:70px 1fr;}#theme-college .c-letter{padding:2rem 1.5rem;}#theme-college .spiral{display:none;}#theme-college{cursor:auto;}#theme-romantic{cursor:auto;}}
-@keyframes bounceIn{0%{transform:scale(0);opacity:0;}60%{transform:scale(1.2);}100%{transform:scale(1);opacity:1;}}
-@keyframes scrollAnim{0%,100%{opacity:1;}50%{opacity:0.3;}}
 </style>
 </head>
 <body>
@@ -383,14 +381,18 @@ body{overflow-x:hidden;min-height:100vh;}
   </div>
 </div>
 
+@keyframes bounceIn{0%{transform:scale(0);opacity:0;}60%{transform:scale(1.2);}100%{transform:scale(1);opacity:1;}}
+@keyframes scrollAnim{0%,100%{opacity:1;}50%{opacity:0.3;}}
+
 <script>
 let proposalId = null;
 let proposalTheme = 'romantic';
 
 // Get ID from URL: /p/abc123
 function getIdFromUrl() {
-  const pathParts = window.location.pathname.split('/');
-  return pathParts[pathParts.length - 1];
+  const path = window.location.pathname;
+  const match = path.match(/\/p\/([a-zA-Z0-9\-_]+)/);
+  return match ? match[1] : null;
 }
 
 // Init
