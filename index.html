@@ -454,7 +454,7 @@ async function createProposal() {
   btn.setAttribute('aria-busy', 'true');
 
   try {
-    const res = await fetch('/.netlify/functions/create-proposal', {
+    const res = await fetch('/.netlify/functions/create-proposal.js', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
