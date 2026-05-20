@@ -28,7 +28,7 @@
   status = 200
 
 [[redirects]]
-  from = "/p/*"
+  from = "/proposal/*"
   to = "/proposal.html"
   status = 200
 
