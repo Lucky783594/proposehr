@@ -1,6 +1,3 @@
-// netlify/functions/create-proposal.js
-// FIX: custom_message column (not message), all 20 themes supported
-
 const { createClient } = require('@supabase/supabase-js');
 const supabase = createClient(
   process.env.SUPABASE_URL,

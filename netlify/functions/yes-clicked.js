@@ -1,6 +1,3 @@
-// netlify/functions/yes-clicked.js
-// GF ne "Haan" dabaya — Supabase update karo + ladke ko notify karo
-
 const { createClient } = require('@supabase/supabase-js');
 
 const supabase = createClient(
