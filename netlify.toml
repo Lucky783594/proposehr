@@ -29,7 +29,7 @@
 
 [[redirects]]
   from = "/p/*"
-  to = "/p.html"
+  to = "/proposal.html"
   status = 200
 
 [[headers]]
