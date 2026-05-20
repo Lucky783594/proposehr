@@ -20,15 +20,14 @@ exports.handler = async (event) => {
   }
 
   try {
-    // Fetch proposal
     const { data, error } = await supabase
       .from('proposals')
-      .select('id, girlfriend_name, your_name, message, theme, yes_clicked')
+      .select('id, girlfriend_name, your_name, custom_message, views, yes_clicked, created_at')
       .eq('id', id)
       .single();
 
     if (error || !data) {
-      return { statusCode: 404, headers, body: JSON.stringify({ error: 'Proposal nahi mila' }) };
+      return { statusCode: 404, headers, body: JSON.stringify({ error: 'Proposal nahi mila!' }) };
     }
 
     // Views increment (fire and forget)
