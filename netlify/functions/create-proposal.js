@@ -6,10 +6,10 @@ const supabase = createClient(
 
 // All valid themes
 const VALID_THEMES = [
-  'romantic','college','starry','royale','garden',
-  'sunset','fairy','vintage','ocean','monsoon',
-  'mountain','desert','neon','pastel','minimalist',
-  'bollywood','retro','winter','spring','autumn'
+  'romantic', 'college', 'starry', 'royale', 'garden',
+  'sunset', 'fairy', 'vintage', 'ocean', 'monsoon',
+  'mountain', 'desert', 'neon', 'pastel', 'minimalist',
+  'bollywood', 'retro', 'winter', 'spring', 'autumn'
 ];
 
 exports.handler = async (event) => {
@@ -33,25 +33,27 @@ exports.handler = async (event) => {
       return { statusCode: 400, headers, body: JSON.stringify({ error: 'Naam sahi se likho!' }) };
     }
 
-    const cleanName    = girlfriend_name.trim().slice(0, 30);
-    const cleanYour    = your_name ? your_name.trim().slice(0, 40) : null;
-    const cleanMsg     = message ? message.trim().slice(0, 300) : null;
-    const cleanTheme   = VALID_THEMES.includes(theme) ? theme : 'romantic';
-    const cleanNotify  = notify_contact ? notify_contact.trim().slice(0, 60) : null;
-    const creatorIp    = event.headers['x-forwarded-for'] || event.headers['client-ip'] || null;
+    const cleanName = girlfriend_name.trim().slice(0, 30);
+    const cleanYour = your_name ? your_name.trim().slice(0, 40) : null;
+    const cleanMsg = message ? message.trim().slice(0, 300) : null;
+    const cleanTheme = VALID_THEMES.includes(theme) ? theme : 'romantic';
+    const cleanNotify = notify_contact ? notify_contact.trim().slice(0, 60) : null;
+    const creatorIp = event.headers['x-forwarded-for'] || event.headers['client-ip'] || null;
 
     const { data, error } = await supabase
       .from('proposals')
       .insert([{
         girlfriend_name: cleanName,
-        your_name:       cleanYour,
-        custom_message:  cleanMsg,   // FIX: column is custom_message
-        theme:           cleanTheme,
-        notify_contact:  cleanNotify,
-        creator_ip:      creatorIp,
-        views:           0,
-        yes_clicked:     false,
-        created_at:      new Date().toISOString()
+        your_name: cleanYour,
+        custom_message: cleanMsg,
+        theme: cleanTheme,
+        notify_contact: cleanNotify,
+        creator_ip: creatorIp,
+        views: 0,
+        yes_clicked: false,
+        yes_clicked_at: null,
+        last_viewed_at: null,
+        created_at: new Date().toISOString()
       }])
       .select('id')
       .single();
