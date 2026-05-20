@@ -1,5 +1,4 @@
 // netlify/functions/get-proposal.js
-// GF jab link khole toh naam + theme fetch karo, views count badao
 
 const { createClient } = require('@supabase/supabase-js');
 
@@ -11,16 +10,28 @@ const supabase = createClient(
 exports.handler = async (event) => {
   const headers = {
     'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Content-Type',
     'Content-Type': 'application/json'
   };
 
-  const id = event.queryStringParameters?.id;
-  if (!id) {
-    return { statusCode: 400, headers, body: JSON.stringify({ error: 'ID required' }) };
+  if (event.httpMethod === 'OPTIONS') {
+    return { statusCode: 200, headers, body: '' };
+  }
+
+  // ID URL se lo: /p/abc123 → querystring ya path se
+  const id =
+    event.queryStringParameters?.id ||
+    event.path?.split('/').filter(Boolean).pop();
+
+  if (!id || id === 'get-proposal') {
+    return {
+      statusCode: 400,
+      headers,
+      body: JSON.stringify({ error: 'Proposal ID required' })
+    };
   }
 
   try {
-    // Fetch proposal
     const { data, error } = await supabase
       .from('proposals')
       .select('id, girlfriend_name, your_name, message, theme, yes_clicked')
@@ -28,16 +39,26 @@ exports.handler = async (event) => {
       .single();
 
     if (error || !data) {
-      return { statusCode: 404, headers, body: JSON.stringify({ error: 'Proposal nahi mila' }) };
+      console.error('Supabase fetch error:', error);
+      return {
+        statusCode: 404,
+        headers,
+        body: JSON.stringify({ error: 'Proposal nahi mila' })
+      };
     }
 
-    // Views increment (fire and forget)
-    supabase
-      .from('proposals')
-      .update({ views: supabase.raw('views + 1') })
-      .eq('id', id)
+    // Views increment — FIX: supabase.raw nahi, direct SQL
+    supabase.rpc('increment_views', { proposal_id: id })
       .then(() => {})
-      .catch(() => {});
+      .catch(() => {
+        // Fallback: direct update
+        supabase
+          .from('proposals')
+          .update({ views: (data.views || 0) + 1 })
+          .eq('id', id)
+          .then(() => {})
+          .catch(() => {});
+      });
 
     return {
       statusCode: 200,
@@ -45,15 +66,19 @@ exports.handler = async (event) => {
       body: JSON.stringify({
         id: data.id,
         girlfriend_name: data.girlfriend_name,
-        your_name: data.your_name,
-        message: data.message,
+        your_name: data.your_name || null,
+        message: data.message || null,
         theme: data.theme || 'romantic',
-        yes_clicked: data.yes_clicked
+        yes_clicked: data.yes_clicked || false
       })
     };
 
   } catch (err) {
     console.error('get-proposal error:', err);
-    return { statusCode: 500, headers, body: JSON.stringify({ error: 'Server error' }) };
+    return {
+      statusCode: 500,
+      headers,
+      body: JSON.stringify({ error: 'Server error. Dobara try karo.' })
+    };
   }
 };
