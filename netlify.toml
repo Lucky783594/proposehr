@@ -4,12 +4,12 @@
 
 [[redirects]]
   from = "/api/create"
-  to = "/.netlify/functions/create"
+  to = "/.netlify/functions/create-proposal"
   status = 200
 
 [[redirects]]
   from = "/api/get"
-  to = "/.netlify/functions/get"
+  to = "/.netlify/functions/get-proposal"
   status = 200
 
 [[redirects]]
@@ -19,7 +19,7 @@
 
 [[redirects]]
   from = "/api/yes"
-  to = "/.netlify/functions/yes"
+  to = "/.netlify/functions/yes-clicked"
   status = 200
 
 [[redirects]]
