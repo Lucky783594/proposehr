@@ -3,12 +3,12 @@
   publish = "."
 
 [[redirects]]
-  from = "/api/create"
+  from = "/api/create-proposal"
   to = "/.netlify/functions/create-proposal"
   status = 200
 
 [[redirects]]
-  from = "/api/get"
+  from = "/api/get-proposal"
   to = "/.netlify/functions/get-proposal"
   status = 200
 
