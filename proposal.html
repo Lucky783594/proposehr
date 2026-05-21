@@ -3,1068 +3,660 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="robots" content="noindex,nofollow">
-<title>Tumhare Liye 💕</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Ek khaas proposal sirf tumhare liye 💕">
+<title>Ek Khaas Message Tumhare Liye 💕</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Sacramento&family=DM+Sans:wght@300;400&family=Dancing+Script:wght@500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@400;600&family=Satisfy&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Sacramento&family=DM+Sans:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Dancing+Script:wght@500;700&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+
 <style>
+/* ===== RESET & BASE ===== */
 *{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:smooth;}
 body{overflow-x:hidden;min-height:100vh;}
 
-/* LOADING */
-#loading{position:fixed;inset:0;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.2rem;background:#faf7f2;transition:opacity 0.6s;}
+/* ===== LOADING ===== */
+#loading{
+  position:fixed;inset:0;z-index:9999;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:1rem;background:#faf7f2;transition:opacity 0.5s;
+}
 #loading.hide{opacity:0;pointer-events:none;}
-.ld{width:10px;height:10px;border-radius:50%;display:inline-block;animation:ldB 0.8s ease-in-out infinite;}
-.ld:nth-child(1){background:#c0525a;}
-.ld:nth-child(2){background:#b8965a;animation-delay:0.15s;}
-.ld:nth-child(3){background:#2d6a9f;animation-delay:0.3s;}
-@keyframes ldB{0%,100%{transform:translateY(0);}50%{transform:translateY(-13px);}}
-.ld-text{font-family:'Sacramento',cursive;font-size:26px;color:#8a6a6e;}
+.load-dot{
+  width:10px;height:10px;border-radius:50%;
+  background:#c0525a;display:inline-block;
+  animation:loadBounce 0.8s ease-in-out infinite;
+}
+.load-dot:nth-child(2){animation-delay:0.15s;background:#b8965a;}
+.load-dot:nth-child(3){animation-delay:0.3s;background:#2d6a9f;}
+.load-text{font-family:'Sacramento',cursive;font-size:28px;color:#8a6a6e;}
 
-/* ERROR */
-#error-page{display:none;position:fixed;inset:0;z-index:9998;background:#faf7f2;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:2rem;gap:1rem;font-family:'Cormorant Garamond',serif;}
-#error-page.show{display:flex;}
-#error-page h2{font-size:40px;color:#c0525a;}
-#error-page p{font-size:18px;color:#8a6a6e;line-height:1.7;max-width:380px;}
-#error-page a{display:inline-block;margin-top:1rem;padding:0.7rem 2rem;background:#c0525a;color:#fff;border-radius:8px;text-decoration:none;font-family:'DM Sans',sans-serif;font-size:14px;}
+/* ===== ERROR SCREEN ===== */
+#error-screen{
+  display:none;position:fixed;inset:0;z-index:9998;
+  background:#faf7f2;align-items:center;justify-content:center;
+  flex-direction:column;text-align:center;padding:2rem;
+  font-family:'Cormorant Garamond',serif;
+}
+#error-screen.show{display:flex;}
+#error-screen h2{font-size:32px;color:#c0525a;margin-bottom:1rem;}
+#error-screen p{font-size:18px;color:#8a6a6e;line-height:1.7;}
+#error-screen a{color:#c0525a;margin-top:1.5rem;display:inline-block;font-size:16px;}
 
-/* THEME WRAPPER */
-.tw{display:none;}
-.tw.on{display:block;}
+/* ===== THEME WRAPPER ===== */
+#theme-romantic,#theme-college{display:none;}
+#theme-romantic.active,#theme-college.active{display:block;}
 
-/* SHARED SECTIONS */
-section{min-height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:4rem 2rem;position:relative;overflow:hidden;}
+/* ===========================
+   THEME 1: ROMANTIC ROSE
+   =========================== */
+#theme-romantic{
+  --rose:#c0525a;--rose-light:#f7dde0;--rose-pale:#fdf0f1;
+  --gold:#b8965a;--cream:#faf7f2;--dark:#2a1a1c;--muted:#6b4e52;--petals:#e8a0a8;
+  font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--dark);cursor:none;
+}
+#theme-romantic .cursor{position:fixed;width:18px;height:18px;background:var(--rose);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:multiply;}
+#theme-romantic .cursor-trail{position:fixed;width:8px;height:8px;background:var(--petals);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);opacity:0.6;transition:left 0.15s ease,top 0.15s ease;}
+#theme-romantic section{min-height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;position:relative;overflow:hidden;padding:3rem 2rem;}
+#theme-romantic #r-hero{background:linear-gradient(160deg,#fff5f6 0%,#fdf0f1 40%,#fff8ee 100%);text-align:center;}
+#theme-romantic .r-glow{position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(192,82,90,0.06) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);animation:rGlow 4s ease-in-out infinite;}
+#theme-romantic .r-badge{font-size:11px;letter-spacing:0.35em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem;animation:fadeUp 1s ease 0.3s both;}
+#theme-romantic .r-name{font-family:'Sacramento',cursive;font-size:clamp(80px,18vw,160px);color:var(--rose);line-height:0.9;text-shadow:2px 4px 40px rgba(192,82,90,0.15);animation:fadeUp 1.2s ease 0.6s both;}
+#theme-romantic .r-sub{font-family:'Cormorant Garamond',serif;font-size:clamp(18px,4vw,26px);font-style:italic;font-weight:300;color:var(--muted);margin-top:1.5rem;animation:fadeUp 1s ease 1s both;}
+#theme-romantic .r-scroll{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;opacity:0;animation:fadeUp 1s ease 2s forwards;}
+#theme-romantic .r-scroll span{font-size:11px;letter-spacing:0.25em;text-transform:uppercase;color:var(--muted);}
+#theme-romantic .r-scroll-line{width:1px;height:40px;background:linear-gradient(to bottom,var(--rose),transparent);animation:scrollAnim 1.5s ease-in-out infinite;}
+#theme-romantic .r-section-tag{font-size:11px;letter-spacing:0.35em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;}
+#theme-romantic .r-heading{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,6vw,52px);font-weight:300;color:var(--dark);margin-bottom:3rem;text-align:center;}
+#theme-romantic .r-heading em{font-style:italic;color:var(--rose);}
+#theme-romantic .r-timeline{width:100%;max-width:560px;position:relative;}
+#theme-romantic .r-timeline::before{content:'';position:absolute;left:22px;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,transparent,var(--rose-light),var(--rose-light),transparent);}
+#theme-romantic .r-tl-item{display:flex;gap:2rem;margin-bottom:2.5rem;opacity:0;transform:translateX(-20px);transition:all 0.7s ease;}
+#theme-romantic .r-tl-item.visible{opacity:1;transform:translateX(0);}
+#theme-romantic .r-tl-dot{flex-shrink:0;width:44px;height:44px;border-radius:50%;background:var(--rose-pale);border:1.5px solid var(--rose-light);display:flex;align-items:center;justify-content:center;font-size:18px;position:relative;z-index:1;}
+#theme-romantic .r-tl-content h3{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--dark);margin-bottom:0.4rem;}
+#theme-romantic .r-tl-content p{font-size:14px;color:var(--muted);line-height:1.7;}
+#theme-romantic .r-reasons{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem;max-width:800px;width:100%;}
+#theme-romantic .r-card{background:#fff;border:1px solid rgba(192,82,90,0.1);border-radius:16px;padding:1.8rem;text-align:center;opacity:0;transform:translateY(20px);transition:all 0.6s ease;}
+#theme-romantic .r-card.visible{opacity:1;transform:translateY(0);}
+#theme-romantic .r-card h3{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--dark);margin-bottom:0.5rem;}
+#theme-romantic .r-card p{font-size:13px;color:var(--muted);line-height:1.7;}
+#theme-romantic .r-letter{max-width:560px;width:100%;background:#fff;border:1px solid rgba(184,150,90,0.2);border-radius:4px;padding:3rem 2.5rem;box-shadow:0 8px 60px rgba(192,82,90,0.08);opacity:0;transform:translateY(30px) rotate(-1deg);transition:all 0.8s ease;}
+#theme-romantic .r-letter.visible{opacity:1;transform:translateY(0) rotate(-0.3deg);}
+#theme-romantic .r-letter-to{font-family:'Cormorant Garamond',serif;font-size:14px;font-style:italic;color:var(--muted);margin-bottom:1.5rem;}
+#theme-romantic .r-letter-body{font-family:'Cormorant Garamond',serif;font-size:clamp(16px,3vw,20px);line-height:1.9;color:var(--dark);font-weight:300;}
+#theme-romantic .r-letter-body em{color:var(--rose);font-style:italic;}
+#theme-romantic .r-sign{margin-top:2rem;font-family:'Sacramento',cursive;font-size:32px;color:var(--rose);}
+#theme-romantic #r-proposal{background:var(--dark);text-align:center;}
+#theme-romantic #r-proposal::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(192,82,90,0.15) 0%,transparent 70%);}
+#theme-romantic .r-prop-big{font-family:'Sacramento',cursive;font-size:clamp(60px,15vw,120px);color:#fff;line-height:1;opacity:0;transform:scale(0.9);transition:all 1s ease;text-shadow:0 0 60px rgba(192,82,90,0.4);}
+#theme-romantic .r-prop-big.visible{opacity:1;transform:scale(1);}
+#theme-romantic .r-prop-name{font-family:'Sacramento',cursive;font-size:clamp(70px,18vw,140px);color:var(--rose);line-height:1;margin-bottom:1.5rem;opacity:0;transform:scale(0.9);transition:all 1s ease 0.2s;text-shadow:0 0 80px rgba(192,82,90,0.5);}
+#theme-romantic .r-prop-name.visible{opacity:1;transform:scale(1);}
+#theme-romantic .r-prop-q{font-family:'Cormorant Garamond',serif;font-size:clamp(18px,3.5vw,28px);color:rgba(255,255,255,0.8);font-style:italic;font-weight:300;margin-bottom:3rem;max-width:500px;line-height:1.6;opacity:0;transition:all 0.8s ease 0.4s;}
+#theme-romantic .r-prop-q.visible{opacity:1;}
+#theme-romantic .r-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;opacity:0;transition:all 0.8s ease 0.6s;position:relative;z-index:2;}
+#theme-romantic .r-btns.visible{opacity:1;}
+#theme-romantic .r-btn-yes{padding:1rem 3rem;background:var(--rose);color:#fff;border:none;border-radius:50px;font-family:'Cormorant Garamond',serif;font-size:20px;font-style:italic;cursor:pointer;transition:all 0.3s;box-shadow:0 4px 30px rgba(192,82,90,0.4);}
+#theme-romantic .r-btn-yes:hover{transform:scale(1.07);box-shadow:0 8px 50px rgba(192,82,90,0.6);}
+#theme-romantic .r-btn-no{padding:1rem 2.5rem;background:transparent;color:rgba(255,255,255,0.4);border:1px solid rgba(255,255,255,0.2);border-radius:50px;font-family:'Cormorant Garamond',serif;font-size:20px;font-style:italic;cursor:pointer;transition:all 0.3s;}
+#theme-romantic .r-btn-no:hover{font-size:15px;color:rgba(255,255,255,0.2);}
+#theme-romantic .petal{position:fixed;pointer-events:none;z-index:1;animation:petalFall linear infinite;opacity:0;}
 
-/* YES OVERLAY */
-.yo{display:none;position:fixed;inset:0;z-index:1000;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:2rem;gap:1.5rem;}
-.yo.on{display:flex;}
-.yo-emoji{font-size:80px;animation:bIn 0.7s ease both;}
-.yo-title{animation:fUp 1s ease 0.4s both;}
-.yo-msg{animation:fUp 1s ease 0.7s both;max-width:380px;line-height:1.7;}
+/* ===========================
+   THEME 2: COLLEGE STORY
+   =========================== */
+#theme-college{
+  --ink:#1a1a2e;--paper:#f5f0e8;--paper2:#ede8dc;
+  --blue:#2d6a9f;--blue-light:#e8f0f9;--red:#c0392b;
+  --gold:#c9a84c;--muted:#6b6560;--line:#d4cfc6;
+  font-family:'Lato',sans-serif;background:var(--paper);color:var(--ink);cursor:none;
+}
+#theme-college .cursor{position:fixed;width:10px;height:10px;background:var(--blue);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:multiply;}
+#theme-college .nb-bg{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:repeating-linear-gradient(transparent,transparent 31px,var(--line) 31px,var(--line) 32px);background-size:100% 32px;opacity:0.45;}
+#theme-college .nb-bg::before{content:'';position:absolute;left:72px;top:0;bottom:0;width:1.5px;background:rgba(192,57,43,0.25);}
+#theme-college .spiral{position:fixed;left:0;top:0;bottom:0;width:36px;z-index:2;pointer-events:none;display:flex;flex-direction:column;justify-content:space-evenly;align-items:center;background:var(--paper2);border-right:1px solid var(--line);}
+#theme-college .spiral-hole{width:18px;height:18px;border-radius:50%;background:var(--paper);border:2px solid #bbb;box-shadow:inset 0 1px 3px rgba(0,0,0,0.15);}
+#theme-college section{min-height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;position:relative;z-index:3;padding:4rem 2rem;}
+#theme-college .nb-cover{background:var(--blue);border-radius:4px 12px 12px 4px;padding:3rem 2.5rem;max-width:400px;width:100%;position:relative;box-shadow:-6px 0 0 #1e4d73,-8px 0 0 #163a56,8px 8px 40px rgba(0,0,0,0.3),inset 0 0 0 1px rgba(255,255,255,0.08);animation:bookReveal 1.2s cubic-bezier(0.34,1.56,0.64,1) both;}
+#theme-college .nb-cover::before{content:'';position:absolute;inset:0;border-radius:4px 12px 12px 4px;background-image:repeating-linear-gradient(transparent,transparent 27px,rgba(255,255,255,0.06) 27px,rgba(255,255,255,0.06) 28px);}
+#theme-college .cover-subject{font-size:10px;letter-spacing:0.35em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:0.8rem;position:relative;}
+#theme-college .cover-name{font-family:'Dancing Script',cursive;font-size:clamp(60px,16vw,100px);color:#fff;line-height:0.95;position:relative;text-shadow:2px 3px 20px rgba(0,0,0,0.2);animation:nameWrite 2s ease 0.8s both;}
+#theme-college .cover-sub{font-family:'Playfair Display',serif;font-size:15px;font-style:italic;color:rgba(255,255,255,0.7);line-height:1.6;position:relative;}
+#theme-college .cover-stamp{position:absolute;top:1.2rem;right:1.5rem;width:52px;height:52px;border:2px solid rgba(255,255,255,0.25);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:22px;transform:rotate(8deg);background:rgba(255,255,255,0.05);}
+#theme-college .cover-sticker{position:absolute;bottom:-16px;right:-16px;width:60px;height:60px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 4px 16px rgba(0,0,0,0.2);animation:stickerPop 0.5s cubic-bezier(0.34,1.56,0.64,1) 1.5s both;}
+#theme-college .page-tag{font-size:10px;letter-spacing:0.4em;text-transform:uppercase;color:var(--blue);margin-bottom:0.8rem;display:flex;align-items:center;gap:8px;}
+#theme-college .page-tag::before,#theme-college .page-tag::after{content:'';flex:1;height:1px;background:rgba(45,106,159,0.2);}
+#theme-college .page-heading{font-family:'Playfair Display',serif;font-size:clamp(28px,6vw,48px);font-weight:400;color:var(--ink);margin-bottom:3rem;text-align:center;line-height:1.2;}
+#theme-college .page-heading em{font-style:italic;color:var(--blue);}
+#theme-college .c-story-timeline{width:100%;max-width:580px;position:relative;}
+#theme-college .c-story-timeline::before{content:'';position:absolute;left:90px;top:0;bottom:0;width:1px;background:rgba(192,57,43,0.3);}
+#theme-college .c-story-item{display:grid;grid-template-columns:90px 1fr;gap:1.5rem;margin-bottom:2.8rem;opacity:0;transform:translateX(-15px);transition:all 0.6s ease;}
+#theme-college .c-story-item.visible{opacity:1;transform:translateX(0);}
+#theme-college .c-story-date{font-family:'Dancing Script',cursive;font-size:14px;color:var(--red);text-align:right;padding-top:4px;line-height:1.4;}
+#theme-college .c-story-content{background:#fff;border:1px solid var(--line);border-radius:2px;padding:1.2rem 1.4rem;position:relative;box-shadow:2px 2px 8px rgba(0,0,0,0.04);}
+#theme-college .c-story-content::after{content:'';position:absolute;top:0;right:0;width:18px;height:18px;background:linear-gradient(225deg,var(--paper2) 50%,transparent 50%);border-left:1px solid var(--line);border-bottom:1px solid var(--line);}
+#theme-college .c-story-content h3{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--ink);margin-bottom:0.4rem;}
+#theme-college .c-story-content p{font-size:14px;color:var(--muted);line-height:1.75;}
+#theme-college .c-reasons{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.2rem;max-width:740px;width:100%;}
+#theme-college .c-card{background:#fff;border:1px solid var(--line);border-radius:2px;padding:1.5rem;position:relative;overflow:hidden;opacity:0;transform:translateY(16px);transition:all 0.5s ease;box-shadow:2px 2px 0 rgba(0,0,0,0.04);}
+#theme-college .c-card:hover{box-shadow:4px 4px 0 var(--blue);transform:translate(-2px,-2px);}
+#theme-college .c-card.visible{opacity:1;transform:translateY(0);}
+#theme-college .c-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:var(--gold);}
+#theme-college .c-card h3{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--ink);margin-bottom:0.5rem;}
+#theme-college .c-card p{font-size:13px;color:var(--muted);line-height:1.7;}
+#theme-college .c-letter{max-width:540px;width:100%;background:#fff;border:1px solid var(--line);padding:3rem 2.8rem 2.5rem;position:relative;box-shadow:0 2px 0 var(--line),0 4px 0 #e8e3d8,0 6px 0 var(--line),4px 8px 30px rgba(0,0,0,0.08);opacity:0;transform:translateY(20px) rotate(0.5deg);transition:all 0.8s ease;}
+#theme-college .c-letter.visible{opacity:1;transform:translateY(0) rotate(0.3deg);}
+#theme-college .c-letter::before{content:'';position:absolute;inset:0;background-image:repeating-linear-gradient(transparent,transparent 27px,rgba(212,207,198,0.5) 27px,rgba(212,207,198,0.5) 28px);pointer-events:none;}
+#theme-college .c-letter-to{font-family:'Playfair Display',serif;font-size:14px;font-style:italic;color:var(--muted);margin-bottom:1.5rem;position:relative;}
+#theme-college .c-letter-body{font-family:'Playfair Display',serif;font-size:clamp(15px,2.5vw,18px);line-height:2;color:var(--ink);font-weight:400;position:relative;}
+#theme-college .c-letter-body em{color:var(--blue);font-style:italic;}
+#theme-college .c-sign{font-family:'Dancing Script',cursive;font-size:36px;color:var(--blue);margin-top:1.5rem;position:relative;}
+#theme-college .paper-clip{position:absolute;top:-20px;left:40px;width:28px;height:48px;border:3px solid #aaa;border-radius:12px 12px 0 0;border-bottom:none;}
+#theme-college .paper-clip::after{content:'';position:absolute;top:8px;left:50%;transform:translateX(-50%);width:12px;height:36px;border:3px solid #aaa;border-radius:8px 8px 0 0;border-bottom:none;}
+#theme-college #c-proposal{background:var(--blue);text-align:center;}
+#theme-college #c-proposal::before{content:'';position:absolute;inset:0;background-image:repeating-linear-gradient(transparent,transparent 35px,rgba(255,255,255,0.04) 35px,rgba(255,255,255,0.04) 36px);pointer-events:none;}
+#theme-college .c-prop-q{font-family:'Playfair Display',serif;font-size:clamp(15px,3vw,22px);font-style:italic;color:rgba(255,255,255,0.75);max-width:480px;line-height:1.7;margin-bottom:1.5rem;position:relative;z-index:1;opacity:0;transform:translateY(15px);transition:all 0.7s ease 0.15s;}
+#theme-college .c-prop-q.visible{opacity:1;transform:translateY(0);}
+#theme-college .c-prop-name{font-family:'Dancing Script',cursive;font-size:clamp(70px,18vw,140px);color:#fff;line-height:0.9;position:relative;z-index:1;opacity:0;transform:scale(0.92);transition:all 1s ease 0.3s;margin-bottom:1rem;}
+#theme-college .c-prop-name.visible{opacity:1;transform:scale(1);}
+#theme-college .c-prop-sub{font-family:'Playfair Display',serif;font-size:clamp(16px,3vw,24px);font-style:italic;color:rgba(255,255,255,0.65);margin-bottom:3rem;position:relative;z-index:1;opacity:0;transform:translateY(15px);transition:all 0.7s ease 0.5s;}
+#theme-college .c-prop-sub.visible{opacity:1;transform:translateY(0);}
+#theme-college .c-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;position:relative;z-index:1;opacity:0;transition:all 0.7s ease 0.7s;}
+#theme-college .c-btns.visible{opacity:1;}
+#theme-college .c-btn-yes{padding:0.9rem 3rem;background:#fff;color:var(--blue);border:none;border-radius:2px;font-family:'Playfair Display',serif;font-size:18px;font-style:italic;cursor:pointer;transition:all 0.3s;box-shadow:4px 4px 0 rgba(255,255,255,0.3);font-weight:700;}
+#theme-college .c-btn-yes:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 rgba(255,255,255,0.3);}
+#theme-college .c-btn-no{padding:0.9rem 2.5rem;background:transparent;color:rgba(255,255,255,0.4);border:1px solid rgba(255,255,255,0.2);border-radius:2px;font-family:'Lato',sans-serif;font-size:15px;cursor:pointer;transition:all 0.3s;}
+#theme-college .c-btn-no:hover{font-size:12px;color:rgba(255,255,255,0.2);}
 
-/* CONFETTI */
-.cp{position:fixed;pointer-events:none;z-index:1001;animation:cFall 2.5s ease-in forwards;}
-@keyframes cFall{0%{opacity:1;top:-5px;}100%{opacity:0;top:110vh;}}
+/* ===== YES PAGE (SHARED) ===== */
+.yes-page{display:none;position:fixed;inset:0;z-index:1000;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:2rem;}
+.yes-page.show{display:flex;}
+.conf{position:fixed;pointer-events:none;z-index:1001;animation:confFall 2.5s ease-in forwards;}
 
-/* SHARED ANIMATIONS */
-@keyframes fUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
-@keyframes fIn{from{opacity:0;}to{opacity:1;}}
-@keyframes sIn{from{opacity:0;transform:scale(0.85);}to{opacity:1;transform:scale(1);}}
-@keyframes bIn{0%{transform:scale(0);opacity:0;}60%{transform:scale(1.3);}100%{transform:scale(1);opacity:1;}}
-@keyframes spin{to{transform:rotate(360deg);}}
-
-/* SCROLL HINT */
-.sh{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;opacity:0;animation:fUp 1s ease 2.2s forwards;}
-.sh span{font-size:10px;letter-spacing:0.28em;text-transform:uppercase;}
-.sh-line{width:1px;height:36px;animation:scrollPulse 1.5s ease-in-out infinite;}
-@keyframes scrollPulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
-
-/* MUSIC BTN */
-.mb{position:fixed;bottom:1.5rem;right:1.5rem;width:42px;height:42px;border-radius:50%;border:none;color:#fff;font-size:17px;cursor:pointer;z-index:500;display:flex;align-items:center;justify-content:center;transition:transform 0.3s;}
-.mb:hover{transform:scale(1.1);}
-
-/* TIMELINE SHARED */
-.tl{width:100%;max-width:540px;position:relative;}
-.tl-item{display:flex;gap:1.8rem;margin-bottom:2.2rem;opacity:0;transform:translateX(-16px);transition:all 0.65s ease;}
-.tl-item.vis{opacity:1;transform:translateX(0);}
-.tl-dot{flex-shrink:0;width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px;position:relative;z-index:1;}
-
-/* CARDS SHARED */
-.cards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.2rem;max-width:740px;width:100%;}
-.card-item{padding:1.5rem;opacity:0;transform:translateY(15px);transition:all 0.55s ease;}
-.card-item.vis{opacity:1;transform:translateY(0);}
-
-/* LETTER SHARED */
-.letter-box{max-width:520px;width:100%;padding:2.8rem 2.4rem;opacity:0;transform:translateY(22px);transition:all 0.8s ease;}
-.letter-box.vis{opacity:1;transform:translateY(0);}
-
-/* BTNS SHARED */
-.p-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;opacity:0;transition:all 0.8s ease 0.7s;position:relative;z-index:2;}
-.p-btns.vis{opacity:1;}
-.btn-no{cursor:pointer;transition:all 0.3s;}
-.btn-no:hover{font-size:12px;opacity:0.5;}
-
-/* ANIM HELPERS */
-.a-fup{opacity:0;animation:fUp 1s ease forwards;}
-.a-sin{opacity:0;animation:sIn 1s ease forwards;}
-.a-fin{opacity:0;animation:fIn 1s ease forwards;}
-
-/* ===== NO SCROLL on yes ===== */
-body.no-scroll{overflow:hidden;}
+/* ===== ALL KEYFRAMES INSIDE STYLE TAG ===== */
+@keyframes loadBounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-12px);}}
+@keyframes rGlow{0%,100%{transform:translate(-50%,-50%) scale(1);}50%{transform:translate(-50%,-50%) scale(1.1);}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(25px);}to{opacity:1;transform:translateY(0);}}
+@keyframes scrollAnim{0%,100%{opacity:1;}50%{opacity:0.3;}}
+@keyframes petalFall{0%{transform:translateY(-20px) rotate(0deg);opacity:0;}10%{opacity:0.7;}90%{opacity:0.4;}100%{transform:translateY(110vh) rotate(720deg);opacity:0;}}
+@keyframes bookReveal{from{transform:perspective(800px) rotateY(-40deg) scale(0.9);opacity:0;}to{transform:perspective(800px) rotateY(0deg) scale(1);opacity:1;}}
+@keyframes nameWrite{from{opacity:0;letter-spacing:-0.1em;}to{opacity:1;letter-spacing:normal;}}
+@keyframes stickerPop{from{transform:scale(0) rotate(-30deg);}to{transform:scale(1) rotate(-8deg);}}
+@keyframes confFall{0%{opacity:1;top:-5px;}100%{opacity:0;top:110vh;}}
+@keyframes bounceIn{0%{transform:scale(0);opacity:0;}60%{transform:scale(1.2);}100%{transform:scale(1);opacity:1;}}
 
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:0.01ms!important;transition-duration:0.01ms!important;}}
-@media(max-width:480px){section{padding:3rem 1.5rem;}body{cursor:auto;}}
-
-
-/* ================================================================
-   T1 — ROMANTIC ROSE
-================================================================ */
-#t1{background:#faf7f2;color:#2a1a1c;}
-#t1 .cur{position:fixed;width:16px;height:16px;background:#c0525a;border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);mix-blend-mode:multiply;transition:transform 0.1s;}
-#t1 .petal{position:fixed;pointer-events:none;z-index:1;animation:petalFall linear infinite;opacity:0;}
-@keyframes petalFall{0%{transform:translateY(-20px) rotate(0deg);opacity:0;}10%{opacity:0.7;}90%{opacity:0.3;}100%{transform:translateY(105vh) rotate(720deg);opacity:0;}}
-#t1 .hero-sec{background:linear-gradient(160deg,#fff5f6,#fdf0f1 50%,#fff8ee);text-align:center;cursor:none;}
-#t1 .glow{position:absolute;width:550px;height:550px;border-radius:50%;background:radial-gradient(circle,rgba(192,82,90,0.06),transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);animation:glowP 4s ease-in-out infinite;}
-@keyframes glowP{0%,100%{transform:translate(-50%,-50%) scale(1);}50%{transform:translate(-50%,-50%) scale(1.12);}}
-#t1 .hero-name{font-family:'Sacramento',cursive;font-size:clamp(78px,18vw,155px);color:#c0525a;line-height:0.9;text-shadow:2px 4px 40px rgba(192,82,90,0.15);}
-#t1 .hero-tag{font-family:'Cormorant Garamond',serif;font-size:clamp(16px,3.5vw,23px);font-style:italic;font-weight:300;color:#6b4e52;margin-top:1.5rem;}
-#t1 .sec-lbl{font-size:10px;letter-spacing:0.35em;text-transform:uppercase;color:#b8965a;margin-bottom:0.8rem;}
-#t1 .sec-h{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,5.5vw,48px);font-weight:300;color:#2a1a1c;margin-bottom:2.5rem;text-align:center;}
-#t1 .sec-h em{font-style:italic;color:#c0525a;}
-#t1 .tl::before{content:'';position:absolute;left:21px;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,transparent,#f7dde0,#f7dde0,transparent);}
-#t1 .tl-dot{background:#fdf0f1;border:1.5px solid #f7dde0;}
-#t1 .tl-h{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:#2a1a1c;margin-bottom:0.3rem;}
-#t1 .tl-p{font-size:14px;color:#6b4e52;line-height:1.7;}
-#t1 .card-item{background:#fff;border:1px solid rgba(192,82,90,0.1);border-radius:14px;}
-#t1 .card-item h3{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:#2a1a1c;margin-bottom:0.4rem;}
-#t1 .card-item p{font-size:13px;color:#6b4e52;line-height:1.6;}
-#t1 .letter-box{background:#fff;border:1px solid rgba(184,150,90,0.2);border-radius:3px;box-shadow:0 8px 50px rgba(192,82,90,0.08);}
-#t1 .letter-to{font-family:'Cormorant Garamond',serif;font-size:14px;font-style:italic;color:#6b4e52;margin-bottom:1.2rem;}
-#t1 .letter-body{font-family:'Cormorant Garamond',serif;font-size:clamp(15px,2.5vw,18px);line-height:2;color:#2a1a1c;font-weight:300;}
-#t1 .letter-body em{color:#c0525a;font-style:italic;}
-#t1 .letter-sign{font-family:'Sacramento',cursive;font-size:32px;color:#c0525a;margin-top:1.5rem;}
-#t1 .prop-sec{background:#2a1a1c;text-align:center;}
-#t1 .prop-sec::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(192,82,90,0.13),transparent 70%);}
-#t1 .p-big{font-family:'Sacramento',cursive;font-size:clamp(55px,13vw,110px);color:#fff;line-height:1;opacity:0;transform:scale(0.88);transition:all 1s ease;text-shadow:0 0 60px rgba(192,82,90,0.4);}
-#t1 .p-big.vis{opacity:1;transform:scale(1);}
-#t1 .p-nm{font-family:'Sacramento',cursive;font-size:clamp(65px,16vw,130px);color:#c0525a;line-height:1;margin-bottom:1.4rem;opacity:0;transform:scale(0.88);transition:all 1s ease 0.2s;text-shadow:0 0 80px rgba(192,82,90,0.5);}
-#t1 .p-nm.vis{opacity:1;transform:scale(1);}
-#t1 .p-q{font-family:'Cormorant Garamond',serif;font-size:clamp(17px,3.5vw,25px);color:rgba(255,255,255,0.8);font-style:italic;font-weight:300;margin-bottom:2.8rem;max-width:460px;line-height:1.6;opacity:0;transition:all 0.8s ease 0.4s;}
-#t1 .p-q.vis{opacity:1;}
-#t1 .btn-yes{padding:0.9rem 2.8rem;background:#c0525a;color:#fff;border:none;border-radius:50px;font-family:'Cormorant Garamond',serif;font-size:19px;font-style:italic;cursor:pointer;transition:all 0.3s;box-shadow:0 4px 28px rgba(192,82,90,0.4);}
-#t1 .btn-yes:hover{transform:scale(1.07);}
-#t1 .btn-no{padding:0.9rem 2.2rem;background:transparent;color:rgba(255,255,255,0.4);border:1px solid rgba(255,255,255,0.2);border-radius:50px;font-family:'Cormorant Garamond',serif;font-size:18px;}
-#t1 .yo{background:#1a0e0f;}
-#t1 .yo-title{font-family:'Sacramento',cursive;font-size:clamp(56px,13vw,108px);color:#c0525a;text-shadow:0 0 80px rgba(192,82,90,0.5);}
-#t1 .yo-msg{font-family:'Cormorant Garamond',serif;font-size:clamp(16px,3vw,22px);color:rgba(255,255,255,0.8);font-style:italic;}
-#t1 .mb{background:#c0525a;box-shadow:0 4px 18px rgba(192,82,90,0.4);}
-#t1 .sh span{color:#6b4e52;}
-#t1 .sh-line{background:linear-gradient(to bottom,#c0525a,transparent);}
-
-
-/* ================================================================
-   T2 — COLLEGE NOTEBOOK
-================================================================ */
-#t2{background:#f5f0e8;color:#1a1a2e;}
-#t2 .cur{position:fixed;width:10px;height:10px;background:#2d6a9f;border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);mix-blend-mode:multiply;}
-#t2 .nb-bg{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:repeating-linear-gradient(transparent,transparent 31px,rgba(212,207,198,0.55) 31px,rgba(212,207,198,0.55) 32px);background-size:100% 32px;opacity:0.5;}
-#t2 .nb-bg::before{content:'';position:absolute;left:66px;top:0;bottom:0;width:1.5px;background:rgba(192,57,43,0.2);}
-#t2 .spiral{position:fixed;left:0;top:0;bottom:0;width:33px;z-index:2;pointer-events:none;display:flex;flex-direction:column;justify-content:space-evenly;align-items:center;background:#ede8dc;border-right:1px solid #d4cfc6;}
-#t2 .sh-hole{width:16px;height:16px;border-radius:50%;background:#f5f0e8;border:2px solid #bbb;}
-#t2 section{z-index:3;}
-#t2 .nb-cover{background:#2d6a9f;border-radius:4px 12px 12px 4px;padding:2.8rem 2.2rem;max-width:375px;width:100%;position:relative;box-shadow:-6px 0 0 #1e4d73,-8px 0 0 #163a56,8px 8px 40px rgba(0,0,0,0.28),inset 0 0 0 1px rgba(255,255,255,0.07);animation:bookR 1.2s cubic-bezier(0.34,1.56,0.64,1) both;}
-@keyframes bookR{from{transform:perspective(800px) rotateY(-40deg) scale(0.9);opacity:0;}to{transform:perspective(800px) rotateY(0) scale(1);opacity:1;}}
-#t2 .nb-cover::before{content:'';position:absolute;inset:0;border-radius:4px 12px 12px 4px;background-image:repeating-linear-gradient(transparent,transparent 27px,rgba(255,255,255,0.05) 27px,rgba(255,255,255,0.05) 28px);}
-#t2 .cov-nm{font-family:'Dancing Script',cursive;font-size:clamp(55px,14vw,95px);color:#fff;line-height:0.9;position:relative;animation:nameW 1.8s ease 0.8s both;}
-@keyframes nameW{from{opacity:0;letter-spacing:-0.08em;}to{opacity:1;letter-spacing:normal;}}
-#t2 .cov-sub{font-family:'Playfair Display',serif;font-size:14px;font-style:italic;color:rgba(255,255,255,0.65);line-height:1.6;position:relative;margin-top:1rem;}
-#t2 .cov-sticker{position:absolute;bottom:-14px;right:-14px;width:54px;height:54px;background:#c9a84c;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 4px 14px rgba(0,0,0,0.2);animation:stickerP 0.5s cubic-bezier(0.34,1.56,0.64,1) 1.6s both;}
-@keyframes stickerP{from{transform:scale(0) rotate(-30deg);}to{transform:scale(1) rotate(-8deg);}}
-#t2 .pg-tag{font-size:10px;letter-spacing:0.4em;text-transform:uppercase;color:#2d6a9f;margin-bottom:0.8rem;display:flex;align-items:center;gap:8px;}
-#t2 .pg-tag::before,#t2 .pg-tag::after{content:'';flex:1;height:1px;background:rgba(45,106,159,0.18);}
-#t2 .pg-h{font-family:'Playfair Display',serif;font-size:clamp(25px,5vw,42px);font-weight:400;color:#1a1a2e;margin-bottom:2.8rem;text-align:center;line-height:1.2;}
-#t2 .pg-h em{font-style:italic;color:#2d6a9f;}
-#t2 .tl{max-width:560px;}
-#t2 .tl::before{content:'';position:absolute;left:83px;top:0;bottom:0;width:1px;background:rgba(192,57,43,0.25);}
-#t2 .c-ti{display:grid;grid-template-columns:83px 1fr;gap:1.4rem;margin-bottom:2.4rem;opacity:0;transform:translateX(-14px);transition:all 0.6s ease;}
-#t2 .c-ti.vis{opacity:1;transform:translateX(0);}
-#t2 .c-date{font-family:'Dancing Script',cursive;font-size:13px;color:#c0392b;text-align:right;padding-top:3px;line-height:1.4;}
-#t2 .c-box{background:#fff;border:1px solid #d4cfc6;border-radius:2px;padding:1rem 1.2rem;position:relative;box-shadow:2px 2px 7px rgba(0,0,0,0.04);}
-#t2 .c-box::after{content:'';position:absolute;top:0;right:0;width:15px;height:15px;background:linear-gradient(225deg,#ede8dc 50%,transparent 50%);border-left:1px solid #d4cfc6;border-bottom:1px solid #d4cfc6;}
-#t2 .c-box h3{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:#1a1a2e;margin-bottom:0.3rem;}
-#t2 .c-box p{font-size:13px;color:#6b6560;line-height:1.7;}
-#t2 .card-item{background:#fff;border:1px solid #d4cfc6;border-radius:2px;box-shadow:2px 2px 0 rgba(0,0,0,0.04);position:relative;overflow:hidden;}
-#t2 .card-item::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:#c9a84c;}
-#t2 .card-item h3{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:#1a1a2e;margin-bottom:0.4rem;}
-#t2 .card-item p{font-size:13px;color:#6b6560;line-height:1.6;}
-#t2 .letter-box{background:#fff;border:1px solid #d4cfc6;box-shadow:0 2px 0 #d4cfc6,0 4px 0 #e8e3d8,4px 8px 28px rgba(0,0,0,0.07);}
-#t2 .letter-box::before{content:'';position:absolute;inset:0;background-image:repeating-linear-gradient(transparent,transparent 27px,rgba(212,207,198,0.45) 27px,rgba(212,207,198,0.45) 28px);pointer-events:none;}
-#t2 .letter-to{font-family:'Playfair Display',serif;font-size:13px;font-style:italic;color:#6b6560;margin-bottom:1.2rem;position:relative;}
-#t2 .letter-body{font-family:'Playfair Display',serif;font-size:clamp(14px,2.5vw,17px);line-height:2;color:#1a1a2e;font-weight:400;position:relative;}
-#t2 .letter-body em{color:#2d6a9f;font-style:italic;}
-#t2 .letter-sign{font-family:'Dancing Script',cursive;font-size:32px;color:#2d6a9f;margin-top:1.4rem;position:relative;}
-#t2 .clip{position:absolute;top:-18px;left:36px;width:25px;height:42px;border:3px solid #aaa;border-radius:11px 11px 0 0;border-bottom:none;}
-#t2 .clip::after{content:'';position:absolute;top:7px;left:50%;transform:translateX(-50%);width:10px;height:32px;border:3px solid #aaa;border-radius:7px 7px 0 0;border-bottom:none;}
-#t2 .p-sec{background:#2d6a9f;text-align:center;}
-#t2 .p-sec::before{content:'';position:absolute;inset:0;background-image:repeating-linear-gradient(transparent,transparent 35px,rgba(255,255,255,0.04) 35px,rgba(255,255,255,0.04) 36px);pointer-events:none;}
-#t2 .p-nm{font-family:'Dancing Script',cursive;font-size:clamp(65px,16vw,130px);color:#fff;line-height:0.9;position:relative;z-index:1;opacity:0;transform:scale(0.9);transition:all 1s ease 0.3s;margin-bottom:1rem;}
-#t2 .p-nm.vis{opacity:1;transform:scale(1);}
-#t2 .p-q{font-family:'Playfair Display',serif;font-size:clamp(16px,3vw,22px);font-style:italic;color:rgba(255,255,255,0.75);max-width:450px;line-height:1.7;margin-bottom:2.8rem;position:relative;z-index:1;opacity:0;transform:translateY(14px);transition:all 0.7s ease 0.5s;}
-#t2 .p-q.vis{opacity:1;transform:translateY(0);}
-#t2 .btn-yes{padding:0.85rem 2.8rem;background:#fff;color:#2d6a9f;border:none;border-radius:2px;font-family:'Playfair Display',serif;font-size:17px;font-style:italic;cursor:pointer;transition:all 0.3s;box-shadow:4px 4px 0 rgba(255,255,255,0.3);font-weight:700;}
-#t2 .btn-yes:hover{transform:translate(-2px,-2px);}
-#t2 .btn-no{padding:0.85rem 2.2rem;background:transparent;color:rgba(255,255,255,0.35);border:1px solid rgba(255,255,255,0.2);border-radius:2px;font-size:14px;}
-#t2 .yo{background:#1a2a3e;}
-#t2 .yo-title{font-family:'Dancing Script',cursive;font-size:clamp(54px,13vw,105px);color:#fff;}
-#t2 .yo-msg{font-family:'Playfair Display',serif;font-size:clamp(16px,3vw,22px);color:rgba(255,255,255,0.75);font-style:italic;}
-
-
-/* ================================================================
-   T3 — STARRY NIGHT
-================================================================ */
-#t3{background:#0a0e1a;color:#e8e4f0;}
-#t3 .cur{position:fixed;width:8px;height:8px;background:#f5d76e;border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);box-shadow:0 0 8px #f5d76e;}
-#t3 .stars-bg{position:fixed;inset:0;z-index:0;pointer-events:none;}
-#t3 .star-dot{position:absolute;border-radius:50%;background:#fff;animation:twink ease-in-out infinite;}
-@keyframes twink{0%,100%{opacity:0;transform:scale(0);}50%{opacity:1;transform:scale(1);}}
-#t3 .hero-nm{font-family:'Cinzel',serif;font-size:clamp(38px,9vw,85px);color:#f5d76e;letter-spacing:0.1em;text-shadow:0 0 40px rgba(245,215,110,0.4);}
-#t3 .hero-tag{font-family:'Cormorant Garamond',serif;font-size:clamp(15px,3vw,21px);font-style:italic;color:rgba(232,228,240,0.65);margin-top:1rem;}
-#t3 .sec-lbl{font-size:10px;letter-spacing:0.38em;text-transform:uppercase;color:rgba(245,215,110,0.7);margin-bottom:0.8rem;}
-#t3 .sec-h{font-family:'Cinzel',serif;font-size:clamp(22px,5vw,40px);color:#e8e4f0;margin-bottom:2.5rem;text-align:center;letter-spacing:0.05em;}
-#t3 .sec-h em{color:#f5d76e;font-style:normal;}
-#t3 .tl::before{content:'';position:absolute;left:19px;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,transparent,rgba(245,215,110,0.28),rgba(245,215,110,0.28),transparent);}
-#t3 .tl-dot{background:rgba(245,215,110,0.1);border:1px solid rgba(245,215,110,0.28);}
-#t3 .tl-h{font-family:'Cinzel',serif;font-size:14px;color:#f5d76e;margin-bottom:0.3rem;letter-spacing:0.04em;}
-#t3 .tl-p{font-size:14px;color:rgba(232,228,240,0.62);line-height:1.7;}
-#t3 .card-item{background:rgba(255,255,255,0.04);border:1px solid rgba(245,215,110,0.14);border-radius:12px;}
-#t3 .card-item h3{font-family:'Cinzel',serif;font-size:13px;color:#f5d76e;margin-bottom:0.4rem;letter-spacing:0.04em;}
-#t3 .card-item p{font-size:13px;color:rgba(232,228,240,0.58);line-height:1.6;}
-#t3 .letter-box{background:rgba(255,255,255,0.04);border:1px solid rgba(245,215,110,0.18);border-radius:4px;}
-#t3 .letter-to{font-family:'Cormorant Garamond',serif;font-size:14px;font-style:italic;color:rgba(245,215,110,0.6);margin-bottom:1.2rem;}
-#t3 .letter-body{font-family:'Cormorant Garamond',serif;font-size:clamp(15px,2.5vw,18px);line-height:2;color:rgba(232,228,240,0.82);font-weight:300;}
-#t3 .letter-body em{color:#f5d76e;font-style:italic;}
-#t3 .letter-sign{font-family:'Satisfy',cursive;font-size:32px;color:#f5d76e;margin-top:1.5rem;}
-#t3 .p-nm{font-family:'Cinzel',serif;font-size:clamp(46px,11vw,105px);color:#f5d76e;letter-spacing:0.1em;text-shadow:0 0 60px rgba(245,215,110,0.4);opacity:0;transform:scale(0.88);transition:all 1s ease 0.2s;margin-bottom:1.4rem;}
-#t3 .p-nm.vis{opacity:1;transform:scale(1);}
-#t3 .p-q{font-family:'Cormorant Garamond',serif;font-size:clamp(16px,3.5vw,24px);font-style:italic;color:rgba(232,228,240,0.72);max-width:450px;line-height:1.6;margin-bottom:2.8rem;opacity:0;transition:all 0.8s ease 0.4s;}
-#t3 .p-q.vis{opacity:1;}
-#t3 .btn-yes{padding:0.9rem 2.8rem;background:linear-gradient(135deg,#f5d76e,#c9a84c);color:#0a0e1a;border:none;border-radius:50px;font-family:'Cinzel',serif;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.3s;letter-spacing:0.08em;}
-#t3 .btn-yes:hover{transform:scale(1.08);}
-#t3 .btn-no{padding:0.9rem 2.2rem;background:transparent;color:rgba(232,228,240,0.28);border:1px solid rgba(232,228,240,0.14);border-radius:50px;font-size:13px;}
-#t3 .yo{background:#050810;}
-#t3 .yo-title{font-family:'Cinzel',serif;font-size:clamp(40px,9vw,82px);color:#f5d76e;letter-spacing:0.1em;}
-#t3 .yo-msg{font-family:'Cormorant Garamond',serif;font-size:clamp(16px,3vw,22px);color:rgba(232,228,240,0.72);font-style:italic;}
-
-
-/* ================================================================
-   T4 — ROYALE GOLD
-================================================================ */
-#t4{background:#0d0b08;color:#f0e6cc;}
-#t4 .cur{position:fixed;width:12px;height:12px;background:#d4af37;border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);box-shadow:0 0 10px rgba(212,175,55,0.5);}
-#t4 .gold-grid{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:repeating-linear-gradient(90deg,transparent,transparent 80px,rgba(212,175,55,0.04) 80px,rgba(212,175,55,0.04) 81px);}
-#t4 .hero-nm{font-family:'Cinzel',serif;font-size:clamp(40px,10vw,95px);color:#d4af37;letter-spacing:0.14em;text-shadow:0 0 50px rgba(212,175,55,0.28);}
-#t4 .royal-badge{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(212,175,55,0.38);padding:5px 16px;letter-spacing:0.32em;font-size:9px;text-transform:uppercase;color:#d4af37;margin-bottom:1.5rem;}
-#t4 .divider{display:flex;align-items:center;gap:12px;margin:1.2rem 0;}
-#t4 .divider::before,#t4 .divider::after{content:'';flex:1;height:1px;background:linear-gradient(to right,transparent,rgba(212,175,55,0.35));}
-#t4 .divider span{color:#d4af37;font-size:13px;}
-#t4 .hero-tag{font-family:'Cormorant Garamond',serif;font-size:clamp(15px,2.8vw,21px);font-style:italic;color:rgba(240,230,204,0.6);}
-#t4 .sec-h{font-family:'Cinzel',serif;font-size:clamp(20px,5vw,38px);color:#d4af37;margin-bottom:2.5rem;text-align:center;letter-spacing:0.1em;}
-#t4 .tl::before{content:'';position:absolute;left:19px;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,transparent,rgba(212,175,55,0.28),rgba(212,175,55,0.28),transparent);}
-#t4 .tl-dot{background:rgba(212,175,55,0.1);border:1px solid rgba(212,175,55,0.3);}
-#t4 .tl-h{font-family:'Cinzel',serif;font-size:13px;color:#d4af37;margin-bottom:0.3rem;letter-spacing:0.06em;}
-#t4 .tl-p{font-size:14px;color:rgba(240,230,204,0.58);line-height:1.7;}
-#t4 .card-item{background:rgba(212,175,55,0.05);border:1px solid rgba(212,175,55,0.18);position:relative;}
-#t4 .card-item::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,#d4af37,transparent);}
-#t4 .card-item h3{font-family:'Cinzel',serif;font-size:13px;color:#d4af37;margin-bottom:0.4rem;letter-spacing:0.06em;}
-#t4 .card-item p{font-size:13px;color:rgba(240,230,204,0.53);line-height:1.6;}
-#t4 .letter-box{background:rgba(212,175,55,0.04);border:1px solid rgba(212,175,55,0.2);position:relative;}
-#t4 .letter-box::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,#d4af37,transparent);}
-#t4 .letter-box::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,#d4af37,transparent);}
-#t4 .letter-to{font-family:'Cormorant Garamond',serif;font-size:14px;font-style:italic;color:rgba(212,175,55,0.58);margin-bottom:1.2rem;}
-#t4 .letter-body{font-family:'Cormorant Garamond',serif;font-size:clamp(15px,2.5vw,18px);line-height:2;color:rgba(240,230,204,0.78);}
-#t4 .letter-body em{color:#d4af37;font-style:italic;}
-#t4 .letter-sign{font-family:'Cinzel',serif;font-size:20px;color:#d4af37;margin-top:1.5rem;letter-spacing:0.14em;}
-#t4 .p-nm{font-family:'Cinzel',serif;font-size:clamp(40px,10vw,95px);color:#d4af37;letter-spacing:0.14em;text-shadow:0 0 60px rgba(212,175,55,0.38);opacity:0;transform:scale(0.88);transition:all 1s ease 0.2s;margin-bottom:1.3rem;}
-#t4 .p-nm.vis{opacity:1;transform:scale(1);}
-#t4 .p-q{font-family:'Cormorant Garamond',serif;font-size:clamp(16px,3.5vw,24px);font-style:italic;color:rgba(240,230,204,0.68);max-width:450px;line-height:1.6;margin-bottom:2.8rem;opacity:0;transition:all 0.8s ease 0.4s;}
-#t4 .p-q.vis{opacity:1;}
-#t4 .btn-yes{padding:0.9rem 2.8rem;background:transparent;color:#d4af37;border:1px solid #d4af37;font-family:'Cinzel',serif;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.3s;letter-spacing:0.1em;}
-#t4 .btn-yes:hover{background:#d4af37;color:#0d0b08;}
-#t4 .btn-no{padding:0.9rem 2.2rem;background:transparent;color:rgba(240,230,204,0.22);border:1px solid rgba(240,230,204,0.1);font-size:13px;}
-#t4 .yo{background:#080600;}
-#t4 .yo-title{font-family:'Cinzel',serif;font-size:clamp(38px,9vw,78px);color:#d4af37;letter-spacing:0.12em;}
-#t4 .yo-msg{font-family:'Cormorant Garamond',serif;font-size:clamp(16px,3vw,22px);color:rgba(240,230,204,0.68);font-style:italic;}
-
-
-/* ================================================================
-   T5 — SPRING GARDEN
-================================================================ */
-#t5{background:#f2f8f2;color:#1a2e1a;}
-#t5 .cur{position:fixed;width:13px;height:13px;background:#2d7a2d;border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);mix-blend-mode:multiply;}
-#t5 .leaf{position:fixed;pointer-events:none;z-index:1;animation:leafF linear infinite;opacity:0;font-size:15px;}
-@keyframes leafF{0%{transform:translateY(-20px) rotate(0deg) translateX(0);opacity:0;}10%{opacity:0.65;}90%{opacity:0.28;}100%{transform:translateY(105vh) rotate(540deg) translateX(38px);opacity:0;}}
-#t5 .hero-nm{font-family:'Sacramento',cursive;font-size:clamp(70px,17vw,140px);color:#2d7a2d;line-height:0.9;text-shadow:2px 4px 30px rgba(45,122,45,0.1);}
-#t5 .g-badge{display:inline-flex;align-items:center;gap:5px;background:#e0f0e0;color:#2d7a2d;border-radius:50px;padding:5px 13px;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:1.5rem;}
-#t5 .hero-tag{font-family:'Cormorant Garamond',serif;font-size:clamp(15px,3vw,21px);font-style:italic;color:#5a7a5a;margin-top:1.2rem;}
-#t5 .sec-lbl{font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:#4a9a4a;margin-bottom:0.8rem;}
-#t5 .sec-h{font-family:'Cormorant Garamond',serif;font-size:clamp(26px,5.5vw,44px);font-weight:300;color:#1a2e1a;margin-bottom:2.5rem;text-align:center;}
-#t5 .sec-h em{font-style:italic;color:#2d7a2d;}
-#t5 .tl::before{content:'';position:absolute;left:20px;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,transparent,rgba(45,122,45,0.22),rgba(45,122,45,0.22),transparent);}
-#t5 .tl-dot{background:#e8f5e8;border:1.5px solid rgba(45,122,45,0.22);}
-#t5 .tl-h{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:#1a2e1a;margin-bottom:0.3rem;}
-#t5 .tl-p{font-size:14px;color:#5a7a5a;line-height:1.7;}
-#t5 .card-item{background:#fff;border:1px solid rgba(45,122,45,0.1);border-radius:12px;position:relative;overflow:hidden;}
-#t5 .card-item::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(to right,#2d7a2d,#7ec87e);}
-#t5 .card-item h3{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;color:#1a2e1a;margin-bottom:0.4rem;}
-#t5 .card-item p{font-size:13px;color:#5a7a5a;line-height:1.6;}
-#t5 .letter-box{background:#fff;border:1px solid rgba(45,122,45,0.14);border-radius:4px;box-shadow:0 8px 40px rgba(45,122,45,0.07);}
-#t5 .letter-to{font-family:'Cormorant Garamond',serif;font-size:14px;font-style:italic;color:#5a7a5a;margin-bottom:1.2rem;}
-#t5 .letter-body{font-family:'Cormorant Garamond',serif;font-size:clamp(15px,2.5vw,18px);line-height:2;color:#1a2e1a;font-weight:300;}
-#t5 .letter-body em{color:#2d7a2d;font-style:italic;}
-#t5 .letter-sign{font-family:'Sacramento',cursive;font-size:32px;color:#2d7a2d;margin-top:1.5rem;}
-#t5 .p-sec{background:linear-gradient(160deg,#1a3e1a,#0e2a0e);}
-#t5 .p-nm{font-family:'Sacramento',cursive;font-size:clamp(65px,16vw,130px);color:#7ec87e;line-height:0.9;opacity:0;transform:scale(0.88);transition:all 1s ease;margin-bottom:1rem;text-shadow:0 0 60px rgba(126,200,126,0.38);}
-#t5 .p-nm.vis{opacity:1;transform:scale(1);}
-#t5 .p-q{font-family:'Cormorant Garamond',serif;font-size:clamp(16px,3.5vw,24px);font-style:italic;color:rgba(255,255,255,0.72);max-width:450px;line-height:1.6;margin-bottom:2.8rem;opacity:0;transition:all 0.8s ease 0.3s;}
-#t5 .p-q.vis{opacity:1;}
-#t5 .btn-yes{padding:0.9rem 2.8rem;background:#2d7a2d;color:#fff;border:none;border-radius:50px;font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;cursor:pointer;transition:all 0.3s;box-shadow:0 4px 28px rgba(45,122,45,0.38);}
-#t5 .btn-yes:hover{transform:scale(1.07);}
-#t5 .btn-no{padding:0.9rem 2.2rem;background:transparent;color:rgba(255,255,255,0.32);border:1px solid rgba(255,255,255,0.18);border-radius:50px;font-size:14px;}
-#t5 .yo{background:#071407;}
-#t5 .yo-title{font-family:'Sacramento',cursive;font-size:clamp(55px,13vw,108px);color:#7ec87e;}
-#t5 .yo-msg{font-family:'Cormorant Garamond',serif;font-size:clamp(16px,3vw,22px);color:rgba(255,255,255,0.72);font-style:italic;}
-
-
-/* ================================================================
-   T6 — SUNSET VIBES
-================================================================ */
-#t6{background:#fff8f2;color:#2a1a0e;}
-#t6 .cur{position:fixed;width:13px;height:13px;background:#e8621a;border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);mix-blend-mode:multiply;}
-#t6 .hero-nm{font-family:'Dancing Script',cursive;font-size:clamp(68px,16vw,136px);color:#e8621a;line-height:0.9;text-shadow:2px 4px 30px rgba(232,98,26,0.13);}
-#t6 .sun-badge{display:inline-flex;align-items:center;gap:5px;background:#fff0e8;color:#e8621a;border-radius:50px;padding:5px 13px;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:1.5rem;}
-#t6 .hero-tag{font-family:'Playfair Display',serif;font-size:clamp(15px,3vw,21px);font-style:italic;color:#8a5a3a;margin-top:1.2rem;}
-#t6 .sec-lbl{font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(232,98,26,0.75);margin-bottom:0.8rem;}
-#t6 .sec-h{font-family:'Playfair Display',serif;font-size:clamp(25px,5vw,42px);font-weight:400;color:#2a1a0e;margin-bottom:2.5rem;text-align:center;}
-#t6 .sec-h em{font-style:italic;color:#e8621a;}
-#t6 .tl::before{content:'';position:absolute;left:20px;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,transparent,rgba(232,98,26,0.22),rgba(232,98,26,0.22),transparent);}
-#t6 .tl-dot{background:#fff0e8;border:1.5px solid rgba(232,98,26,0.18);}
-#t6 .tl-h{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:#2a1a0e;margin-bottom:0.3rem;}
-#t6 .tl-p{font-size:14px;color:#8a5a3a;line-height:1.7;}
-#t6 .card-item{background:#fff;border:1px solid rgba(232,98,26,0.1);border-radius:12px;position:relative;overflow:hidden;}
-#t6 .card-item::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(to right,#e8621a,#ffb347);}
-#t6 .card-item h3{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:#2a1a0e;margin-bottom:0.4rem;}
-#t6 .card-item p{font-size:13px;color:#8a5a3a;line-height:1.6;}
-#t6 .letter-box{background:#fff;border:1px solid rgba(232,98,26,0.1);border-radius:4px;box-shadow:0 8px 40px rgba(232,98,26,0.06);}
-#t6 .letter-to{font-family:'Playfair Display',serif;font-size:14px;font-style:italic;color:#8a5a3a;margin-bottom:1.2rem;}
-#t6 .letter-body{font-family:'Playfair Display',serif;font-size:clamp(15px,2.5vw,18px);line-height:2;color:#2a1a0e;font-weight:400;}
-#t6 .letter-body em{color:#e8621a;font-style:italic;}
-#t6 .letter-sign{font-family:'Dancing Script',cursive;font-size:34px;color:#e8621a;margin-top:1.5rem;}
-#t6 .p-sec{background:linear-gradient(180deg,#1a0a04,#2a1a0e);}
-#t6 .p-nm{font-family:'Dancing Script',cursive;font-size:clamp(65px,16vw,130px);color:#ffb347;line-height:0.9;opacity:0;transform:scale(0.88);transition:all 1s ease;margin-bottom:1rem;text-shadow:0 0 60px rgba(255,179,71,0.38);}
-#t6 .p-nm.vis{opacity:1;transform:scale(1);}
-#t6 .p-q{font-family:'Playfair Display',serif;font-size:clamp(16px,3.5vw,24px);font-style:italic;color:rgba(255,255,255,0.68);max-width:450px;line-height:1.6;margin-bottom:2.8rem;opacity:0;transition:all 0.8s ease 0.3s;}
-#t6 .p-q.vis{opacity:1;}
-#t6 .btn-yes{padding:0.9rem 2.8rem;background:linear-gradient(135deg,#e8621a,#ffb347);color:#fff;border:none;border-radius:50px;font-family:'Playfair Display',serif;font-size:18px;font-style:italic;cursor:pointer;transition:all 0.3s;box-shadow:0 4px 28px rgba(232,98,26,0.38);}
-#t6 .btn-yes:hover{transform:scale(1.07);}
-#t6 .btn-no{padding:0.9rem 2.2rem;background:transparent;color:rgba(255,255,255,0.32);border:1px solid rgba(255,255,255,0.18);border-radius:50px;font-size:14px;}
-#t6 .yo{background:#100602;}
-#t6 .yo-title{font-family:'Dancing Script',cursive;font-size:clamp(55px,13vw,108px);color:#ffb347;}
-#t6 .yo-msg{font-family:'Playfair Display',serif;font-size:clamp(16px,3vw,22px);color:rgba(255,255,255,0.72);font-style:italic;}
-
-
-/* ================================================================
-   T7 — FAIRY TALE
-================================================================ */
-#t7{background:#1a0a2e;color:#e8d8f8;}
-#t7 .cur{position:fixed;width:10px;height:10px;background:#c084fc;border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);box-shadow:0 0 10px rgba(192,132,252,0.6);}
-#t7 .sparkle{position:fixed;pointer-events:none;z-index:1;animation:sparkleA ease-in-out infinite;font-size:13px;}
-@keyframes sparkleA{0%,100%{opacity:0;transform:scale(0) rotate(0deg);}50%{opacity:0.88;transform:scale(1) rotate(180deg);}}
-#t7 .hero-nm{font-family:'Dancing Script',cursive;font-size:clamp(65px,15vw,126px);color:#c084fc;line-height:0.9;text-shadow:0 0 50px rgba(192,132,252,0.38);}
-#t7 .wand{font-size:58px;display:block;margin-bottom:0.8rem;animation:wandW 2s ease-in-out infinite;}
-@keyframes wandW{0%,100%{transform:rotate(-10deg);}50%{transform:rotate(10deg);}}
-#t7 .hero-tag{font-family:'Cormorant Garamond',serif;font-size:clamp(15px,3vw,21px);font-style:italic;color:rgba(232,216,248,0.62);margin-top:1.2rem;}
-#t7 .sec-lbl{font-size:10px;letter-spacing:0.36em;text-transform:uppercase;color:rgba(192,132,252,0.72);margin-bottom:0.8rem;}
-#t7 .sec-h{font-family:'Dancing Script',cursive;font-size:clamp(26px,5.5vw,46px);color:#e8d8f8;margin-bottom:2.5rem;text-align:center;}
-#t7 .sec-h em{color:#c084fc;font-style:normal;}
-#t7 .tl::before{content:'';position:absolute;left:19px;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,transparent,rgba(192,132,252,0.28),rgba(192,132,252,0.28),transparent);}
-#t7 .tl-dot{background:rgba(192,132,252,0.1);border:1px solid rgba(192,132,252,0.28);}
-#t7 .tl-h{font-family:'Dancing Script',cursive;font-size:19px;color:#c084fc;margin-bottom:0.3rem;}
-#t7 .tl-p{font-size:14px;color:rgba(232,216,248,0.62);line-height:1.7;}
-#t7 .card-item{background:rgba(192,132,252,0.06);border:1px solid rgba(192,132,252,0.17);border-radius:16px;}
-#t7 .card-item h3{font-family:'Dancing Script',cursive;font-size:19px;color:#c084fc;margin-bottom:0.4rem;}
-#t7 .card-item p{font-size:13px;color:rgba(232,216,248,0.58);line-height:1.6;}
-#t7 .letter-box{background:rgba(192,132,252,0.06);border:1px solid rgba(192,132,252,0.18);border-radius:16px;}
-#t7 .letter-to{font-family:'Cormorant Garamond',serif;font-size:14px;font-style:italic;color:rgba(192,132,252,0.62);margin-bottom:1.2rem;}
-#t7 .letter-body{font-family:'Cormorant Garamond',serif;font-size:clamp(15px,2.5vw,18px);line-height:2;color:rgba(232,216,248,0.82);}
-#t7 .letter-body em{color:#c084fc;font-style:italic;}
-#t7 .letter-sign{font-family:'Dancing Script',cursive;font-size:32px;color:#c084fc;margin-top:1.5rem;}
-#t7 .p-nm{font-family:'Dancing Script',cursive;font-size:clamp(65px,16vw,130px);color:#c084fc;line-height:0.9;text-shadow:0 0 60px rgba(192,132,252,0.48);opacity:0;transform:scale(0.88);transition:all 1s ease 0.2s;margin-bottom:1rem;}
-#t7 .p-nm.vis{opacity:1;transform:scale(1);}
-#t7 .p-q{font-family:'Cormorant Garamond',serif;font-size:clamp(16px,3.5vw,24px);font-style:italic;color:rgba(232,216,248,0.68);max-width:450px;line-height:1.6;margin-bottom:2.8rem;opacity:0;transition:all 0.8s ease 0.4s;}
-#t7 .p-q.vis{opacity:1;}
-#t7 .btn-yes{padding:0.9rem 2.8rem;background:linear-gradient(135deg,#9333ea,#c084fc);color:#fff;border:none;border-radius:50px;font-family:'Dancing Script',cursive;font-size:22px;cursor:pointer;transition:all 0.3s;box-shadow:0 4px 28px rgba(192,132,252,0.38);}
-#t7 .btn-yes:hover{transform:scale(1.07);}
-#t7 .btn-no{padding:0.9rem 2.2rem;background:transparent;color:rgba(232,216,248,0.28);border:1px solid rgba(232,216,248,0.14);border-radius:50px;font-size:14px;}
-#t7 .yo{background:#0d0518;}
-#t7 .yo-title{font-family:'Dancing Script',cursive;font-size:clamp(55px,13vw,108px);color:#c084fc;text-shadow:0 0 80px rgba(192,132,252,0.48);}
-#t7 .yo-msg{font-family:'Cormorant Garamond',serif;font-size:clamp(16px,3vw,22px);color:rgba(232,216,248,0.72);font-style:italic;}
-
-
-/* ================================================================
-   T8 — VINTAGE CINEMA
-================================================================ */
-#t8{background:#1a1408;color:#f0e6c8;}
-#t8 .cur{position:fixed;width:11px;height:11px;background:#d4a820;border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);}
-#t8 .film-top{position:fixed;top:0;left:0;right:0;height:7px;background:repeating-linear-gradient(90deg,#1a1408 0,#1a1408 8px,#d4a820 8px,#d4a820 10px,#1a1408 10px,#1a1408 18px);z-index:5;pointer-events:none;}
-#t8 .film-bot{position:fixed;bottom:0;left:0;right:0;height:7px;background:repeating-linear-gradient(90deg,#1a1408 0,#1a1408 8px,#d4a820 8px,#d4a820 10px,#1a1408 10px,#1a1408 18px);z-index:5;pointer-events:none;}
-#t8 .hero-nm{font-family:'Cinzel',serif;font-size:clamp(38px,9.5vw,88px);color:#d4a820;letter-spacing:0.12em;text-shadow:2px 2px 20px rgba(212,168,32,0.18);}
-#t8 .v-badge{display:inline-flex;align-items:center;gap:5px;border:2px solid rgba(212,168,32,0.38);padding:5px 13px;letter-spacing:0.32em;font-size:9px;text-transform:uppercase;color:#d4a820;margin-bottom:1.5rem;}
-#t8 .film-line{width:90px;height:2px;background:linear-gradient(to right,transparent,#d4a820,transparent);margin:1.1rem auto;}
-#t8 .hero-tag{font-family:'Cormorant Garamond',serif;font-size:clamp(14px,2.8vw,20px);font-style:italic;color:rgba(240,230,200,0.58);}
-#t8 .sec-h{font-family:'Cinzel',serif;font-size:clamp(20px,5vw,38px);color:#d4a820;margin-bottom:2.5rem;text-align:center;letter-spacing:0.08em;}
-#t8 .tl::before{content:'';position:absolute;left:19px;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,transparent,rgba(212,168,32,0.28),rgba(212,168,32,0.28),transparent);}
-#t8 .tl-dot{background:rgba(212,168,32,0.08);border:1px solid rgba(212,168,32,0.28);}
-#t8 .tl-h{font-family:'Cinzel',serif;font-size:13px;color:#d4a820;margin-bottom:0.3rem;letter-spacing:0.06em;}
-#t8 .tl-p{font-size:14px;color:rgba(240,230,200,0.58);line-height:1.7;}
-#t8 .card-item{background:rgba(212,168,32,0.04);border:1px solid rgba(212,168,32,0.16);position:relative;}
-#t8 .card-item::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,#d4a820,transparent);}
-#t8 .card-item h3{font-family:'Cinzel',serif;font-size:12px;color:#d4a820;margin-bottom:0.4rem;letter-spacing:0.06em;}
-#t8 .card-item p{font-size:13px;color:rgba(240,230,200,0.52);line-height:1.6;}
-#t8 .letter-box{background:rgba(212,168,32,0.04);border:1px solid rgba(212,168,32,0.18);position:relative;}
-#t8 .letter-box::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,#d4a820,transparent);}
-#t8 .letter-box::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,#d4a820,transparent);}
-#t8 .letter-to{font-family:'Cormorant Garamond',serif;font-size:14px;font-style:italic;color:rgba(212,168,32,0.58);margin-bottom:1.2rem;}
-#t8 .letter-body{font-family:'Cormorant Garamond',serif;font-size:clamp(15px,2.5vw,18px);line-height:2;color:rgba(240,230,200,0.78);}
-#t8 .letter-body em{color:#d4a820;font-style:italic;}
-#t8 .letter-sign{font-family:'Cinzel',serif;font-size:19px;color:#d4a820;margin-top:1.5rem;letter-spacing:0.12em;}
-#t8 .p-frame{display:inline-block;border:1px solid rgba(212,168,32,0.32);padding:2.8rem 2.4rem;position:relative;width:100%;max-width:480px;text-align:center;}
-#t8 .p-frame::before{content:'✦';position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:#1a1408;padding:0 7px;color:#d4a820;font-size:13px;}
-#t8 .p-nm{font-family:'Cinzel',serif;font-size:clamp(38px,9.5vw,88px);color:#d4a820;letter-spacing:0.12em;opacity:0;transform:scale(0.88);transition:all 1s ease;text-shadow:0 0 40px rgba(212,168,32,0.28);}
-#t8 .p-nm.vis{opacity:1;transform:scale(1);}
-#t8 .p-q{font-family:'Cormorant Garamond',serif;font-size:clamp(15px,3vw,22px);font-style:italic;color:rgba(240,230,200,0.62);margin:1rem 0 2.4rem;line-height:1.6;opacity:0;transition:all 0.8s ease 0.3s;}
-#t8 .p-q.vis{opacity:1;}
-#t8 .btn-yes{padding:0.9rem 2.8rem;background:transparent;color:#d4a820;border:1px solid #d4a820;font-family:'Cinzel',serif;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.3s;letter-spacing:0.1em;}
-#t8 .btn-yes:hover{background:#d4a820;color:#1a1408;}
-#t8 .btn-no{padding:0.9rem 2.2rem;background:transparent;color:rgba(240,230,200,0.22);border:1px solid rgba(240,230,200,0.1);font-size:12px;}
-#t8 .yo{background:#0e0c04;}
-#t8 .yo-title{font-family:'Cinzel',serif;font-size:clamp(36px,9vw,74px);color:#d4a820;letter-spacing:0.12em;}
-#t8 .yo-msg{font-family:'Cormorant Garamond',serif;font-size:clamp(16px,3vw,22px);color:rgba(240,230,200,0.68);font-style:italic;}
-
-
-/* ================================================================
-   T9 — OCEAN WAVES
-================================================================ */
-#t9{background:#0a1628;color:#d0e8f8;}
-#t9 .cur{position:fixed;width:10px;height:10px;background:#4fc3f7;border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);box-shadow:0 0 10px rgba(79,195,247,0.55);}
-#t9 .wave{position:fixed;bottom:0;left:0;right:0;height:120px;z-index:0;pointer-events:none;opacity:0.15;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120'%3E%3Cpath d='M0,60 C200,100 400,20 600,60 C800,100 1000,20 1200,60 L1200,120 L0,120 Z' fill='%234fc3f7'/%3E%3C/svg%3E") repeat-x;animation:waveAnim 6s linear infinite;}
-@keyframes waveAnim{0%{background-position:0 0;}100%{background-position:1200px 0;}}
-#t9 .hero-nm{font-family:'Cinzel',serif;font-size:clamp(38px,9vw,85px);color:#4fc3f7;letter-spacing:0.1em;text-shadow:0 0 40px rgba(79,195,247,0.35);}
-#t9 .hero-tag{font-family:'Cormorant Garamond',serif;font-size:clamp(15px,3vw,21px);font-style:italic;color:rgba(208,232,248,0.62);}
-#t9 .sec-h{font-family:'Cinzel',serif;font-size:clamp(22px,5vw,40px);color:#4fc3f7;margin-bottom:2.5rem;text-align:center;letter-spacing:0.07em;}
-#t9 .tl::before{content:'';position:absolute;left:19px;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,transparent,rgba(79,195,247,0.28),rgba(79,195,247,0.28),transparent);}
-#t9 .tl-dot{background:rgba(79,195,247,0.1);border:1px solid rgba(79,195,247,0.28);}
-#t9 .tl-h{font-family:'Cinzel',serif;font-size:14px;color:#4fc3f7;margin-bottom:0.3rem;letter-spacing:0.04em;}
-#t9 .tl-p{font-size:14px;color:rgba(208,232,248,0.6);line-height:1.7;}
-#t9 .card-item{background:rgba(79,195,247,0.06);border:1px solid rgba(79,195,247,0.15);border-radius:12px;}
-#t9 .card-item h3{font-family:'Cinzel',serif;font-size:13px;color:#4fc3f7;margin-bottom:0.4rem;letter-spacing:0.04em;}
-#t9 .card-item p{font-size:13px;color:rgba(208,232,248,0.58);line-height:1.6;}
-#t9 .letter-box{background:rgba(79,195,247,0.05);border:1px solid rgba(79,195,247,0.18);border-radius:8px;}
-#t9 .letter-to{font-family:'Cormorant Garamond',serif;font-size:14px;font-style:italic;color:rgba(79,195,247,0.62);margin-bottom:1.2rem;}
-#t9 .letter-body{font-family:'Cormorant Garamond',serif;font-size:clamp(15px,2.5vw,18px);line-height:2;color:rgba(208,232,248,0.82);}
-#t9 .letter-body em{color:#4fc3f7;font-style:italic;}
-#t9 .letter-sign{font-family:'Sacramento',cursive;font-size:32px;color:#4fc3f7;margin-top:1.5rem;}
-#t9 .p-nm{font-family:'Cinzel',serif;font-size:clamp(40px,10vw,90px);color:#4fc3f7;letter-spacing:0.1em;text-shadow:0 0 60px rgba(79,195,247,0.38);opacity:0;transform:scale(0.88);transition:all 1s ease 0.2s;margin-bottom:1.3rem;}
-#t9 .p-nm.vis{opacity:1;transform:scale(1);}
-#t9 .p-q{font-family:'Cormorant Garamond',serif;font-size:clamp(16px,3.5vw,24px);font-style:italic;color:rgba(208,232,248,0.7);max-width:450px;line-height:1.6;margin-bottom:2.8rem;opacity:0;transition:all 0.8s ease 0.4s;}
-#t9 .p-q.vis{opacity:1;}
-#t9 .btn-yes{padding:0.9rem 2.8rem;background:linear-gradient(135deg,#0288d1,#4fc3f7);color:#fff;border:none;border-radius:50px;font-family:'Cinzel',serif;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.3s;letter-spacing:0.06em;}
-#t9 .btn-yes:hover{transform:scale(1.07);}
-#t9 .btn-no{padding:0.9rem 2.2rem;background:transparent;color:rgba(208,232,248,0.28);border:1px solid rgba(208,232,248,0.15);border-radius:50px;font-size:13px;}
-#t9 .yo{background:#040a14;}
-#t9 .yo-title{font-family:'Cinzel',serif;font-size:clamp(38px,9vw,80px);color:#4fc3f7;letter-spacing:0.1em;}
-#t9 .yo-msg{font-family:'Cormorant Garamond',serif;font-size:clamp(16px,3vw,22px);color:rgba(208,232,248,0.72);font-style:italic;}
-
-
-/* T10-T20 use simplified but distinct styles */
-/* T10 MOUNTAINS */
-#t10{background:#0e1a0a;color:#d8f0c8;}
-#t10 .hero-nm{font-family:'Cinzel',serif;font-size:clamp(38px,9vw,85px);color:#8bc34a;letter-spacing:0.1em;text-shadow:0 0 40px rgba(139,195,74,0.3);}
-#t10 .hero-tag{font-family:'Cormorant Garamond',serif;font-size:clamp(15px,3vw,21px);font-style:italic;color:rgba(216,240,200,0.6);}
-#t10 .p-nm{font-family:'Cinzel',serif;font-size:clamp(40px,10vw,90px);color:#8bc34a;letter-spacing:0.1em;text-shadow:0 0 60px rgba(139,195,74,0.35);opacity:0;transform:scale(0.88);transition:all 1s ease 0.2s;margin-bottom:1.3rem;}
-#t10 .p-nm.vis{opacity:1;transform:scale(1);}
-#t10 .p-q{font-family:'Cormorant Garamond',serif;font-size:clamp(16px,3.5vw,24px);font-style:italic;color:rgba(216,240,200,0.7);max-width:450px;line-height:1.6;margin-bottom:2.8rem;opacity:0;transition:all 0.8s ease 0.4s;}
-#t10 .p-q.vis{opacity:1;}
-#t10 .btn-yes{padding:0.9rem 2.8rem;background:#33691e;color:#fff;border:none;border-radius:50px;font-family:'Cinzel',serif;font-size:15px;cursor:pointer;transition:all 0.3s;letter-spacing:0.06em;}
-#t10 .btn-yes:hover{transform:scale(1.07);background:#558b2f;}
-#t10 .btn-no{padding:0.9rem 2.2rem;background:transparent;color:rgba(216,240,200,0.28);border:1px solid rgba(216,240,200,0.15);border-radius:50px;font-size:13px;}
-#t10 .yo{background:#040a02;}
-#t10 .yo-title{font-family:'Cinzel',serif;font-size:clamp(38px,9vw,80px);color:#8bc34a;letter-spacing:0.1em;}
-#t10 .yo-msg{font-family:'Cormorant Garamond',serif;font-size:clamp(16px,3vw,22px);color:rgba(216,240,200,0.72);font-style:italic;}
-#t10 .tl::before{content:'';position:absolute;left:19px;top:0;bottom:0;width:1px;background:rgba(139,195,74,0.25);}
-#t10 .tl-dot{background:rgba(139,195,74,0.1);border:1px solid rgba(139,195,74,0.25);}
-#t10 .card-item{background:rgba(139,195,74,0.06);border:1px solid rgba(139,195,74,0.14);border-radius:12px;}
-#t10 .letter-box{background:rgba(139,195,74,0.04);border:1px solid rgba(139,195,74,0.16);border-radius:8px;}
-
-/* T11 RAIN */
-#t11{background:#1a1e2e;color:#d8e0f8;}
-#t11 .hero-nm{font-family:'Satisfy',cursive;font-size:clamp(60px,14vw,125px);color:#90caf9;text-shadow:0 0 40px rgba(144,202,249,0.3);}
-#t11 .hero-tag{font-family:'Cormorant Garamond',serif;font-size:clamp(15px,3vw,21px);font-style:italic;color:rgba(216,224,248,0.6);}
-#t11 .p-nm{font-family:'Satisfy',cursive;font-size:clamp(58px,14vw,120px);color:#90caf9;text-shadow:0 0 60px rgba(144,202,249,0.35);opacity:0;transform:scale(0.88);transition:all 1s ease 0.2s;margin-bottom:1.3rem;}
-#t11 .p-nm.vis{opacity:1;transform:scale(1);}
-#t11 .p-q{font-family:'Cormorant Garamond',serif;font-size:clamp(16px,3.5vw,24px);font-style:italic;color:rgba(216,224,248,0.7);max-width:450px;line-height:1.6;margin-bottom:2.8rem;opacity:0;transition:all 0.8s ease 0.4s;}
-#t11 .p-q.vis{opacity:1;}
-#t11 .btn-yes{padding:0.9rem 2.8rem;background:rgba(144,202,249,0.2);color:#90caf9;border:1px solid #90caf9;border-radius:50px;font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;cursor:pointer;transition:all 0.3s;}
-#t11 .btn-yes:hover{background:#90caf9;color:#1a1e2e;}
-#t11 .btn-no{padding:0.9rem 2.2rem;background:transparent;color:rgba(216,224,248,0.28);border:1px solid rgba(216,224,248,0.15);border-radius:50px;font-size:13px;}
-#t11 .yo{background:#0a0c18;}
-#t11 .yo-title{font-family:'Satisfy',cursive;font-size:clamp(55px,12vw,105px);color:#90caf9;}
-#t11 .yo-msg{font-family:'Cormorant Garamond',serif;font-size:clamp(16px,3vw,22px);color:rgba(216,224,248,0.72);font-style:italic;}
-#t11 .tl::before{content:'';position:absolute;left:19px;top:0;bottom:0;width:1px;background:rgba(144,202,249,0.22);}
-#t11 .tl-dot{background:rgba(144,202,249,0.1);border:1px solid rgba(144,202,249,0.22);}
-#t11 .card-item{background:rgba(144,202,249,0.05);border:1px solid rgba(144,202,249,0.13);border-radius:12px;}
-#t11 .letter-box{background:rgba(144,202,249,0.04);border:1px solid rgba(144,202,249,0.15);border-radius:8px;}
-
-/* T12 MIDNIGHT */
-#t12{background:#050510;color:#e8d8f8;}
-#t12 .hero-nm{font-family:'Cinzel',serif;font-size:clamp(38px,9vw,85px);color:#e040fb;letter-spacing:0.1em;text-shadow:0 0 60px rgba(224,64,251,0.45);}
-#t12 .hero-tag{font-family:'Cormorant Garamond',serif;font-size:clamp(15px,3vw,21px);font-style:italic;color:rgba(232,216,248,0.6);}
-#t12 .p-nm{font-family:'Cinzel',serif;font-size:clamp(40px,10vw,90px);color:#e040fb;letter-spacing:0.1em;text-shadow:0 0 80px rgba(224,64,251,0.5);opacity:0;transform:scale(0.88);transition:all 1s ease 0.2s;margin-bottom:1.3rem;}
-#t12 .p-nm.vis{opacity:1;transform:scale(1);}
-#t12 .p-q{font-family:'Cormorant Garamond',serif;font-size:clamp(16px,3.5vw,24px);font-style:italic;color:rgba(232,216,248,0.7);max-width:450px;line-height:1.6;margin-bottom:2.8rem;opacity:0;transition:all 0.8s ease 0.4s;}
-#t12 .p-q.vis{opacity:1;}
-#t12 .btn-yes{padding:0.9rem 2.8rem;background:linear-gradient(135deg,#7b1fa2,#e040fb);color:#fff;border:none;border-radius:50px;font-family:'Cinzel',serif;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.3s;letter-spacing:0.06em;}
-#t12 .btn-yes:hover{transform:scale(1.07);}
-#t12 .btn-no{padding:0.9rem 2.2rem;background:transparent;color:rgba(232,216,248,0.25);border:1px solid rgba(232,216,248,0.12);border-radius:50px;font-size:13px;}
-#t12 .yo{background:#020108;}
-#t12 .yo-title{font-family:'Cinzel',serif;font-size:clamp(38px,9vw,80px);color:#e040fb;letter-spacing:0.1em;}
-#t12 .yo-msg{font-family:'Cormorant Garamond',serif;font-size:clamp(16px,3vw,22px);color:rgba(232,216,248,0.72);font-style:italic;}
-#t12 .tl::before{content:'';position:absolute;left:19px;top:0;bottom:0;width:1px;background:rgba(224,64,251,0.22);}
-#t12 .tl-dot{background:rgba(224,64,251,0.1);border:1px solid rgba(224,64,251,0.22);}
-#t12 .card-item{background:rgba(224,64,251,0.05);border:1px solid rgba(224,64,251,0.14);border-radius:12px;}
-#t12 .letter-box{background:rgba(224,64,251,0.04);border:1px solid rgba(224,64,251,0.15);border-radius:8px;}
-
-/* T13 SPRING PINK */
-#t13{background:#fff5f8;color:#2a0a18;}
-#t13 .hero-nm{font-family:'Sacramento',cursive;font-size:clamp(75px,18vw,152px);color:#e91e8c;line-height:0.9;text-shadow:2px 4px 30px rgba(233,30,140,0.12);}
-#t13 .hero-tag{font-family:'Cormorant Garamond',serif;font-size:clamp(15px,3vw,21px);font-style:italic;color:#8a4a6a;margin-top:1.2rem;}
-#t13 .p-nm{font-family:'Sacramento',cursive;font-size:clamp(68px,17vw,135px);color:#e91e8c;line-height:0.9;text-shadow:0 0 60px rgba(233,30,140,0.35);opacity:0;transform:scale(0.88);transition:all 1s ease;margin-bottom:1rem;}
-#t13 .p-nm.vis{opacity:1;transform:scale(1);}
-#t13 .p-q{font-family:'Cormorant Garamond',serif;font-size:clamp(16px,3.5vw,24px);font-style:italic;color:rgba(42,10,24,0.7);max-width:450px;line-height:1.6;margin-bottom:2.8rem;opacity:0;transition:all 0.8s ease 0.3s;}
-#t13 .p-q.vis{opacity:1;}
-#t13 .btn-yes{padding:0.9rem 2.8rem;background:#e91e8c;color:#fff;border:none;border-radius:50px;font-family:'Cormorant Garamond',serif;font-size:19px;font-style:italic;cursor:pointer;transition:all 0.3s;box-shadow:0 4px 28px rgba(233,30,140,0.35);}
-#t13 .btn-yes:hover{transform:scale(1.07);}
-#t13 .btn-no{padding:0.9rem 2.2rem;background:transparent;color:rgba(42,10,24,0.35);border:1px solid rgba(42,10,24,0.15);border-radius:50px;font-size:14px;}
-#t13 .p-sec{background:linear-gradient(160deg,#2a0a18,#1a0510);}
-#t13 .yo{background:#140508;}
-#t13 .yo-title{font-family:'Sacramento',cursive;font-size:clamp(55px,13vw,108px);color:#e91e8c;}
-#t13 .yo-msg{font-family:'Cormorant Garamond',serif;font-size:clamp(16px,3vw,22px);color:rgba(255,200,220,0.8);font-style:italic;}
-#t13 .tl::before{content:'';position:absolute;left:19px;top:0;bottom:0;width:1px;background:rgba(233,30,140,0.2);}
-#t13 .tl-dot{background:#fce4ec;border:1.5px solid rgba(233,30,140,0.2);}
-#t13 .card-item{background:#fff;border:1px solid rgba(233,30,140,0.1);border-radius:14px;}
-#t13 .letter-box{background:#fff;border:1px solid rgba(233,30,140,0.12);border-radius:4px;box-shadow:0 8px 40px rgba(233,30,140,0.06);}
-
-/* T14 AUTUMN */
-#t14{background:#1e1008;color:#f8e8c8;}
-#t14 .hero-nm{font-family:'Dancing Script',cursive;font-size:clamp(65px,16vw,132px);color:#ff8f00;line-height:0.9;text-shadow:2px 4px 30px rgba(255,143,0,0.18);}
-#t14 .hero-tag{font-family:'Cormorant Garamond',serif;font-size:clamp(15px,3vw,21px);font-style:italic;color:rgba(248,232,200,0.6);}
-#t14 .p-nm{font-family:'Dancing Script',cursive;font-size:clamp(62px,16vw,128px);color:#ff8f00;line-height:0.9;text-shadow:0 0 60px rgba(255,143,0,0.35);opacity:0;transform:scale(0.88);transition:all 1s ease;margin-bottom:1rem;}
-#t14 .p-nm.vis{opacity:1;transform:scale(1);}
-#t14 .p-q{font-family:'Cormorant Garamond',serif;font-size:clamp(16px,3.5vw,24px);font-style:italic;color:rgba(248,232,200,0.7);max-width:450px;line-height:1.6;margin-bottom:2.8rem;opacity:0;transition:all 0.8s ease 0.3s;}
-#t14 .p-q.vis{opacity:1;}
-#t14 .btn-yes{padding:0.9rem 2.8rem;background:linear-gradient(135deg,#e65100,#ff8f00);color:#fff;border:none;border-radius:50px;font-family:'Dancing Script',cursive;font-size:22px;cursor:pointer;transition:all 0.3s;}
-#t14 .btn-yes:hover{transform:scale(1.07);}
-#t14 .btn-no{padding:0.9rem 2.2rem;background:transparent;color:rgba(248,232,200,0.3);border:1px solid rgba(248,232,200,0.15);border-radius:50px;font-size:14px;}
-#t14 .yo{background:#0c0804;}
-#t14 .yo-title{font-family:'Dancing Script',cursive;font-size:clamp(55px,13vw,108px);color:#ff8f00;}
-#t14 .yo-msg{font-family:'Cormorant Garamond',serif;font-size:clamp(16px,3vw,22px);color:rgba(248,232,200,0.72);font-style:italic;}
-#t14 .tl::before{content:'';position:absolute;left:19px;top:0;bottom:0;width:1px;background:rgba(255,143,0,0.22);}
-#t14 .tl-dot{background:rgba(255,143,0,0.1);border:1px solid rgba(255,143,0,0.22);}
-#t14 .card-item{background:rgba(255,143,0,0.05);border:1px solid rgba(255,143,0,0.15);border-radius:12px;}
-#t14 .letter-box{background:rgba(255,143,0,0.04);border:1px solid rgba(255,143,0,0.16);border-radius:8px;}
-
-/* T15 NEON */
-#t15{background:#0a0015;color:#f8d8ff;}
-#t15 .hero-nm{font-family:'Cinzel',serif;font-size:clamp(38px,9vw,85px);color:#ff00ff;letter-spacing:0.1em;text-shadow:0 0 20px #ff00ff,0 0 60px rgba(255,0,255,0.4);}
-#t15 .hero-tag{font-family:'Cormorant Garamond',serif;font-size:clamp(15px,3vw,21px);font-style:italic;color:rgba(248,216,255,0.6);}
-#t15 .p-nm{font-family:'Cinzel',serif;font-size:clamp(38px,9.5vw,88px);color:#ff00ff;letter-spacing:0.1em;text-shadow:0 0 20px #ff00ff,0 0 80px rgba(255,0,255,0.5);opacity:0;transform:scale(0.88);transition:all 1s ease 0.2s;margin-bottom:1.3rem;}
-#t15 .p-nm.vis{opacity:1;transform:scale(1);}
-#t15 .p-q{font-family:'Cormorant Garamond',serif;font-size:clamp(16px,3.5vw,24px);font-style:italic;color:rgba(248,216,255,0.7);max-width:450px;line-height:1.6;margin-bottom:2.8rem;opacity:0;transition:all 0.8s ease 0.4s;}
-#t15 .p-q.vis{opacity:1;}
-#t15 .btn-yes{padding:0.9rem 2.8rem;background:transparent;color:#ff00ff;border:1px solid #ff00ff;border-radius:50px;font-family:'Cinzel',serif;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.3s;box-shadow:0 0 20px rgba(255,0,255,0.3);}
-#t15 .btn-yes:hover{background:#ff00ff;color:#0a0015;box-shadow:0 0 40px rgba(255,0,255,0.5);}
-#t15 .btn-no{padding:0.9rem 2.2rem;background:transparent;color:rgba(248,216,255,0.25);border:1px solid rgba(248,216,255,0.12);border-radius:50px;font-size:13px;}
-#t15 .yo{background:#050008;}
-#t15 .yo-title{font-family:'Cinzel',serif;font-size:clamp(38px,9vw,80px);color:#ff00ff;letter-spacing:0.1em;text-shadow:0 0 20px #ff00ff;}
-#t15 .yo-msg{font-family:'Cormorant Garamond',serif;font-size:clamp(16px,3vw,22px);color:rgba(248,216,255,0.72);font-style:italic;}
-#t15 .tl::before{content:'';position:absolute;left:19px;top:0;bottom:0;width:1px;background:rgba(255,0,255,0.22);}
-#t15 .tl-dot{background:rgba(255,0,255,0.1);border:1px solid rgba(255,0,255,0.25);}
-#t15 .card-item{background:rgba(255,0,255,0.05);border:1px solid rgba(255,0,255,0.14);border-radius:12px;}
-#t15 .letter-box{background:rgba(255,0,255,0.04);border:1px solid rgba(255,0,255,0.16);border-radius:8px;}
-
-/* T16 MINIMAL */
-#t16{background:#fafafa;color:#111;}
-#t16 .hero-nm{font-family:'Cormorant Garamond',serif;font-size:clamp(42px,10vw,96px);color:#111;font-weight:300;letter-spacing:0.05em;}
-#t16 .hero-tag{font-family:'Cormorant Garamond',serif;font-size:clamp(15px,3vw,21px);font-style:italic;color:#666;margin-top:1.2rem;}
-#t16 .p-nm{font-family:'Cormorant Garamond',serif;font-size:clamp(42px,10vw,96px);color:#111;font-weight:300;letter-spacing:0.05em;opacity:0;transform:scale(0.88);transition:all 1s ease 0.2s;margin-bottom:1.3rem;}
-#t16 .p-nm.vis{opacity:1;transform:scale(1);}
-#t16 .p-q{font-family:'Cormorant Garamond',serif;font-size:clamp(16px,3.5vw,24px);font-style:italic;color:#555;max-width:450px;line-height:1.6;margin-bottom:2.8rem;opacity:0;transition:all 0.8s ease 0.4s;}
-#t16 .p-q.vis{opacity:1;}
-#t16 .btn-yes{padding:0.9rem 2.8rem;background:#111;color:#fff;border:none;border-radius:0;font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;cursor:pointer;transition:all 0.3s;letter-spacing:0.1em;}
-#t16 .btn-yes:hover{background:#333;}
-#t16 .btn-no{padding:0.9rem 2.2rem;background:transparent;color:#bbb;border:1px solid #ddd;font-size:13px;}
-#t16 .p-sec{background:#111;}
-#t16 .p-nm{color:#fff;}
-#t16 .p-q{color:rgba(255,255,255,0.68);}
-#t16 .btn-yes{background:#fff;color:#111;}
-#t16 .yo{background:#111;}
-#t16 .yo-title{font-family:'Cormorant Garamond',serif;font-size:clamp(38px,9vw,80px);color:#fff;font-weight:300;letter-spacing:0.1em;}
-#t16 .yo-msg{font-family:'Cormorant Garamond',serif;font-size:clamp(16px,3vw,22px);color:rgba(255,255,255,0.72);font-style:italic;}
-#t16 .tl::before{content:'';position:absolute;left:19px;top:0;bottom:0;width:1px;background:#ddd;}
-#t16 .tl-dot{background:#f5f5f5;border:1.5px solid #ddd;}
-#t16 .card-item{background:#fff;border:1px solid #eee;border-radius:0;}
-#t16 .letter-box{background:#fff;border:1px solid #eee;border-radius:0;box-shadow:0 4px 30px rgba(0,0,0,0.06);}
-
-/* T17 RETRO 80s */
-#t17{background:#1a0030;color:#fff0ff;}
-#t17 .hero-nm{font-family:'Dancing Script',cursive;font-size:clamp(62px,15vw,128px);color:#ff1493;text-shadow:3px 3px 0 #ff69b4,6px 6px 0 rgba(255,20,147,0.3);}
-#t17 .hero-tag{font-family:'Lato',sans-serif;font-size:clamp(13px,2.5vw,18px);color:rgba(255,240,255,0.6);letter-spacing:0.08em;}
-#t17 .p-nm{font-family:'Dancing Script',cursive;font-size:clamp(60px,15vw,125px);color:#ff1493;text-shadow:3px 3px 0 #ff69b4;opacity:0;transform:scale(0.88);transition:all 1s ease 0.2s;margin-bottom:1.3rem;}
-#t17 .p-nm.vis{opacity:1;transform:scale(1);}
-#t17 .p-q{font-family:'Cormorant Garamond',serif;font-size:clamp(16px,3.5vw,24px);font-style:italic;color:rgba(255,240,255,0.7);max-width:450px;line-height:1.6;margin-bottom:2.8rem;opacity:0;transition:all 0.8s ease 0.4s;}
-#t17 .p-q.vis{opacity:1;}
-#t17 .btn-yes{padding:0.9rem 2.8rem;background:linear-gradient(135deg,#ff1493,#ff69b4);color:#fff;border:none;border-radius:50px;font-family:'Dancing Script',cursive;font-size:22px;cursor:pointer;transition:all 0.3s;}
-#t17 .btn-yes:hover{transform:scale(1.07);}
-#t17 .btn-no{padding:0.9rem 2.2rem;background:transparent;color:rgba(255,240,255,0.28);border:1px solid rgba(255,240,255,0.14);border-radius:50px;font-size:13px;}
-#t17 .yo{background:#0d0018;}
-#t17 .yo-title{font-family:'Dancing Script',cursive;font-size:clamp(55px,13vw,108px);color:#ff1493;}
-#t17 .yo-msg{font-family:'Cormorant Garamond',serif;font-size:clamp(16px,3vw,22px);color:rgba(255,240,255,0.72);font-style:italic;}
-#t17 .tl::before{content:'';position:absolute;left:19px;top:0;bottom:0;width:1px;background:rgba(255,20,147,0.22);}
-#t17 .tl-dot{background:rgba(255,20,147,0.1);border:1px solid rgba(255,20,147,0.25);}
-#t17 .card-item{background:rgba(255,20,147,0.05);border:1px solid rgba(255,20,147,0.15);border-radius:14px;}
-#t17 .letter-box{background:rgba(255,20,147,0.04);border:1px solid rgba(255,20,147,0.16);border-radius:8px;}
-
-/* T18 BOLLYWOOD */
-#t18{background:#1a0808;color:#fff8e8;}
-#t18 .hero-nm{font-family:'Cinzel',serif;font-size:clamp(38px,9vw,85px);color:#ff6f00;letter-spacing:0.12em;text-shadow:0 0 30px rgba(255,111,0,0.4);}
-#t18 .hero-tag{font-family:'Cormorant Garamond',serif;font-size:clamp(15px,3vw,21px);font-style:italic;color:rgba(255,248,232,0.6);}
-#t18 .p-nm{font-family:'Cinzel',serif;font-size:clamp(38px,9.5vw,88px);color:#ff6f00;letter-spacing:0.12em;text-shadow:0 0 60px rgba(255,111,0,0.45);opacity:0;transform:scale(0.88);transition:all 1s ease 0.2s;margin-bottom:1.3rem;}
-#t18 .p-nm.vis{opacity:1;transform:scale(1);}
-#t18 .p-q{font-family:'Cormorant Garamond',serif;font-size:clamp(16px,3.5vw,24px);font-style:italic;color:rgba(255,248,232,0.7);max-width:450px;line-height:1.6;margin-bottom:2.8rem;opacity:0;transition:all 0.8s ease 0.4s;}
-#t18 .p-q.vis{opacity:1;}
-#t18 .btn-yes{padding:0.9rem 2.8rem;background:linear-gradient(135deg,#e65100,#ff6f00);color:#fff;border:none;border-radius:50px;font-family:'Cinzel',serif;font-size:15px;font-weight:600;cursor:pointer;transition:all 0.3s;letter-spacing:0.08em;}
-#t18 .btn-yes:hover{transform:scale(1.07);}
-#t18 .btn-no{padding:0.9rem 2.2rem;background:transparent;color:rgba(255,248,232,0.28);border:1px solid rgba(255,248,232,0.15);border-radius:50px;font-size:13px;}
-#t18 .yo{background:#0c0404;}
-#t18 .yo-title{font-family:'Cinzel',serif;font-size:clamp(38px,9vw,80px);color:#ff6f00;letter-spacing:0.12em;}
-#t18 .yo-msg{font-family:'Cormorant Garamond',serif;font-size:clamp(16px,3vw,22px);color:rgba(255,248,232,0.72);font-style:italic;}
-#t18 .tl::before{content:'';position:absolute;left:19px;top:0;bottom:0;width:1px;background:rgba(255,111,0,0.22);}
-#t18 .tl-dot{background:rgba(255,111,0,0.1);border:1px solid rgba(255,111,0,0.22);}
-#t18 .card-item{background:rgba(255,111,0,0.05);border:1px solid rgba(255,111,0,0.15);border-radius:12px;}
-#t18 .letter-box{background:rgba(255,111,0,0.04);border:1px solid rgba(255,111,0,0.16);border-radius:8px;}
-
-/* T19 POETRY */
-#t19{background:#f8f4ee;color:#2a1e10;}
-#t19 .hero-nm{font-family:'Cormorant Garamond',serif;font-size:clamp(48px,11vw,105px);color:#8d6e63;font-weight:300;font-style:italic;}
-#t19 .hero-tag{font-family:'Cormorant Garamond',serif;font-size:clamp(15px,3vw,21px);font-style:italic;color:#8d6e63;margin-top:1.2rem;}
-#t19 .p-nm{font-family:'Cormorant Garamond',serif;font-size:clamp(45px,11vw,100px);color:#8d6e63;font-weight:300;font-style:italic;opacity:0;transform:scale(0.88);transition:all 1s ease 0.2s;margin-bottom:1.3rem;}
-#t19 .p-nm.vis{opacity:1;transform:scale(1);}
-#t19 .p-q{font-family:'Cormorant Garamond',serif;font-size:clamp(16px,3.5vw,24px);font-style:italic;color:#5d4037;max-width:450px;line-height:1.7;margin-bottom:2.8rem;opacity:0;transition:all 0.8s ease 0.4s;}
-#t19 .p-q.vis{opacity:1;}
-#t19 .btn-yes{padding:0.9rem 2.8rem;background:#8d6e63;color:#fff;border:none;border-radius:50px;font-family:'Cormorant Garamond',serif;font-size:19px;font-style:italic;cursor:pointer;transition:all 0.3s;}
-#t19 .btn-yes:hover{background:#6d4c41;transform:scale(1.04);}
-#t19 .btn-no{padding:0.9rem 2.2rem;background:transparent;color:#bcaaa4;border:1px solid #d7ccc8;border-radius:50px;font-size:14px;}
-#t19 .p-sec{background:#3e2723;}
-#t19 .p-nm{color:#ffccbc;}
-#t19 .p-q{color:rgba(255,255,255,0.7);}
-#t19 .yo{background:#1a0e08;}
-#t19 .yo-title{font-family:'Cormorant Garamond',serif;font-size:clamp(38px,9vw,80px);color:#ffccbc;font-weight:300;font-style:italic;}
-#t19 .yo-msg{font-family:'Cormorant Garamond',serif;font-size:clamp(16px,3vw,22px);color:rgba(255,255,255,0.72);font-style:italic;}
-#t19 .tl::before{content:'';position:absolute;left:19px;top:0;bottom:0;width:1px;background:rgba(141,110,99,0.2);}
-#t19 .tl-dot{background:#efebe9;border:1.5px solid rgba(141,110,99,0.2);}
-#t19 .card-item{background:#fff;border:1px solid rgba(141,110,99,0.14);border-radius:4px;}
-#t19 .letter-box{background:#fff;border:1px solid rgba(141,110,99,0.14);border-radius:4px;box-shadow:0 8px 40px rgba(141,110,99,0.08);}
-
-/* T20 LOFI */
-#t20{background:#1a1a2e;color:#e8e0d8;}
-#t20 .hero-nm{font-family:'Satisfy',cursive;font-size:clamp(62px,15vw,126px);color:#f48fb1;text-shadow:0 0 40px rgba(244,143,177,0.3);}
-#t20 .hero-tag{font-family:'Lato',sans-serif;font-size:clamp(13px,2.5vw,18px);font-weight:300;color:rgba(232,224,216,0.6);letter-spacing:0.08em;}
-#t20 .p-nm{font-family:'Satisfy',cursive;font-size:clamp(60px,14vw,122px);color:#f48fb1;text-shadow:0 0 60px rgba(244,143,177,0.35);opacity:0;transform:scale(0.88);transition:all 1s ease 0.2s;margin-bottom:1.3rem;}
-#t20 .p-nm.vis{opacity:1;transform:scale(1);}
-#t20 .p-q{font-family:'Cormorant Garamond',serif;font-size:clamp(16px,3.5vw,24px);font-style:italic;color:rgba(232,224,216,0.7);max-width:450px;line-height:1.6;margin-bottom:2.8rem;opacity:0;transition:all 0.8s ease 0.4s;}
-#t20 .p-q.vis{opacity:1;}
-#t20 .btn-yes{padding:0.9rem 2.8rem;background:rgba(244,143,177,0.18);color:#f48fb1;border:1px solid rgba(244,143,177,0.5);border-radius:50px;font-family:'Satisfy',cursive;font-size:22px;cursor:pointer;transition:all 0.3s;}
-#t20 .btn-yes:hover{background:#f48fb1;color:#1a1a2e;}
-#t20 .btn-no{padding:0.9rem 2.2rem;background:transparent;color:rgba(232,224,216,0.28);border:1px solid rgba(232,224,216,0.14);border-radius:50px;font-size:13px;}
-#t20 .yo{background:#0e0e1a;}
-#t20 .yo-title{font-family:'Satisfy',cursive;font-size:clamp(55px,13vw,108px);color:#f48fb1;}
-#t20 .yo-msg{font-family:'Cormorant Garamond',serif;font-size:clamp(16px,3vw,22px);color:rgba(232,224,216,0.72);font-style:italic;}
-#t20 .tl::before{content:'';position:absolute;left:19px;top:0;bottom:0;width:1px;background:rgba(244,143,177,0.2);}
-#t20 .tl-dot{background:rgba(244,143,177,0.1);border:1px solid rgba(244,143,177,0.22);}
-#t20 .card-item{background:rgba(244,143,177,0.05);border:1px solid rgba(244,143,177,0.13);border-radius:14px;}
-#t20 .letter-box{background:rgba(244,143,177,0.04);border:1px solid rgba(244,143,177,0.15);border-radius:8px;}
+@media(max-width:480px){
+  #theme-college .c-story-timeline::before{left:70px;}
+  #theme-college .c-story-item{grid-template-columns:70px 1fr;}
+  #theme-college .c-letter{padding:2rem 1.5rem;}
+  #theme-college .spiral{display:none;}
+  #theme-college{cursor:auto;}
+  #theme-romantic{cursor:auto;}
+  #theme-romantic .cursor,#theme-romantic .cursor-trail,#theme-college .cursor{display:none;}
+}
 </style>
 </head>
 <body>
 
-<!-- LOADING -->
-<div id="loading">
-  <p class="ld-text">Tumhare liye kuch khaas hai...</p>
-  <div><span class="ld"></span><span class="ld"></span><span class="ld"></span></div>
-</div>
-
-<!-- ERROR -->
-<div id="error-page">
-  <h2>Oops! 💔</h2>
-  <p>Yeh link valid nahi hai.<br>Propose karne wale se dobara link maango!</p>
-  <a href="/">Nayi proposal banao</a>
-</div>
-
-<!-- 20 THEME WRAPPERS — HTML structure same for all, CSS handles looks -->
-<script>
-// Generate all 20 theme HTML dynamically to avoid repetition
-const themeData = [
-  { id:1,  heroText:'Kuch kehna hai tujhe... dil se 🌹',     tlItems:[['✨','Pehli mulaqaat','Online hua ek anjana sa connection — kya pata tha yahi meri duniya badal dega.'],['💬','Ghanton ki baatein','Raat ke 2 baj jaate, baatein khatam na hoti. Sukoon deta tha tera saath.'],['🌙','Samajh aaya','Ek din achanak — yeh sirf dosti nahi hai. Tujhe sochte sochte din guzarne lage.'],['💗','Aaj ka din','Aaj woh pal aaya hai jab dil ki baat kehni thi. Sirf tere liye yeh page...']], cards:[['😊','Teri muskaan','Teri ek smile se mera poora din ban jaata hai.'],['🧠','Tera dimag','Tu sochti hai — teri intelligence mujhe bahut attract karti hai.'],['🤝','Tera saath','Tere saath silence mein bhi comfortable hun main.'],['💫','Teri rooh','Tu genuinely caring hai, real hai. Yeh rarity hai aajkal.'],['🌙','Teri raatein','Raat ko baat karte karte jo tujhe jaanta hun — woh version pyaara lagta hai.'],['🌺','Bas tu','Koi reason nahi chahiye. Tu hai — yahi kaafi hai.']], letterTo:'Meri pyaari', letterText:'Pata nahi kaisa likhu yeh sab — lekin <em>tere liye kuch feel karta hun jo alfaazon mein band karna mushkil hai.</em> Jab se tujhse mila hun, har din thoda acha lagta hai. <em>Kya tum meri girlfriend banogi?</em> 🌹', letterSign:'Tere liye ✦', propBig:'Will You Be', propQ:'Kya tu meri girlfriend banegi? Main promise karta hun — har khushi mein tera saath dunga.', btnText:'Haan, bilkul! 💕', yesEmoji:'🌹', yesMsg:'Shukriya... Tu mere liye sabse khaas hai. Ab hum saath hain! 🌸' },
-  { id:2,  heroText:'Yeh notebook sirf tere liye hai 📚',    tlItems:[['🎒','Orientation mein','Bheed mein ek chehra alag dikh raha tha. Tumhara. Kya pata tha yahi sab badal dega.'],['📖','Library ki seat','Har roz wahi corner — sirf isliye ki tum wahan baithi hoti thi.'],['☕','Pehli baat','Tumne "hi" kaha tha. Woh ek lafz ek poora din ban gaya tha mere liye.'],['💌','Aaj','Aaj yeh notebook likhne ka waqt aa gaya — dil ki baat, seedhi tumhare liye.']], cards:[['📝','Teri concentration','Jab tu padhti hai toh poori duniya band ho jaati hai.'],['😄','Woh hasi','Cafeteria mein jo tujhe funny lagta hai woh mujhe bhi lagne lagta hai teri wajah se.'],['💡','Teri passion','Apne subject ke baare mein bolti hai toh aankhon mein alag chamak aati hai.'],['❤️','Tera dil','Tu genuinely caring hai. Yeh rarity hai aajkal.'],['🌧️','Rainy days','College canteen mein chai aur baarish — yeh tere saath imagine karta hun hamesha.'],['🌟','Bas Tu','Koi reason nahi chahiye. Tu hai — yahi kaafi hai.']], letterTo:'Mere pyaare', letterText:'Kai baar socha ki seedha bol dun — lekin <em>lafz hi nahi milte the jab tum saamne hoti thi.</em> College ke yeh din khatam ho jayenge — lekin <em>tum mujhe bahut pasand ho.</em>', letterSign:'Tere liye ✦', propBig:'', propQ:'Kya tum meri girlfriend banogi?', btnText:'Haan, bilkul! 💙', yesEmoji:'🎓', yesMsg:'Shukriya... Ab yeh college story sirf padhai ki nahi, hamare baare mein bhi hogi! 📚' },
-  { id:3,  heroText:'Raat ke taaron ne kaha — yeh dil ki baat keh de', tlItems:[['⭐','Pehla Aasman','Pehli baar mila tha — tab bhi tere andar ek chamak thi jo mujhe kheench gayi.'],['🌟','Taaron Ki Baatein','Raat ko baat karna — jab sab so jaate the, hum taaron se baat karte rehte the.'],['💫','Dil Ki Awaaz','Ek raat samajha — yeh dil sirf ek ki baat karta hai. Teri baat.'],['✨','Aaj Ki Raat','Aaj taaron ne kaha — waqt aa gaya hai. Dil ki baat kehne ka.']], cards:[['🌙','Teri Aankhein','Unme ek poora aasman rehta hai — main khona chahta hun.'],['💛','Teri Hasi','Taaron se zyada roshni hai teri ek hasi mein.'],['🗣️','Teri Baatein','Ghanton tak teri baatein — waqt rukna chahta hai.'],['💧','Tera Dard','Jab tu dukhi hoti hai, aasman bhi udaas lagta hai.'],['🤫','Teri Khamoshi','Tere saath khamosh rehna bhi bahut kuch kehta hai.'],['🌠','Bas Tu','Har tara tujhe dhundhta hai. Main bhi.']], letterTo:'Mere taaron wali', letterText:'Teri aankhon mein jo roshni hai — <em>woh kisi bhi tare se zyada chamakdar hai.</em> Raat ke andhere mein tujhe sochna — yahi mera subah ka wait karna hai. <em>Kya tum meri aasman ki roshni banogi?</em> 🌙', letterSign:'Tera Aashiq ✦', propBig:'Mere Aasman Ki', propQ:'Kya tum meri duniya ka sabse khaas tara banogi?', btnText:'Haan, bilkul! ⭐', yesEmoji:'🌟', yesMsg:'Aaj se tum mere aasman ki sabse chamakdar roshni ho. Hamesha. 🌙' },
-  { id:4,  heroText:'Ek shahi andaaz mein — dil ki baat 👑',  tlItems:[['👑','Pehli Nazar','Ek nazar mein hi samajh gaya — yeh koi aam mulaqaat nahi thi.'],['💎','Baatein','Teri har baat sona lagti hai — qimti, original, khaas.'],['🏆','Samajh Aaya','Duniya mein bohot log hain — lekin tere jaisi koi nahi.'],['💍','Aaj','Aaj woh pal aaya hai — dil ki khaas baat kehne ka.']], cards:[['👸','Teri Royalty','Teri ek aada mein jo shaan hai — woh kisi queen se kam nahi.'],['💬','Teri Zubaan','Jo tum bolti ho — woh dil tak pahunchta hai. Script nahi chahiye.'],['👁️','Teri Nazar','Teri ek nazar mein poora dil rakh deta hun main.'],['💃','Tera Style','Tum ho toh har jagah khaas lagti hai.'],['🕰️','Teri Aadat','Teri chhoti chhoti aadatein — inhi ko miss karta hun.'],['♾️','Bas Tum','Duniya mein sab kuch chhod sakta hun. Tujhe nahi.']], letterTo:'Meri Malika', letterText:'Yeh dil ek arsa se teri baat keh raha tha — <em>aaj zubaan ne bhi saath diya.</em> Duniya ki tamam neamaton mein sabse khaas tum ho. <em>Kya tum meri malika banogi?</em> 👑', letterSign:'Your King ✦', propBig:'', propQ:'Kya tum meri queen banogi — hamesha ke liye?', btnText:'Haan, bilkul! 👑', yesEmoji:'💍', yesMsg:'Ab se tum meri queen ho — aur main hamesha tumhara rahunga. Qasam se. 💎' },
-  { id:5,  heroText:'Phoolon ki khushbu mein — dil ki baat 🌸',  tlItems:[['🌱','Pehla Beej','Pehli baar mila tha — kya pata tha yeh ek khaas rishte ki shuruaat hai.'],['🌿','Aankhein Khuli','Tere saath waqt guzarte — yeh dil rooz khilta gaya.'],['🌺','Phool Khila','Ek din samajh aaya — yeh jo feel hai, yeh pyaar hai.'],['🌻','Aaj Ka Din','Yeh phool aaj tumhare haath mein dena chahta hun — dil ke saath.']], cards:[['🌤️','Teri Taazgi','Tere saath har din naya lagta hai — subah ki taazgi ki tarah.'],['☀️','Teri Roshan','Tum ho toh andhera bhi ujala lagta hai.'],['🍃','Tera Sukoon','Tere saath waqt guzarna — hare baagh mein baithe rehne jaisa.'],['🌸','Teri Khushbu','Teri yaad aise aati hai jaise phoolon ki mehak.'],['🌱','Teri Growth','Tere saath main better banta hun rooz.'],['🌻','Bas Tum','Puri duniya ke baagh mein — sabse khaas phool tum ho.']], letterTo:'Meri pyaari', letterText:'Is baagh mein jo phool khilte hain — <em>sabse sundar woh hota hai jise tum chhu lo.</em> Tum ho toh yeh duniya zyada sundar lagti hai. <em>Kya tum meri zindagi ka sabse khaas phool banogi?</em> 🌺', letterSign:'Tumhara Maali 🌿', propBig:'', propQ:'Kya tum meri zindagi ki sabse khaas khushbu banogi?', btnText:'Haan, bilkul! 🌸', yesEmoji:'🌺', yesMsg:'Ab se tum mere baagh ki sabse khaas raunak ho. Hamesha khilti rehna. 🌻' },
-  { id:6,  heroText:'Jaise shaam ka suraj — warm aur khaas 🧡',  tlItems:[['🌅','Pehli Shaam','Pehli baar dekha tha tujhe — bilkul shaam ki tarah — warm aur khaas.'],['🧡','Dil Mein Utar Gaya','Tere saath har shaam alag hoti hai — roshan, warm, yaadgar.'],['🌄','Teri Yaad','Jab bhi suraj dhalta hai — tujhe yaad karta hun.'],['💫','Aaj Ki Shaam','Aaj ki shaam tere naam — dil ki baat kehne ke liye.']], cards:[['🔥','Teri Warmth','Tere saath hona bilkul shaam ki dhoop jaisa — cozy, perfect.'],['🎨','Teri Energy','Tum ho toh zindagi mein rang aa jaate hain.'],['😁','Teri Hasi','Teri hasi mein utni hi roshni hai jitni suraj mein hoti hai.'],['⏰','Tera Time','Tere saath guzara har minute — golden hour jaisa.'],['🌇','Teri Yaad','Jab shaam hoti hai aur dhoop peeli hoti hai — tum yaad aate ho.'],['🌅','Bas Tum','Har sunset mein main teri tasveer dekhta hun. Hamesha.']], letterTo:'Meri sunset wali', letterText:'Har shaam ko dekh ke socha — <em>yeh roshni tujhe yaad karte karte aur khoobsurat lagti hai.</em> Tum ho toh duniya warm lagti hai. <em>Kya tum meri har shaam ki dhoop banogi?</em> 🌅', letterSign:'Tumhara 🧡', propBig:'', propQ:'Kya tum meri zindagi ki golden hour banogi?', btnText:'Haan, bilkul! 🌅', yesEmoji:'🌅', yesMsg:'Ab se har sunset sirf humara hai. Hamesha warm, hamesha khaas. 🌄' },
-  { id:7,  heroText:'Is jadui duniya mein — sirf tere liye ek jadoo 💜',  tlItems:[['🌸','Jadui Mulaqaat','Pehli baar mila tha — jaise kisi jadui duniya mein qadam rakha ho.'],['🦋','Titli Ud Gayi','Tere saath waqt guzarte — yeh dil titli ki tarah ud gaya.'],['🪄','Jadoo Ho Gaya','Na jaane kab hua — par teri yaad ne dil pe jadoo kar diya.'],['💜','Aaj Ki Katha','Aaj yeh jadui kahani ka sabse khaas chapter — tere liye.']], cards:[['✨','Teri Jadui Hasi','Teri ek hasi mein jadoo hai — dil khush ho jaata hai.'],['🗣️','Teri Pari Wali Baat','Tum baat karti ho toh laga pari bol rahi ho — meethi.'],['💖','Tera Jadui Dil','Tere dil mein jo pyaar hai — woh real jadoo hai.'],['💡','Teri Chamak','Tum ho toh kamra roshan ho jaata hai.'],['🔮','Tera Spell','Tum ne ek spell kar diya hai mujhpe — todne ka mann hi nahi.'],['🌈','Bas Tum','Is poori jadui duniya mein — sabse khaas tum ho.']], letterTo:'Meri jadui', letterText:'Is jadui duniya mein jo cheez sabse khaas hai — <em>woh tum ho.</em> Meri zindagi ek boring story thi — tum aayi aur sab kuch fairy tale ban gaya. <em>Kya tum meri fairy tale ki hero banogi?</em> 🪄', letterSign:'Tumhara Jadugaar 💜', propBig:'', propQ:'Kya tum meri fairy tale ki sabse khaas pari banogi?', btnText:'Haan, bilkul! 🪄', yesEmoji:'✨', yesMsg:'Ab se tum meri fairy tale ka sabse khaas chapter ho. Hamesha aur hamesha! 🪄' },
-  { id:8,  heroText:'Ek purani filmon wali mohabbat — timeless 🎞️',  tlItems:[['🎞️','Opening Scene','Pehli mulaqaat ek film ki pehli scene jaisi thi — dil ne kaha "yeh khaas hai".'],['🎬','Second Act','Tere saath waqt — ek acchi film ki tarah — guzarne ka pata nahi chala.'],['🌟','Climax','Ek din samajha — is kahani ka hero main hun aur tum meri leading lady.'],['💫','The Proposal','Yeh scene — yeh woh moment hai jo hamesha yaad rahega.']], cards:[['🎭','Teri Acting','Tum real hoti ho — koi role nahi, koi mask nahi.'],['💬','Teri Dialogue','Jo tum bolti ho — woh dil tak pahunchta hai.'],['📸','Tera Presence','Tum ho toh camera bhi tum par hi focus karta hai.'],['⚗️','Teri Chemistry','Hamare beech jo chemistry hai — woh real films mein bhi rare hai.'],['🎬','Tera Climax','Tere saath har scene yaadgaar ban jaata hai.'],['🎥','Bas Tum','Is poori film mein sirf ek leading lady chahiye. Woh tum ho.']], letterTo:'Meri leading lady', letterText:'Purani filmon mein actors keh dete the — <em>"Tum ho toh yeh duniya mukammal hai."</em> Main wahi bol raha hun — seedha, sach, dil se. <em>Kya tum meri classic love story ki hero banogi?</em> 🎬', letterSign:'YOUR LEADING MAN ✦', propBig:'', propQ:'Kya tum meri leading lady banogi — hamesha ke liye?', btnText:'Haan, bilkul! 🎬', yesEmoji:'🎞️', yesMsg:'Yeh scene perfect tha. Ab se tum meri story ka sabse khaas hissa ho. Always. 🎬' },
-  { id:9,  heroText:'Lahron ki tarah — gehri, khaas aur hamesha 🌊',  tlItems:[['🌊','Pehli Lahar','Pehli baar mila tha — ek lahar ki tarah aanke, dil mein utar gayi.'],['💧','Gehraai','Tere saath gehri baatein — samandar ki gehraai jaisi.'],['🐚','Khamoshi','Teri khamoshi bhi ek teri apni zubaan hai.'],['🌅','Aaj Ka Sahil','Aaj is sahil pe tumhara intezaar karte karte — yeh kehna tha.']], cards:[['🌊','Teri Gehraai','Tere jazbaat mein ek samandar hai — main khona chahta hun.'],['💙','Teri Sheetalta','Tere saath hona — cool, calm aur perfect lagta hai.'],['🐬','Teri Playfulness','Kabhi kabhi tum ek dost jaisi hoti ho — aur yahi mujhe pasand hai.'],['🌺','Teri Khoobsurti','Jaise coral reefs — rang biranga, zinda, khaas.'],['💧','Tera Dil','Tere dil mein itna pyaar hai — samandar bhi sharmaye.'],['🌊','Bas Tum','Is puri duniya ke samandar mein — sabse khaas lahar tum ho.']], letterTo:'Meri samandar wali', letterText:'Lahron ki tarah aayi thi tum — <em>bina bataye, dil mein utar gayi.</em> Ab teri yaad ek samandar ban gayi hai jo khatam hi nahi hoti. <em>Kya tum meri zindagi ki sabse khaas lahar banogi?</em> 🌊', letterSign:'Tumhara Sailor 🌊', propBig:'', propQ:'Kya tum mere dil ke samandar ki sabse sundar lahar banogi?', btnText:'Haan, bilkul! 🌊', yesEmoji:'🌊', yesMsg:'Ab se tumhara naam mera samandar hai — gehra, khaas, aur hamesha. 💙' },
-  { id:10, heroText:'Pahaadon ki tarah — uncha, mazbut, hamesha ⛰️',  tlItems:[['⛰️','Pehli Chadhai','Pehli baar mila tha — ek pahad jaisi mushkil thi par tum ne saral kar diya.'],['🏔️','Naya Manzar','Tere saath har naye safar mein ek naya manzar milta hai.'],['🌲','Teri Chao','Tere saath hona — pahad ki chaon mein baithe rehne jaisa.'],['🌄','Aaj Ki Uchai','Aaj is uchai se — dil ki baat tumhare liye.']], cards:[['⛰️','Teri Mazbutat','Tum mushkilon mein bhi nahi dabti — pahad jaisi.'],['🌲','Tera Sukoon','Tere saath waqt — jungle ki khamoshi jaisi sukoon bhari.'],['🌄','Tera Nazar','Teri nazar pahad ki uchai jaisi — door tak dekhti hai.'],['❄️','Teri Thandi Soch','Tum problem solve karti ho — bilkul ek pahadwale ki tarah.'],['🌺','Teri Khoobi','Teri aadat hai jab chaoti cheez mein khubsurti dekhna.'],['⛰️','Bas Tum','Ye poori duniya ke pahaadon mein — sabse unchi tum ho mujhe.']], letterTo:'Meri pahaadon wali', letterText:'Pahaadon ki tarah — <em>tum mujhe uncha khaincti ho.</em> Tere saath har safar ek naya manzar deta hai. <em>Kya tum meri zindagi ke safar ki saathi banogi?</em> ⛰️', letterSign:'Tumhara Trekker ⛰️', propBig:'', propQ:'Kya tum meri zindagi ke pahad ki sabse unchi chadhai banogi?', btnText:'Haan, bilkul! ⛰️', yesEmoji:'🏔️', yesMsg:'Ab se tumhara saath mere liye sabse badi manzil hai. Saath chalte rahenge! 🌄' },
-  { id:11, heroText:'Baarish ki boondein — romanticize karo mujhe 🌧️',  tlItems:[['🌧️','Pehli Baarish','Pehli baar mila tha — baarish mein bheeg jaane jaisa tha.'],['☂️','Saath Chhata','Tere saath khada rehna — ek umbrella ke neeche.'],['🌊','Gehri Baatein','Baarish ki tarah baatein hoti thi — jab sab ruk jaata tha.'],['💧','Aaj Ki Baarish','Aaj phir baarish aa gayi — dil ki baat baahir aane ki.']], cards:[['🌧️','Teri Soft Side','Tum andar se bilkul baarish ki boond jaisi soft hoti ho.'],['☔','Tera Saath','Tere saath baarish mein bheegna bhi khaas lagta hai.'],['💧','Teri Sachchi Baatein','Tum sach bolti ho — baarish ki tarah, seedha.'],['🌫️','Teri Mystery','Tum mein ek fog hai — jisme main kho jaana chahta hun.'],['🌈','Baarish Ke Baad','Tere saath waqt guzarne ke baad — ek rainbow aata hai dil mein.'],['💧','Bas Tum','Is poori duniya ki baarish mein — sabse meethi boond tum ho.']], letterTo:'Meri baarish wali', letterText:'Baarish ki har boond mein tujhe dhundha — <em>aur tum har baar mil jaati ho.</em> Tere saath bheegna bhi sukoon deta hai. <em>Kya tum meri zindagi ki sabse meethi baarish banogi?</em> 🌧️', letterSign:'Tumhara ☂️', propBig:'', propQ:'Kya tum meri zindagi ki sabse khaas baarish banogi?', btnText:'Haan, bilkul! 🌧️', yesEmoji:'🌈', yesMsg:'Ab se har baarish sirf humari hai — bheegna bhi khaas laga. 💧' },
-  { id:12, heroText:'Raat ke andhere mein — sirf tum hi chamakti ho ✨',  tlItems:[['🌃','Midnight Story','Raat ke 12 baje — sirf tum hi hoti thi baatein karne ke liye.'],['💜','Andhere Mein Roshni','Tum aati thi toh andheri raat bhi khaas lagti thi.'],['⭐','Tera Jaadu','Raat ko neend nahi aati — teri yaad aati hai.'],['🌙','Aaj Ki Raat','Aaj ki midnight — sirf teri baat, dil se.']], cards:[['🌙','Teri Raat Wali Baat','Raat ko jo tum hoti ho — woh version sabse khaas hai.'],['💜','Teri Gehraai','Raat ke andhere jaisi deep hoti ho tum — fascinating.'],['⭐','Teri Chamak','Sabse andheri raat mein — tum ek tare ki tarah chamakti ho.'],['🌃','Teri Energy','Late night mein tum sabse zyada zinda rehti ho.'],['🌌','Teri Aankhein','Raat ke aasman jaisi aankhein hain teri.'],['🌙','Bas Tum','Is puri duniya ki raat mein — sabse roshan tum ho mujhe.']], letterTo:'Meri midnight wali', letterText:'Raat ke 3 baje bhi teri yaad aati hai — <em>kyunki tum kisi tare ki tarah hoti ho jo raat mein hi dikhti hai.</em> Tum mere andhere ki roshni ho. <em>Kya tum meri midnight star banogi?</em> 🌙', letterSign:'Tumhara ⭐', propBig:'', propQ:'Kya tum mere andhere ki sabse khaas roshni banogi?', btnText:'Haan, bilkul! 🌙', yesEmoji:'🌠', yesMsg:'Ab se har raat sirf humari hai — tum mere andhere ki roshni ho. Hamesha. 💜' },
-  { id:13, heroText:'Spring ki tarah — fresh, pink aur naya 🌸',  tlItems:[['🌸','Spring Ka Pehla Din','Jab tujhse mila tha — bilkul spring ke pehle phool jaisa fresh feel tha.'],['🌷','Rang Khile','Tere saath waqt guzarte — zindagi mein naye rang aaye.'],['🦋','Titliyan Aayi','Tere baare mein sochta hun toh butterflies hoti hain.'],['🌺','Aaj Ka Khilna','Aaj yeh phool tumhare liye — dil se.']], cards:[['🌸','Teri Taazgi','Tum spring jaisi hoti ho — fresh, new, khaas.'],['🌷','Teri Khoobsurti','Har phool tum se less khoobsurat hai.'],['🦋','Teri Lightness','Tum baat karti ho toh dil halka ho jaata hai.'],['🌺','Teri Warmth','Tum ho toh thandi bhi warm lagti hai.'],['🌈','Teri Positivity','Tum ke around rehke life colorful lagti hai.'],['🌸','Bas Tum','Is puri spring mein — sabse sundar phool tum ho mujhe.']], letterTo:'Meri spring wali', letterText:'Spring aati hai toh phool khilte hain — <em>tum aati ho toh mera dil khilta hai.</em> Tum mere liye ek nayi shuruaat jaisi ho. <em>Kya tum meri zindagi ki hamesha ki spring banogi?</em> 🌸', letterSign:'Tumhara 🌷', propBig:'', propQ:'Kya tum meri zindagi ki sabse khaas khushbu banogi?', btnText:'Haan, bilkul! 🌸', yesEmoji:'🌸', yesMsg:'Ab se tum meri zindagi ki hamesha ki spring ho. Hamesha khilti rehna! 🌷' },
-  { id:14, heroText:'Autumn ki tarah — warm, deep aur yaadgar 🍂',  tlItems:[['🍂','Patti Giri','Jab tujhse mila tha — ek autumn leaf jaisi unexpected aur khaas.'],['🍁','Rang Badal Gaya','Tere aane se meri zindagi ke rang badal gaye — zyada warm hue.'],['🌰','Gehri Unn','Tere saath baatein autumn chai jaisi warm hoti hain.'],['🍂','Aaj','Aaj is autumn mein — tumhare liye yeh khaas baat.']], cards:[['🍂','Teri Warmth','Tum autumn ki tarah hoti ho — warm, cozy, perfect.'],['🍁','Teri Depth','Tum surface se zyada hoti ho — autumn colors jaisi.'],['🌰','Teri Baatein','Teri baatein autumn chai jaisi — warm aur soothing.'],['🍂','Teri Khaasiyat','Tum mein ek season ki tarah badalne ki kshamta hai.'],['🌙','Teri Shaamein','Tere saath shaamein — bilkul autumn evenings jaisi.'],['🍂','Bas Tum','Is poori duniya ke autumn mein — sabse warm tum ho mujhe.']], letterTo:'Meri autumn wali', letterText:'Autumn mein pattiyaan girne ka ek beauty hai — <em>tum bhi kuch aise hi aai, aanste aanste dil mein utar gayi.</em> Tere saath har raat autumn evening jaisi hai. <em>Kya tum meri hamesha ki autumn banogi?</em> 🍂', letterSign:'Tumhara 🍁', propBig:'', propQ:'Kya tum meri zindagi ki sabse warm season banogi?', btnText:'Haan, bilkul! 🍂', yesEmoji:'🍁', yesMsg:'Ab se tum meri zindagi ka sabse warm season ho. Hamesha aise hi rehna. 🍂' },
-  { id:15, heroText:'Neon ki tarah — bright, bold aur unforgettable 💜',  tlItems:[['💫','Neon Mulaqaat','Jab tujhse mila tha — bilkul neon light ki tarah — bright aur unexpected.'],['💜','Glowing Memory','Tere saath baatein — ek neon sign ki tarah — yaad rehti hain.'],['✨','Can\'t Look Away','Tum se nazar hatana mushkil hai — jaise neon light se.'],['🌃','Aaj Ki Night','Aaj is bright night mein — sirf tumhare liye.']], cards:[['💜','Teri Boldness','Tum bold hoti ho — apna opinion rakhti ho. Yeh sexy hai.'],['✨','Teri Brightness','Tum kamre mein aati ho toh sab kuch bright ho jaata hai.'],['🌈','Teri Colors','Tum mein kaafi colors hain — har roz alag, har roz khaas.'],['💡','Teri Energy','Tum mein ek electric energy hai — infectious.'],['🎆','Teri Chamak','Tum fluorescent light ki tarah — always on.'],['💜','Bas Tum','Is poori neon world mein — sabse khaas glow tum ho mujhe.']], letterTo:'Meri neon wali', letterText:'Neon lights rate mein aur bright lagti hain — <em>tum bhi aisi hi hoti ho, dark mein aur zyada khoobsurat.</em> Tum ne meri zindagi neon banaa di — bright, colorful. <em>Kya tum meri zindagi ka sabse bright neon banogi?</em> 💜', letterSign:'Tumhara 🌟', propBig:'', propQ:'Kya tum meri zindagi ki sabse bright glow banogi?', btnText:'Haan, bilkul! 💜', yesEmoji:'✨', yesMsg:'Ab se tum meri zindagi ka sabse bright neon ho. Hamesha glow karte rehna! 💫' },
-  { id:16, heroText:'Simple words — deepest feelings',  tlItems:[['○','We Met','We met. It seemed ordinary. It was not.'],['○','We Talked','Hours passed. I did not notice.'],['○','I Realized','One day I understood what this feeling was.'],['○','Today','Today I say it. Simply. Sincerely.']], cards:[['','You Listen','You listen — really listen. That is rare.'],['','You Are Real','No pretense. No performance. Just you.'],['','You Think','Your mind fascinates me. Every time.'],['','You Care','You care about things. About people. It shows.'],['','You Are Calm','With you, everything feels simpler.'],['','Just You','I need no other reason. You are enough.']], letterTo:'Dear', letterText:'I am not good with words. But some things need to be said. <em>I like you. Genuinely.</em> And I would very much like to know you more. <em>Will you be mine?</em>', letterSign:'Yours', propBig:'', propQ:'Will you be mine? Simply, sincerely.', btnText:'Yes, I will. ♡', yesEmoji:'♡', yesMsg:'Thank you. That is all I needed to hear. We begin here.' },
-  { id:17, heroText:'80s vibes — retro love story 🎶',  tlItems:[['📻','Radio Pe Suna','Pehli baar mila tha — bilkul ek retro song ki tarah, unexpected aur khaas.'],['🎸','Mixtape Banayi','Tere liye ek mixtape banayi — har gaana tumhara tha.'],['📼','VHS Memory','Hum saath the — ek purani film ki tarah yeh yaad hai.'],['🕹️','Game On','Aaj ek naya level — dil ki baat kehna.']], cards:[['🎵','Teri Rhythm','Tum mein ek beat hai — infectious, khaas.'],['📻','Teri Frequency','Teri baatein mere liye ek favourite radio station jaisi hain.'],['🎸','Teri Rockstar Side','Kabhi kabhi tum ekdum rockstar lagte ho — amazing.'],['📼','Teri Old Soul','Tum mein ek purana andaaz hai — timeless.'],['🕹️','Teri Playfulness','Tum life ko fun banati ho — jaise ek fun game.'],['🎶','Bas Tum','Is puri retro world mein — sabse khaas track tum ho.']], letterTo:'Meri retro wali', letterText:'Purane zamaane mein log mixtape banate the pyaar ka izhaar karne ke liye — <em>main bhi yahi karta hun.</em> Har gaana jo mujhe pasand hai, har dhun — mujhe tum yaad aate ho. <em>Kya tum meri favorite song banogi?</em> 🎶', letterSign:'Tumhara Fan 📻', propBig:'', propQ:'Kya tum meri zindagi ki sabse khaas dhun banogi?', btnText:'Haan, bilkul! 🎶', yesEmoji:'🎵', yesMsg:'Ab se tum meri favourite song ho — hamesha repeat pe. 📻' },
-  { id:18, heroText:'Bollywood jaisi — dramatic, grand aur dil se 🎬',  tlItems:[['🎬','Pehla Scene','Jab tujhse mila tha — ekdum ek Bollywood scene jaisa tha.'],['🎵','Background Score','Tere saath waqt guzarte — dil mein ek pyaar ka gaana bajne lagta hai.'],['💃','Dance Sequence','Tere saath haste khelte — ek Bollywood dance jaisa mazaa hai.'],['💕','Climax','Aaj woh climax scene — dil ki baat tumhare liye.']], cards:[['💃','Teri Drama Queen Side','Tum thodi dramatic hoti ho — aur yahi mujhe pasand hai.'],['🎵','Teri Sur Mein Baat','Tum baat karti ho toh laga gaana chal raha hai — melodious.'],['🎬','Teri Heroism','Tum apne liye aur apne kareebon ke liye hero ban jaati ho.'],['💕','Teri Dil Wali Baat','Tum dil se sochti ho — aaj kal yeh rare hai.'],['🌟','Teri Chamak','Tum har room mein hero ban jaate ho naturally.'],['🎭','Bas Tum','Is poori Bollywood mein — sabse khaas leading lady tum ho.']], letterTo:'Meri filmi wali', letterText:'Bollywood mein hero kehta hai — <em>"Tujhe dekh ke dil mein ek gaana bajne lagta hai."</em> Mera bhi yahi haal hai. Tum mere liye ek superhit film ho. <em>Kya tum meri Bollywood story ki heroine banogi?</em> 🎬', letterSign:'Tumhara Hero 🌟', propBig:'', propQ:'Kya tum meri Bollywood love story ki heroine banogi?', btnText:'Haan, bilkul! 🎬', yesEmoji:'💃', yesMsg:'Ab se yeh Bollywood story sirf hamare baare mein hai — aur yeh ek blockbuster hogi! 🎵' },
-  { id:19, heroText:'Shayari ki tarah — nafees, gehri aur dil se 📜',  tlItems:[['📜','Pehle Lafz','Jab tujhse mila tha — ek naya shayar paidaa hua mere andar.'],['🖋️','Likhi Ghazal','Tere liye likhi ek ghazal — jo puri nahi hui aaj tak.'],['📖','Padha Diwan','Tere saath baatein — poetry ki taraf le jaati hain.'],['💐','Aaj Ki Nazm','Aaj yeh nazm tere liye — dil se, seedhi zubaan se.']], cards:[['🖋️','Teri Nazmein','Tum baat karti ho — toh laga nazm chal rahi hai.'],['📜','Teri Gehraai','Tum mein ek shayar ki gehraai hai — fascinating.'],['🌹','Teri Khoobsurti','Tum ko dekhte hain toh ek sher yaad aata hai apne aap.'],['💐','Tera Ehsaas','Tum ek ehsaas ho — jo words mein poora nahi samata.'],['🌙','Teri Raat Wali Baat','Raat ko teri yaad — ek incomplete ghazal jaisi hai.'],['📖','Bas Tum','Is poori duniya ki poetry mein — sabse khaas sher tum ho.']], letterTo:'Meri shayari wali', letterText:'Kaisi likhi jaaye woh nazm — <em>jo tumhara chehra bayan kar sake.</em> Alfaaz kam pad jaate hain. Sirf itna — <em>tum ho, toh sab kuch hai mujhe.</em> Kya tum meri zindagi ki sabse khoobsurat nazm banogi? 📜', letterSign:'Tumhara Shayar 🖋️', propBig:'', propQ:'Kya tum meri zindagi ki sabse khoobsurat nazm banogi?', btnText:'Haan, bilkul! 📜', yesEmoji:'📖', yesMsg:'Ab se tum meri zindagi ki sabse khoobsurat nazm ho — jo kabhi khatam nahi hogi. 🖋️' },
-  { id:20, heroText:'Lo-fi beats aur dil ki baatein — chill aur khaas 🎵',  tlItems:[['🎵','Lo-fi Mulaqaat','Pehli baar mila tha — ek lo-fi song jaisa — unexpected aur soothing.'],['☕','Coffee Aur Baatein','Tere saath time — ek lo-fi playlist ke saath chai peene jaisa.'],['🌙','Late Night Texts','Raat ko tere messages — ek soothing lo-fi beat jaisi.'],['🎧','Aaj Ka Beat','Aaj yeh lo-fi moment sirf tumhare liye.']], cards:[['🎵','Teri Chill Vibe','Tum ekdum chill hoti ho — tension-free energy.'],['☕','Teri Cozy Side','Tere saath hona — coffee ki tarah warm aur cozy.'],['🌿','Teri Aesthetic','Tum mein ek lo-fi aesthetic hai — naturally khoobsurat.'],['🌙','Teri Night Owl Side','Raat ko tum aur zyada khaas lagti ho.'],['🎧','Tera Taste','Tum ka taste achha hai — music, life, sab mein.'],['🌸','Bas Tum','Is puri lo-fi world mein — sabse soothing beat tum ho.']], letterTo:'Meri lo-fi wali', letterText:'Lo-fi music sunke tujhe yaad karta hun — <em>kyunki tum bhi aisi ho — soothing, aesthetic, real.</em> Tere saath time ek favourite playlist jaisi hai — baar baar sunne ka mann karta hai. <em>Kya tum meri zindagi ki favourite lo-fi beat banogi?</em> 🎵', letterSign:'Tumhara 🎧', propBig:'', propQ:'Kya tum meri zindagi ki sabse soothing beat banogi?', btnText:'Haan, bilkul! 🎵', yesEmoji:'🎵', yesMsg:'Ab se tum meri zindagi ki sabse favourite playlist ho — repeat pe, hamesha. 🎧' },
-];
-
-function buildThemeHTML(t) {
-  const tlHTML = t.tlItems.map(([icon, h, p]) => `
-    <div class="tl-item">
-      <div class="tl-dot" style="position:relative;z-index:1;">${icon}</div>
-      <div>
-        <div class="tl-h">${h}</div>
-        <div class="tl-p">${p}</div>
-      </div>
-    </div>
-  `).join('');
-
-  const cardsHTML = t.cards.map(([icon, h, p]) => `
-    <div class="card-item">
-      ${icon ? `<div style="font-size:26px;margin-bottom:0.5rem;">${icon}</div>` : ''}
-      <h3>${h}</h3>
-      <p>${p}</p>
-    </div>
-  `).join('');
-
-  const tid = t.id;
-
-  return `
-<div id="t${tid}" class="tw">
-  ${tid === 1 ? `<div class="cur" id="c${tid}"></div><div id="petals${tid}" style="position:fixed;inset:0;pointer-events:none;z-index:1;"></div>` : ''}
-  ${tid > 1 && tid <= 9 ? `<div class="cur" id="c${tid}"></div>` : ''}
-  ${tid === 2 ? `<div class="nb-bg" aria-hidden="true"></div><div class="spiral" id="sp${tid}" aria-hidden="true"></div>` : ''}
-  ${tid === 3 ? `<div class="stars-bg" id="sb${tid}" aria-hidden="true"></div>` : ''}
-  ${tid === 4 ? `<div class="gold-grid" aria-hidden="true"></div>` : ''}
-  ${tid === 5 ? `<div id="leaves${tid}" style="position:fixed;inset:0;pointer-events:none;z-index:1;" aria-hidden="true"></div>` : ''}
-  ${tid === 7 ? `<div id="sparkles${tid}" style="position:fixed;inset:0;pointer-events:none;z-index:1;" aria-hidden="true"></div>` : ''}
-  ${tid === 8 ? `<div class="film-top" aria-hidden="true"></div><div class="film-bot" aria-hidden="true"></div>` : ''}
-  ${tid === 9 ? `<div class="wave" aria-hidden="true"></div>` : ''}
-  ${tid === 1 ? `<button class="mb" id="mus${tid}" aria-label="Music">♪</button>` : ''}
-
-  <!-- HERO -->
-  <section ${tid === 1 ? 'class="hero-sec"' : ''} style="text-align:center;">
-    <div style="position:relative;z-index:2;text-align:center;">
-      ${tid === 7 ? `<span class="wand" aria-hidden="true">🪄</span>` : ''}
-      ${tid === 4 ? `<div class="royal-badge">✦ Royal Proposal ✦</div>` : ''}
-      ${tid === 8 ? `<div class="v-badge" aria-hidden="true">🎬 A Classic Love Story</div>` : ''}
-      ${tid === 6 ? `<div class="sun-badge">🌅 Sunset Wali Feeling</div>` : ''}
-      ${tid === 5 ? `<div class="g-badge">🌿 Nature ki tarah khaas</div>` : ''}
-      ${tid === 1 ? `<div class="glow" aria-hidden="true"></div>` : ''}
-      <h1 class="hero-nm" id="nm${tid}">...</h1>
-      ${tid === 4 ? `<div class="divider"><span>✦</span></div>` : ''}
-      ${tid === 8 ? `<div class="film-line" aria-hidden="true"></div>` : ''}
-      <p class="hero-tag">${t.heroText}</p>
-    </div>
-    <div class="sh" aria-hidden="true"><span style="font-size:10px;letter-spacing:0.28em;text-transform:uppercase;">Scroll karo</span><div class="sh-line"></div></div>
-  </section>
-
-  <!-- STORY -->
-  <section style="padding:5rem 2rem;${tid % 2 === 0 ? '' : 'background:rgba(255,255,255,0.03);'}">
-    <div style="text-align:center;width:100%;">
-      <p style="font-size:10px;letter-spacing:0.38em;text-transform:uppercase;margin-bottom:0.8rem;opacity:0.7;">${tid <= 10 ? 'Hamari Kahani' : 'Our Story'}</p>
-      <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(26px,5vw,44px);font-weight:300;margin-bottom:2.5rem;text-align:center;">${tid <= 10 ? 'Jab se <em>tujhse</em> mili nazar...' : 'The Story <em>So Far</em>...'}</h2>
-      <div class="tl" style="margin:0 auto;">${tlHTML}</div>
-    </div>
-  </section>
-
-  <!-- REASONS -->
-  <section style="padding:5rem 2rem;">
-    <div style="text-align:center;width:100%;">
-      <p style="font-size:10px;letter-spacing:0.38em;text-transform:uppercase;margin-bottom:0.8rem;opacity:0.7;">${tid <= 10 ? 'Kyun Tujhe Chahta Hun' : 'Why You'}</p>
-      <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(26px,5vw,44px);font-weight:300;margin-bottom:2.5rem;text-align:center;">${tid <= 10 ? 'Woh <em>Hazar Wajah</em>' : 'A <em>Thousand Reasons</em>'}</h2>
-      <div class="cards-grid" style="margin:0 auto;">${cardsHTML}</div>
-    </div>
-  </section>
-
-  <!-- LETTER -->
-  <section style="padding:5rem 2rem;">
-    <div style="text-align:center;width:100%;">
-      <p style="font-size:10px;letter-spacing:0.38em;text-transform:uppercase;margin-bottom:0.8rem;opacity:0.7;">Dil Ki Baat</p>
-      <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(26px,5vw,44px);font-weight:300;margin-bottom:2.5rem;text-align:center;">Ek <em>Letter</em></h2>
-      <div class="letter-box" style="margin:0 auto;text-align:left;position:relative;">
-        ${tid === 2 ? '<div class="clip" aria-hidden="true"></div>' : ''}
-        <p class="letter-to">${t.letterTo} <span id="ln${tid}">...</span> ke liye,</p>
-        <div class="letter-body">${t.letterText}</div>
-        <p class="letter-sign">${t.letterSign}</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- PROPOSAL -->
-  <section ${tid === 1 ? 'class="prop-sec"' : tid === 5 ? 'class="p-sec"' : tid === 13 ? 'class="p-sec"' : tid === 16 ? 'class="p-sec"' : tid === 19 ? 'class="p-sec"' : ''} style="text-align:center;${tid >= 9 && tid !== 13 && tid !== 16 && tid !== 19 ? 'background:rgba(0,0,0,0.3);' : ''}">
-    <div style="position:relative;z-index:2;text-align:center;">
-      ${t.propBig ? `<div class="p-big" id="pb${tid}" style="opacity:0;transform:scale(0.88);transition:all 1s ease;">${t.propBig}</div>` : ''}
-      ${tid === 8 ? `<div class="p-frame">` : ''}
-      <div class="p-nm" id="pn${tid}">...</div>
-      <p class="p-q" id="pq${tid}">${t.propQ}</p>
-      ${tid === 8 ? `</div>` : ''}
-      <div class="p-btns" id="pb${tid}_btns">
-        <button class="btn-yes" onclick="sayYes(${tid})">${t.btnText}</button>
-        <button class="btn-no" id="no${tid}" onmouseover="moveNo('no${tid}')" onclick="moveNo('no${tid}')">Abhi nahi...</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- YES OVERLAY -->
-  <div class="yo" id="yo${tid}">
-    <div class="yo-emoji">${t.yesEmoji}</div>
-    <div class="yo-title">Yay! ${t.btnText.split('!')[1] || '💕'}</div>
-    <p class="yo-msg">${t.yesMsg}</p>
+<!-- Loading -->
+<div id="loading" role="status" aria-label="Page load ho rahi hai">
+  <div class="load-text">Tumhare liye kuch khaas hai...</div>
+  <div aria-hidden="true">
+    <span class="load-dot"></span>
+    <span class="load-dot"></span>
+    <span class="load-dot"></span>
   </div>
-</div>`;
-}
+</div>
 
-document.addEventListener('DOMContentLoaded', () => {
-  const container = document.body;
-  themeData.forEach(t => {
-    const div = document.createElement('div');
-    div.innerHTML = buildThemeHTML(t);
-    container.appendChild(div.firstElementChild);
-  });
-  init();
-});
-</script>
+<!-- Error screen -->
+<div id="error-screen" role="alert">
+  <h2>Oops! 💔</h2>
+  <p>Yeh link sahi nahi hai ya expire ho gaya.<br>Propose karne wale se dobara link maango!</p>
+  <a href="/">Apna proposal banao →</a>
+</div>
+
+<!-- ==========================================
+     THEME 1: ROMANTIC ROSE
+     ========================================== -->
+<div id="theme-romantic" role="main" aria-label="Romantic proposal page">
+  <div class="cursor" id="r-cursor" aria-hidden="true"></div>
+  <div class="cursor-trail" id="r-cursorTrail" aria-hidden="true"></div>
+  <div id="r-petals" aria-hidden="true"></div>
+
+  <section id="r-hero">
+    <div class="r-glow" aria-hidden="true"></div>
+    <div style="position:relative;z-index:2;text-align:center;">
+      <p class="r-badge" aria-hidden="true">✦ Sirf tere liye ✦</p>
+      <h1 class="r-name" id="r-name-display">...</h1>
+      <p class="r-sub">Kuch kehna hai tujhe... dil se</p>
+    </div>
+    <div class="r-scroll" aria-hidden="true">
+      <span>Scroll karo</span>
+      <div class="r-scroll-line"></div>
+    </div>
+  </section>
+
+  <section style="background:#fff;padding:5rem 2rem;" aria-labelledby="r-story-heading">
+    <div style="text-align:center;width:100%;">
+      <p class="r-section-tag" aria-hidden="true">Hamari kahani</p>
+      <h2 class="r-heading" id="r-story-heading">Jab se <em>tujhse</em> mili nazar...</h2>
+      <div class="r-timeline" style="margin:0 auto;">
+        <div class="r-tl-item"><div class="r-tl-dot" aria-hidden="true">✨</div><div class="r-tl-content"><h3>Pehli mulaqaat</h3><p>Online hua ek anjana sa connection — kya pata tha yahi meri duniya badal dega.</p></div></div>
+        <div class="r-tl-item"><div class="r-tl-dot" aria-hidden="true">💬</div><div class="r-tl-content"><h3>Ghanton ki baatein</h3><p>Raat ke 2 baj jaate, baatein khatam na hoti. Teri awaaz mein kuch aisa tha jo dil ko sukoon deta tha.</p></div></div>
+        <div class="r-tl-item"><div class="r-tl-dot" aria-hidden="true">🌙</div><div class="r-tl-content"><h3>Samajh aaya</h3><p>Ek din achanak samajh aaya — yeh sirf dosti nahi hai. Tujhe sochte sochte din guzarne lage.</p></div></div>
+        <div class="r-tl-item"><div class="r-tl-dot" aria-hidden="true">💗</div><div class="r-tl-content"><h3>Aaj ka din</h3><p>Aaj woh pal aaya hai jab dil ki baat zubaan pe aani chahiye. Sirf tere liye yeh page...</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section style="background:#fdf0f1;padding:5rem 2rem;" aria-labelledby="r-reasons-heading">
+    <div style="text-align:center;width:100%;">
+      <p class="r-section-tag" aria-hidden="true">Wajah</p>
+      <h2 class="r-heading" id="r-reasons-heading">Woh <em>hazar wajah</em>...</h2>
+      <div class="r-reasons" style="margin:0 auto;">
+        <div class="r-card"><span style="font-size:32px;margin-bottom:0.8rem;display:block;" aria-hidden="true">😊</span><h3>Teri muskaan</h3><p>Teri ek smile se mera poora din ban jaata hai.</p></div>
+        <div class="r-card"><span style="font-size:32px;margin-bottom:0.8rem;display:block;" aria-hidden="true">🧠</span><h3>Tera dimag</h3><p>Tu sochti hai, samajhti hai — teri intelligence mujhe aur zyada attract karti hai.</p></div>
+        <div class="r-card"><span style="font-size:32px;margin-bottom:0.8rem;display:block;" aria-hidden="true">🤝</span><h3>Tera saath</h3><p>Tere saath hote hain toh silence mein bhi comfortable hun main.</p></div>
+        <div class="r-card"><span style="font-size:32px;margin-bottom:0.8rem;display:block;" aria-hidden="true">💫</span><h3>Teri rooh</h3><p>Tu genuinely caring hai, tu real hai. Aajkal yeh rarity hai.</p></div>
+        <div class="r-card"><span style="font-size:32px;margin-bottom:0.8rem;display:block;" aria-hidden="true">🌙</span><h3>Teri raatein</h3><p>Raat ko baat karte karte jo tujhe jaanta hun — woh version sabse pyaara lagta hai.</p></div>
+        <div class="r-card"><span style="font-size:32px;margin-bottom:0.8rem;display:block;" aria-hidden="true">🌺</span><h3>Bas tu</h3><p>Koi reason nahi chahiye. Tu hai — yahi kaafi hai.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section style="background:#fff8ee;padding:5rem 2rem;" aria-labelledby="r-letter-heading">
+    <div style="text-align:center;width:100%;">
+      <p class="r-section-tag" aria-hidden="true">Dil ki baat</p>
+      <h2 class="r-heading" id="r-letter-heading">Ek <em>chhoti si</em> letter</h2>
+      <div class="r-letter" style="margin:0 auto;text-align:left;" role="article">
+        <div style="position:absolute;top:1.5rem;right:1.5rem;width:50px;height:60px;border:2px solid #f7dde0;border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:inset 0 0 0 4px #fdf0f1;" aria-hidden="true">💌</div>
+        <p class="r-letter-to">Mere pyaari <span id="r-letter-name">...</span> ke liye...</p>
+        <div class="r-letter-body">
+          <p>Yaar,</p><br>
+          <p>Pata nahi kaisa likhu yeh sab — main koi writer nahi hun, lekin <em>tere liye kuch feel karta hun jo alfaazon mein band karna mushkil hai.</em></p><br>
+          <p>Jab se tujhse mila hun, har din thoda acha lagta hai. <em>Tujhe sab kuch batata rahun</em>, sab share karta rahun — yahi chahta hun.</p><br>
+          <p id="r-custom-msg-area"></p>
+        </div>
+        <p class="r-sign">Tere liye ✦</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="r-proposal" aria-labelledby="r-proposal-heading">
+    <div style="position:relative;z-index:2;text-align:center;">
+      <div class="r-prop-big" id="r-p1">Will You Be</div>
+      <div class="r-prop-name" id="r-p2" aria-label="Proposal question"></div>
+      <p class="r-prop-q" id="r-p3" id="r-proposal-heading">Kya tu meri girlfriend banegi? Main promise karta hun — har khushi mein saath dunga.</p>
+      <div class="r-btns" id="r-p4">
+        <button class="r-btn-yes" onclick="sayYes('romantic')" aria-label="Proposal accept karo — Haan kehdo">Haan, bilkul! 💕</button>
+        <button class="r-btn-no" id="r-noBtn" onmouseover="moveNo('r-noBtn')" onclick="moveNo('r-noBtn')" aria-label="Na button">Abhi nahi...</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="yes-page" id="r-yes-page" style="background:#2a1a1c;" role="status" aria-live="polite" aria-label="Proposal accept ho gaya">
+    <div style="font-size:80px;animation:bounceIn 0.8s ease both;" aria-hidden="true">🌹</div>
+    <div style="font-family:'Sacramento',cursive;font-size:clamp(60px,14vw,110px);color:#c0525a;animation:fadeUp 1s ease 0.4s both;text-shadow:0 0 80px rgba(192,82,90,0.5);">Yay! 💕</div>
+    <p style="font-family:'Cormorant Garamond',serif;font-size:clamp(18px,3.5vw,26px);color:rgba(255,255,255,0.8);font-style:italic;font-weight:300;animation:fadeUp 1s ease 0.7s both;max-width:400px;line-height:1.7;margin-top:1rem;">Shukriya... Tu mere liye sabse khaas hai. 🌸</p>
+  </div>
+</div>
+
+<!-- ==========================================
+     THEME 2: COLLEGE STORY
+     ========================================== -->
+<div id="theme-college" role="main" aria-label="College story proposal page">
+  <div class="cursor" id="c-cursor" aria-hidden="true"></div>
+  <div class="nb-bg" aria-hidden="true"></div>
+  <div class="spiral" id="c-spiral" aria-hidden="true"></div>
+
+  <section id="c-cover" aria-labelledby="c-cover-name">
+    <div class="nb-cover">
+      <div class="cover-stamp" aria-hidden="true">📚</div>
+      <div class="cover-sticker" aria-hidden="true">💙</div>
+      <p class="cover-subject" aria-hidden="true">College Diaries · Personal</p>
+      <h1 class="cover-name" id="c-name-display">...</h1>
+      <div style="width:60px;height:2px;background:rgba(255,255,255,0.3);margin:1.2rem auto;" aria-hidden="true"></div>
+      <p class="cover-sub">Yeh notebook sirf tere liye hai —<br>ek dil ki kahani</p>
+    </div>
+    <div style="margin-top:3rem;font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:#6b6560;display:flex;flex-direction:column;align-items:center;gap:8px;" aria-hidden="true">
+      <span>Scroll karo</span>
+      <div style="width:1px;height:40px;background:linear-gradient(to bottom,#2d6a9f,transparent);animation:scrollAnim 1.5s ease-in-out infinite;"></div>
+    </div>
+  </section>
+
+  <section style="padding:5rem 2rem;" aria-labelledby="c-ch1-heading">
+    <div style="text-align:center;width:100%;">
+      <p class="page-tag" aria-hidden="true">Chapter One</p>
+      <h2 class="page-heading" id="c-ch1-heading">Jab <em>library</em> mein<br>tumse nazar mili...</h2>
+      <div class="c-story-timeline" style="margin:0 auto;">
+        <div class="c-story-item"><div class="c-story-date" aria-hidden="true">Pehla<br>din</div><div class="c-story-content"><h3>Orientation mein pehli baar</h3><p>Bheed mein ek chehra alag dikh raha tha. Tumhara. Pata nahi tha tab ki yeh chehra zehn mein rahega.</p></div></div>
+        <div class="c-story-item"><div class="c-story-date" aria-hidden="true">Kuch<br>hafte</div><div class="c-story-content"><h3>Library ki woh seat</h3><p>Har roz wahi corner — sirf isliye ki tum wahan baithi hoti thi. Books parhne ka bahana tha.</p></div></div>
+        <div class="c-story-item"><div class="c-story-date" aria-hidden="true">Cafeteria<br>wala din</div><div class="c-story-content"><h3>Pehli baat</h3><p>Tumne muskurate hue "hi" kaha tha. Woh ek lafz ek poora din ban gaya tha mere liye.</p></div></div>
+        <div class="c-story-item"><div class="c-story-date" aria-hidden="true">Aaj</div><div class="c-story-content"><h3>Yeh page</h3><p>Bahut baar sochta raha, kaise kahun. Aaj yeh notebook likhne ka waqt aa gaya — dil ki baat.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section style="background:rgba(45,106,159,0.03);padding:5rem 2rem;" aria-labelledby="c-ch2-heading">
+    <div style="text-align:center;width:100%;">
+      <p class="page-tag" aria-hidden="true">Chapter Two</p>
+      <h2 class="page-heading" id="c-ch2-heading">Woh <em>chhoti chhoti</em> baatein</h2>
+      <div class="c-reasons" style="margin:0 auto;">
+        <div class="c-card"><span style="font-family:'Dancing Script',cursive;font-size:48px;color:rgba(45,106,159,0.1);position:absolute;bottom:0.5rem;right:1rem;" aria-hidden="true">01</span><h3>Teri concentration</h3><p>Jab tu padhti hai toh poori duniya band ho jaati hai. Yeh focus mujhe bahut acha lagta hai.</p></div>
+        <div class="c-card"><span style="font-family:'Dancing Script',cursive;font-size:48px;color:rgba(45,106,159,0.1);position:absolute;bottom:0.5rem;right:1rem;" aria-hidden="true">02</span><h3>Woh chhoti si hasi</h3><p>Cafeteria mein jo tujhe funny lagta hai, woh sab mujhe bhi funny lagne lagta hai teri wajah se.</p></div>
+        <div class="c-card"><span style="font-family:'Dancing Script',cursive;font-size:48px;color:rgba(45,106,159,0.1);position:absolute;bottom:0.5rem;right:1rem;" aria-hidden="true">03</span><h3>Teri passion</h3><p>Jab tu apne favorite subject ke baare mein bolti hai — aankhon mein alag chamak aati hai.</p></div>
+        <div class="c-card"><span style="font-family:'Dancing Script',cursive;font-size:48px;color:rgba(45,106,159,0.1);position:absolute;bottom:0.5rem;right:1rem;" aria-hidden="true">04</span><h3>Tera dil</h3><p>Tu genuinely caring hai. Yeh rarity hai aajkal.</p></div>
+        <div class="c-card"><span style="font-family:'Dancing Script',cursive;font-size:48px;color:rgba(45,106,159,0.1);position:absolute;bottom:0.5rem;right:1rem;" aria-hidden="true">05</span><h3>Rainy days</h3><p>College canteen mein baarish dekhna aur chai peena — yeh tere saath imagine karta hun hamesha.</p></div>
+        <div class="c-card"><span style="font-family:'Dancing Script',cursive;font-size:48px;color:rgba(45,106,159,0.1);position:absolute;bottom:0.5rem;right:1rem;" aria-hidden="true">06</span><h3>Bas Tu</h3><p>Koi reason nahi chahiye. Tu hai — yahi kaafi hai mujhe.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding:5rem 2rem;" aria-labelledby="c-ch3-heading">
+    <div style="text-align:center;width:100%;">
+      <p class="page-tag" aria-hidden="true">Chapter Three</p>
+      <h2 class="page-heading" id="c-ch3-heading">Ek <em>letter</em> —<br>jo notebook mein chhupa tha</h2>
+      <div class="c-letter" style="margin:0 auto;text-align:left;" role="article">
+        <div class="paper-clip" aria-hidden="true"></div>
+        <p class="c-letter-to">Mere pyaare <span id="c-letter-name">...</span> ke liye,</p>
+        <div class="c-letter-body">
+          <p>Yaar,</p><br>
+          <p>Kai baar socha ki seedha bol dun — lekin <em>lafz hi nahi milte the jab tum saamne hoti thi.</em></p><br>
+          <p>College ke yeh din khatam ho jayenge, classes khatam hongi — lekin <em>tujhe yaad karna kabhi band nahi hoga.</em></p><br>
+          <p>Isliye aaj, <em>is notebook ke is page pe</em> likh raha hun: <em>Tum mujhe bahut pasand ho.</em></p>
+          <p id="c-custom-msg-area"></p>
+        </div>
+        <div class="c-sign">Tere liye ✦</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="c-proposal" aria-labelledby="c-proposal-heading">
+    <div style="position:relative;z-index:2;text-align:center;">
+      <p style="font-size:10px;letter-spacing:0.4em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:2rem;" id="c-p0" aria-hidden="true">The Final Chapter ✦</p>
+      <p class="c-prop-q" id="c-p1">College ki sabse badi assignment — dil ki baat kehna</p>
+      <div class="c-prop-name" id="c-p2" aria-label="GF ka naam">...</div>
+      <p class="c-prop-sub" id="c-p3" id="c-proposal-heading">Kya tum meri girlfriend banogi?</p>
+      <div class="c-btns" id="c-p4">
+        <button class="c-btn-yes" onclick="sayYes('college')" aria-label="Proposal accept karo — Haan kehdo">Haan, bilkul! 💙</button>
+        <button class="c-btn-no" id="c-noBtn" onmouseover="moveNo('c-noBtn')" onclick="moveNo('c-noBtn')" aria-label="Na button">Abhi nahi...</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="yes-page" id="c-yes-page" style="background:#2d6a9f;" role="status" aria-live="polite" aria-label="Proposal accept ho gaya">
+    <div style="font-size:80px;animation:bounceIn 0.8s ease both;" aria-hidden="true">🎓</div>
+    <div style="font-family:'Dancing Script',cursive;font-size:clamp(60px,14vw,110px);color:#fff;animation:fadeUp 1s ease 0.4s both;">Yay! 💙</div>
+    <p style="font-family:'Playfair Display',serif;font-size:clamp(18px,3.5vw,26px);color:rgba(255,255,255,0.8);font-style:italic;animation:fadeUp 1s ease 0.7s both;max-width:400px;line-height:1.7;margin-top:1rem;">Shukriya... Ab yeh college story sirf padhai ki nahi, hamare baare mein bhi hogi! 📚</p>
+  </div>
+</div>
 
 <script>
 let proposalId = null;
-let activeThemeId = 1;
+let proposalTheme = 'romantic';
+let yesAlreadySent = false;
 
-const THEME_MAP = {
-  romantic:1, college:2, starry:3, royale:4, garden:5,
-  sunset:6, fairy:7, vintage:8, ocean:9, mountains:10,
-  rain:11, midnight:12, spring:13, autumn:14, neon:15,
-  minimal:16, retro:17, bollywood:18, poetry:19, lofi:20
-};
-
+// Get ID from URL: /p/abc123
 function getIdFromUrl() {
-  const m = window.location.pathname.match(/\/p\/([^/?#]+)/);
-  return m ? m[1] : null;
+  const path = window.location.pathname;
+  const match = path.match(/\/p\/([a-zA-Z0-9\-_]+)/);
+  return match ? match[1] : null;
 }
 
+// Safe text escape
+function escText(str) {
+  const div = document.createElement('div');
+  div.appendChild(document.createTextNode(str));
+  return div.innerHTML;
+}
+
+// Init
 async function init() {
   proposalId = getIdFromUrl();
-  if (!proposalId) { showErr(); return; }
+  if (!proposalId) {
+    showError();
+    return;
+  }
 
   try {
-    const res = await fetch(`/.netlify/functions/get-proposal?id=${encodeURIComponent(proposalId)}`);
-    if (!res.ok) { showErr(); return; }
-
+    // FIX: Use /api/get-proposal (netlify.toml redirect se) ya direct function URL
+    const res = await fetch(`/api/get-proposal?id=${encodeURIComponent(proposalId)}`);
+    if (!res.ok) {
+      const errData = await res.json().catch(() => ({}));
+      throw new Error(errData.error || 'Proposal not found');
+    }
     const data = await res.json();
-    if (!data || !data.girlfriend_name) { showErr(); return; }
 
-    const name = data.girlfriend_name;
-    activeThemeId = THEME_MAP[data.theme] || 1;
+    proposalTheme = data.theme || 'romantic';
+    const name = data.girlfriend_name || '';
+    const customMsg = data.message || null; // Backend 'message' key bhejta hai
 
-    // Set name in active theme
-    const setEl = (id, val) => { const e = document.getElementById(id); if(e) e.textContent = val; };
-    setEl(`nm${activeThemeId}`, name);
-    setEl(`ln${activeThemeId}`, name);
-    setEl(`pn${activeThemeId}`, activeThemeId === 1 ? name + '?' : name);
-    const pb = document.getElementById(`pb${activeThemeId}`);
-    if (pb && !pb.id.endsWith('_btns')) pb.textContent = themeData[activeThemeId-1].propBig;
+    // Set name in all elements
+    const nameEls = ['r-name-display', 'r-letter-name', 'c-name-display', 'c-letter-name', 'c-p2'];
+    nameEls.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = name;
+    });
+
+    // Romantic proposal name
+    const rp2 = document.getElementById('r-p2');
+    if (rp2) rp2.textContent = name + '?';
 
     // Custom message
-    if (data.message) {
-      const lb = document.querySelector(`#t${activeThemeId} .letter-body`);
-      if (lb) lb.innerHTML += `<br><br><em>"${escHtml(data.message)}"</em>`;
+    if (customMsg) {
+      const rArea = document.getElementById('r-custom-msg-area');
+      if (rArea) {
+        rArea.innerHTML = `<br><em style="color:var(--rose)">"${escText(customMsg)}"</em>`;
+      }
+      const cArea = document.getElementById('c-custom-msg-area');
+      if (cArea) {
+        cArea.innerHTML = `<br><em style="color:var(--blue)">"${escText(customMsg)}"</em>`;
+      }
     }
 
-    // Activate theme
-    document.getElementById('t' + activeThemeId)?.classList.add('on');
-    initTheme(activeThemeId);
+    // Show correct theme
+    document.getElementById('theme-romantic').style.display = 'none';
+    document.getElementById('theme-college').style.display = 'none';
+
+    if (proposalTheme === 'college') {
+      document.getElementById('theme-college').classList.add('active');
+      initCollegeTheme();
+    } else {
+      document.getElementById('theme-romantic').classList.add('active');
+      initRomanticTheme();
+    }
 
     // Hide loading
     setTimeout(() => {
-      const ld = document.getElementById('loading');
-      ld.classList.add('hide');
-      setTimeout(() => ld.style.display = 'none', 600);
-    }, 700);
+      document.getElementById('loading').classList.add('hide');
+      setTimeout(() => {
+        document.getElementById('loading').style.display = 'none';
+      }, 500);
+    }, 800);
 
-    // Scroll anim
-    setTimeout(initScrollAnim, 200);
+    // Scroll animations
+    setTimeout(initScrollAnimations, 200);
 
-  } catch(e) {
-    console.error(e);
-    showErr();
+  } catch (e) {
+    console.error('Init error:', e);
+    showError();
   }
 }
 
-function showErr() {
-  const ld = document.getElementById('loading');
-  ld.classList.add('hide');
+function showError() {
+  document.getElementById('loading').classList.add('hide');
   setTimeout(() => {
-    ld.style.display = 'none';
-    document.getElementById('error-page').classList.add('show');
-  }, 500);
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('error-screen').classList.add('show');
+  }, 600);
 }
 
-function initTheme(n) {
-  // Cursor
-  const cur = document.getElementById('c' + n);
-  if (cur) {
+// ===== ROMANTIC THEME =====
+function initRomanticTheme() {
+  // Custom cursor (desktop only)
+  if (window.innerWidth > 480) {
+    const cur = document.getElementById('r-cursor');
+    const trail = document.getElementById('r-cursorTrail');
+    let trailX = 0, trailY = 0;
     document.addEventListener('mousemove', e => {
-      cur.style.left = e.clientX + 'px';
-      cur.style.top = e.clientY + 'px';
+      if (cur) { cur.style.left = e.clientX + 'px'; cur.style.top = e.clientY + 'px'; }
+      setTimeout(() => {
+        if (trail) { trail.style.left = e.clientX + 'px'; trail.style.top = e.clientY + 'px'; }
+      }, 80);
     });
   }
 
-  if (n === 1) {
-    // Petals
-    const em = ['🌸','🌺','💮','✿','🌹'];
-    function petal() {
-      const p = document.createElement('div');
-      p.className = 'petal';
-      p.textContent = em[Math.floor(Math.random()*em.length)];
-      p.style.cssText = `left:${Math.random()*100}vw;font-size:${12+Math.random()*14}px;animation-duration:${7+Math.random()*8}s;animation-delay:${Math.random()*4}s;`;
-      document.getElementById('petals1')?.appendChild(p);
-      setTimeout(() => p.remove(), 15000);
-    }
-    setInterval(petal, 1000);
-    // Music
-    let playing=false, actx, gain, ni=0;
-    const notes=[261.63,293.66,329.63,392,349.23,392,440,392];
-    document.getElementById('mus1')?.addEventListener('click', () => {
-      if(!playing){
-        actx=new(window.AudioContext||window.webkitAudioContext)();
-        gain=actx.createGain(); gain.gain.setValueAtTime(0.05,actx.currentTime); gain.connect(actx.destination);
-        playing=true; document.getElementById('mus1').textContent='♫';
-        (function play(){
-          if(!playing)return;
-          const o=actx.createOscillator(); o.type='sine';
-          o.frequency.setValueAtTime(notes[ni%notes.length],actx.currentTime);
-          o.connect(gain); o.start(); o.stop(actx.currentTime+0.4); ni++;
-          setTimeout(play,520);
-        })();
-      } else {
-        playing=false; document.getElementById('mus1').textContent='♪';
-        actx?.close();
+  // Petals
+  const petalEmojis = ['🌸','🌺','💮','✿','🌹'];
+  function createPetal() {
+    const p = document.createElement('div');
+    p.className = 'petal';
+    p.textContent = petalEmojis[Math.floor(Math.random() * petalEmojis.length)];
+    p.style.left = Math.random() * 100 + 'vw';
+    p.style.fontSize = (12 + Math.random() * 14) + 'px';
+    p.style.animationDuration = (6 + Math.random() * 8) + 's';
+    p.style.animationDelay = Math.random() * 3 + 's';
+    const petalsEl = document.getElementById('r-petals');
+    if (petalsEl) petalsEl.appendChild(p);
+    setTimeout(() => p.remove(), 14000);
+  }
+  const petalInterval = setInterval(createPetal, 900);
+
+  // Proposal section observer
+  const propObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        ['r-p1','r-p2','r-p3','r-p4'].forEach((id, i) => {
+          setTimeout(() => document.getElementById(id)?.classList.add('visible'), i * 200);
+        });
+        propObs.disconnect();
       }
     });
-  }
-
-  if (n === 2) {
-    const sp = document.getElementById('sp2');
-    if(sp) for(let i=0;i<20;i++){const h=document.createElement('div');h.className='sh-hole';sp.appendChild(h);}
-  }
-
-  if (n === 3) {
-    const sb = document.getElementById('sb3');
-    if(sb) for(let i=0;i<80;i++){const s=document.createElement('div');s.className='star-dot';const sz=1+Math.random()*3;s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;animation-duration:${2+Math.random()*4}s;animation-delay:${Math.random()*3}s;`;sb.appendChild(s);}
-  }
-
-  if (n === 5) {
-    const lv = document.getElementById('leaves5');
-    const le=['🍃','🌿','🍀','☘️'];
-    function leaf(){const l=document.createElement('div');l.className='leaf';l.textContent=le[Math.floor(Math.random()*le.length)];l.style.cssText=`left:${Math.random()*100}vw;animation-duration:${9+Math.random()*10}s;animation-delay:${Math.random()*5}s;`;lv?.appendChild(l);setTimeout(()=>l.remove(),22000);}
-    setInterval(leaf,1300);
-  }
-
-  if (n === 7) {
-    const sp7 = document.getElementById('sparkles7');
-    const se=['✨','⭐','💫','🌟'];
-    if(sp7) for(let i=0;i<15;i++){const s=document.createElement('div');s.className='sparkle';s.textContent=se[Math.floor(Math.random()*se.length)];s.style.cssText=`left:${Math.random()*100}vw;top:${Math.random()*100}vh;animation-duration:${2+Math.random()*3}s;animation-delay:${Math.random()*3}s;`;sp7.appendChild(s);}
-  }
-
-  // Proposal intersection observer
-  const propSec = document.querySelector(`#t${n} section:last-of-type`);
-  if (propSec) {
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          const ids = [`pb${n}`, `pn${n}`, `pq${n}`, `pb${n}_btns`];
-          ids.forEach((id, i) => setTimeout(() => document.getElementById(id)?.classList.add('vis'), i * 180));
-        }
-      });
-    }, { threshold: 0.25 });
-    obs.observe(propSec);
-  }
+  }, { threshold: 0.2 });
+  const rProp = document.getElementById('r-proposal');
+  if (rProp) propObs.observe(rProp);
 }
 
-function initScrollAnim() {
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('vis'); });
+// ===== COLLEGE THEME =====
+function initCollegeTheme() {
+  // Custom cursor (desktop only)
+  if (window.innerWidth > 480) {
+    const cur = document.getElementById('c-cursor');
+    document.addEventListener('mousemove', e => {
+      if (cur) { cur.style.left = e.clientX + 'px'; cur.style.top = e.clientY + 'px'; }
+    });
+  }
+
+  // Spiral holes
+  const spiral = document.getElementById('c-spiral');
+  if (spiral) {
+    for (let i = 0; i < 20; i++) {
+      const h = document.createElement('div');
+      h.className = 'spiral-hole';
+      spiral.appendChild(h);
+    }
+  }
+
+  // Proposal observer
+  const propObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        ['c-p0','c-p1','c-p2','c-p3','c-p4'].forEach((id, i) => {
+          setTimeout(() => document.getElementById(id)?.classList.add('visible'), i * 150);
+        });
+        propObs.disconnect();
+      }
+    });
+  }, { threshold: 0.2 });
+  const cProp = document.getElementById('c-proposal');
+  if (cProp) propObs.observe(cProp);
+}
+
+// ===== SCROLL ANIMATIONS =====
+function initScrollAnimations() {
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target); // Performance: ek baar visible hone ke baad unobserve
+      }
+    });
   }, { threshold: 0.15 });
-  document.querySelectorAll(`#t${activeThemeId} .tl-item, #t${activeThemeId} .card-item, #t${activeThemeId} .letter-box, #t${activeThemeId} .c-ti`).forEach((el, i) => {
-    el.style.transitionDelay = (i % 6 * 0.1) + 's';
-    obs.observe(el);
+
+  document.querySelectorAll('.r-tl-item,.r-card,.r-letter,.c-story-item,.c-card,.c-letter').forEach((el, i) => {
+    el.style.transitionDelay = (i % 4 * 0.1) + 's';
+    observer.observe(el);
   });
 }
 
+// ===== NO BUTTON ESCAPE =====
 const noTries = {};
-function moveNo(id) {
-  noTries[id] = (noTries[id] || 0) + 1;
-  const btn = document.getElementById(id);
+function moveNo(btnId) {
+  const btn = document.getElementById(btnId);
   if (!btn) return;
-  btn.style.position = 'fixed'; btn.style.zIndex = '600';
+  noTries[btnId] = (noTries[btnId] || 0) + 1;
+
+  btn.style.position = 'fixed';
+  btn.style.zIndex = '600';
   btn.style.transition = 'all 0.4s cubic-bezier(0.34,1.56,0.64,1)';
-  btn.style.left = Math.min(Math.max(Math.random()*82, 4), 85) + 'vw';
-  btn.style.top = Math.min(Math.max(Math.random()*80, 10), 85) + 'vh';
-  const t = noTries[id];
-  if (t > 4) btn.style.opacity = '0.2';
-  if (t > 7) btn.style.display = 'none';
+
+  const safeLeft = Math.min(Math.max(Math.random() * 80, 5), 75);
+  const safeTop = Math.min(Math.max(Math.random() * 80, 10), 80);
+  btn.style.left = safeLeft + 'vw';
+  btn.style.top = safeTop + 'vh';
+
+  if (noTries[btnId] > 4) btn.style.opacity = '0.3';
+  if (noTries[btnId] > 7) btn.style.display = 'none';
 }
 
-async function sayYes(n) {
+// ===== YES CLICKED =====
+async function sayYes(theme) {
+  if (yesAlreadySent) return; // Double click prevent karo
+  yesAlreadySent = true;
+
+  // FIX: Correct API URL — netlify.toml redirect ke through
   try {
-    await fetch('/.netlify/functions/yes-clicked', {
+    await fetch('/api/yes-clicked', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id: proposalId })
     });
-  } catch(e) {}
-  document.getElementById('yo' + n)?.classList.add('on');
-  document.body.classList.add('no-scroll');
-  launchConfetti(n);
+  } catch (e) {
+    console.warn('Yes notify failed (non-critical):', e.message);
+    // Yeh fail hona critical nahi — UI phir bhi dikhao
+  }
+
+  // Show yes page
+  const yesPageId = theme === 'college' ? 'c-yes-page' : 'r-yes-page';
+  const yesPage = document.getElementById(yesPageId);
+  if (yesPage) {
+    yesPage.classList.add('show');
+    yesPage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  launchConfetti(theme);
 }
 
-const confColors = {
-  1:['#c0525a','#f7dde0','#b8965a','#fff'],2:['#2d6a9f','#c9a84c','#fff','#1a1a2e'],
-  3:['#f5d76e','#0a0e1a','#fff'],4:['#d4af37','#0d0b08','#f0e6cc'],
-  5:['#2d7a2d','#7ec87e','#fff'],6:['#e8621a','#ffb347','#fff'],
-  7:['#c084fc','#9333ea','#fff'],8:['#d4a820','#1a1408','#f0e6c8'],
-  9:['#4fc3f7','#0a1628','#fff'],10:['#8bc34a','#1a2010','#fff'],
-  11:['#90caf9','#1a1e2e','#fff'],12:['#e040fb','#050510','#fff'],
-  13:['#e91e8c','#fff5f8','#fff'],14:['#ff8f00','#1e1008','#f8e8c8'],
-  15:['#ff00ff','#0a0015','#fff'],16:['#111','#fafafa','#555'],
-  17:['#ff1493','#1a0030','#fff'],18:['#ff6f00','#1a0808','#fff'],
-  19:['#8d6e63','#f8f4ee','#fff'],20:['#f48fb1','#1a1a2e','#fff']
-};
+function launchConfetti(theme) {
+  const colors = theme === 'college'
+    ? ['#2d6a9f','#c9a84c','#fff','#1a1a2e','#e8f0f9']
+    : ['#c0525a','#f7dde0','#b8965a','#fff','#e8a0a8'];
 
-function launchConfetti(n) {
-  const cols = confColors[n] || ['#c0525a','#fff'];
   for (let i = 0; i < 80; i++) {
     const c = document.createElement('div');
-    c.className = 'cp';
-    const sz = 5 + Math.random()*8;
-    c.style.cssText = `left:${Math.random()*100}vw;background:${cols[Math.floor(Math.random()*cols.length)]};width:${sz}px;height:${sz}px;border-radius:${Math.random()>0.5?'50%':'2px'};transform:rotate(${Math.random()*360}deg);animation-delay:${Math.random()*1.5}s;animation-duration:${2+Math.random()*1.5}s;`;
+    c.className = 'conf';
+    c.setAttribute('aria-hidden', 'true');
+    const size = 5 + Math.random() * 8;
+    c.style.cssText = `left:${Math.random()*100}vw;background:${colors[Math.floor(Math.random()*colors.length)]};width:${size}px;height:${size}px;border-radius:${Math.random()>0.5?'50%':'2px'};transform:rotate(${Math.random()*360}deg);animation-delay:${Math.random()*1.5}s;animation-duration:${2+Math.random()*1.5}s;`;
     document.body.appendChild(c);
     setTimeout(() => c.remove(), 5000);
   }
 }
 
-function escHtml(s) {
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
+// Start
+init();
 </script>
 </body>
 </html>

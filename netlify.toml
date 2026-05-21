@@ -1,16 +1,11 @@
 [build]
   functions = "netlify/functions"
+  publish = "public"
 
-[[redirects]]
-  from = "/admin"
-  to = "/admin.html"
-  status = 200
+[functions]
+  node_bundler = "esbuild"
 
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-
+# API routes FIRST - specific se general ki taraf
 [[redirects]]
   from = "/api/create-proposal"
   to = "/.netlify/functions/create-proposal"
@@ -36,9 +31,22 @@
   to = "/.netlify/functions/delete"
   status = 200
 
+# Proposal pages - /p/* ko proposal.html pe bhejna
 [[redirects]]
   from = "/p/*"
   to = "/proposal.html"
+  status = 200
+
+# Admin
+[[redirects]]
+  from = "/admin"
+  to = "/admin.html"
+  status = 200
+
+# SPA fallback - SABSE LAST MEIN
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
   status = 200
 
 [[headers]]
@@ -46,3 +54,11 @@
   [headers.values]
     X-Frame-Options = "DENY"
     X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+[[headers]]
+  for = "/admin.html"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+    Cache-Control = "no-store, no-cache"

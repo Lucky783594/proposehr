@@ -3,245 +3,433 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ProposeHer Admin 🔐</title>
+<!-- Google phishing fix: noindex + clear description -->
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="ProposeHer internal admin panel — sirf site owner ke liye.">
+<!-- Phishing warning se bachne ke liye: clear title + autocomplete off globally -->
+<title>ProposeHer — Admin Dashboard 🔐</title>
+<!-- Safe browsing: clear context -->
+<meta property="og:title" content="ProposeHer Admin — Internal Use Only">
+<meta property="og:description" content="ProposeHer site ka internal admin panel.">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600&family=Sacramento&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-:root {
-  --rose: #c0525a; --rose-light: #f7dde0; --gold: #b8965a;
-  --bg: #0f0a0b; --surface: #1a1012; --surface2: #231519;
-  --border: rgba(192,82,90,0.15); --text: #f5ede8; --muted: #8a6a6e;
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --rose:#c0525a;--rose-light:#f7dde0;--gold:#b8965a;
+  --bg:#0c0809;--surface:#161010;--surface2:#1f1415;--surface3:#281a1b;
+  --border:rgba(192,82,90,0.12);--border2:rgba(192,82,90,0.2);
+  --text:#f0e8e8;--muted:#8a6a6e;--muted2:#6a5254;
 }
-body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
 
-/* LOGIN */
-#login-screen {
-  min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem;
-  background: radial-gradient(ellipse at center, rgba(192,82,90,0.08) 0%, transparent 70%);
+/* ===== LOGIN ===== */
+#login-screen{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem;
+  background:radial-gradient(ellipse at 30% 50%,rgba(192,82,90,0.06) 0%,transparent 60%);
 }
-.login-box {
-  background: var(--surface); border: 1px solid var(--border); border-radius: 20px;
-  padding: 3rem 2.5rem; width: 100%; max-width: 380px; text-align: center;
+.login-box{
+  background:var(--surface);border:1px solid var(--border2);border-radius:20px;
+  padding:3rem 2.5rem;width:100%;max-width:380px;text-align:center;
+  box-shadow:0 32px 80px rgba(0,0,0,0.5);
 }
-.login-logo { font-family: 'Sacramento', cursive; font-size: 42px; color: var(--rose); margin-bottom: 0.5rem; }
-.login-sub { font-size: 13px; color: var(--muted); margin-bottom: 2rem; }
-.login-inp {
-  width: 100%; padding: 0.85rem 1.2rem; background: var(--surface2); border: 1px solid var(--border);
-  border-radius: 10px; color: var(--text); font-size: 16px; outline: none; transition: border-color 0.3s;
-  font-family: 'DM Sans', sans-serif; letter-spacing: 0.1em; text-align: center;
+.login-logo{font-family:'Sacramento',cursive;font-size:46px;color:var(--rose);margin-bottom:0.3rem;line-height:1;}
+.login-brand{font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:var(--muted);margin-bottom:2rem;}
+/* Phishing fix: label text clearly says what this is */
+.login-context{
+  font-size:12px;color:var(--muted2);margin-bottom:1.5rem;line-height:1.6;
+  background:rgba(192,82,90,0.06);border-radius:8px;padding:0.8rem;
+  border:1px solid var(--border);
 }
-.login-inp:focus { border-color: var(--rose); }
-.login-btn {
-  width: 100%; margin-top: 1rem; padding: 0.9rem; background: var(--rose); color: #fff;
-  border: none; border-radius: 10px; font-size: 16px; cursor: pointer; transition: all 0.3s;
-  font-family: 'DM Sans', sans-serif; font-weight: 500;
+.login-label{font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin-bottom:0.6rem;display:block;text-align:left;}
+/* FIX: autocomplete="new-password" + role="none on form" prevents password manager confusion */
+.login-inp{
+  width:100%;padding:0.9rem 1.2rem;background:var(--surface2);border:1.5px solid var(--border);
+  border-radius:10px;color:var(--text);font-size:16px;outline:none;transition:border-color 0.3s;
+  font-family:'DM Sans',sans-serif;letter-spacing:0.15em;text-align:left;
+  /* autocomplete set in HTML attribute */
 }
-.login-btn:hover { background: #a8444c; }
-.login-err { color: #e57373; font-size: 13px; margin-top: 0.8rem; display: none; }
-.login-err.show { display: block; }
-
-/* DASHBOARD */
-#dashboard { display: none; }
-#dashboard.show { display: block; }
-
-/* SIDEBAR */
-.layout { display: flex; min-height: 100vh; }
-.sidebar {
-  width: 220px; background: var(--surface); border-right: 1px solid var(--border);
-  padding: 1.5rem 1rem; display: flex; flex-direction: column; gap: 0.5rem;
-  position: fixed; top: 0; left: 0; bottom: 0; overflow-y: auto; z-index: 100;
+.login-inp:focus{border-color:var(--rose);box-shadow:0 0 0 3px rgba(192,82,90,0.1);}
+.login-inp::placeholder{letter-spacing:0.05em;color:var(--muted2);}
+.login-btn{
+  width:100%;margin-top:1rem;padding:0.95rem;background:var(--rose);color:#fff;
+  border:none;border-radius:10px;font-size:15px;cursor:pointer;transition:all 0.3s;
+  font-family:'DM Sans',sans-serif;font-weight:500;letter-spacing:0.05em;
 }
-.sidebar-logo { font-family: 'Sacramento', cursive; font-size: 28px; color: var(--rose); padding: 0.5rem 0.8rem 1.5rem; }
-.nav-item {
-  padding: 0.7rem 1rem; border-radius: 8px; cursor: pointer; font-size: 14px;
-  color: var(--muted); transition: all 0.2s; display: flex; align-items: center; gap: 8px;
+.login-btn:hover{background:#a8444c;transform:translateY(-1px);box-shadow:0 8px 24px rgba(192,82,90,0.3);}
+.login-btn:focus-visible{outline:3px solid var(--text);outline-offset:3px;}
+.login-err{color:#e57373;font-size:13px;margin-top:0.8rem;display:none;padding:0.6rem;background:rgba(229,115,115,0.08);border-radius:6px;}
+.login-err.show{display:block;}
+
+/* ===== DASHBOARD ===== */
+#dashboard{display:none;}
+#dashboard.show{display:block;}
+
+.layout{display:flex;min-height:100vh;}
+
+/* ===== SIDEBAR ===== */
+.sidebar{
+  width:224px;background:var(--surface);border-right:1px solid var(--border);
+  padding:1.5rem 1rem;display:flex;flex-direction:column;gap:4px;
+  position:fixed;top:0;left:0;bottom:0;overflow-y:auto;z-index:100;
 }
-.nav-item:hover, .nav-item.active { background: rgba(192,82,90,0.12); color: var(--text); }
-.nav-item.active { color: var(--rose); }
-.sidebar-footer { margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--border); }
-.logout-btn { width: 100%; padding: 0.6rem; background: transparent; color: var(--muted); border: 1px solid var(--border); border-radius: 8px; font-size: 13px; cursor: pointer; transition: all 0.3s; }
-.logout-btn:hover { background: rgba(192,82,90,0.1); color: var(--rose); }
-
-/* MAIN */
-.main { margin-left: 220px; padding: 2rem; flex: 1; }
-.page-header { margin-bottom: 2rem; }
-.page-title { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 300; color: var(--text); }
-.page-sub { font-size: 13px; color: var(--muted); margin-top: 0.3rem; }
-
-/* STATS GRID */
-.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
-.stat-card {
-  background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
-  padding: 1.5rem; position: relative; overflow: hidden;
+.sidebar-logo{font-family:'Sacramento',cursive;font-size:30px;color:var(--rose);padding:0.5rem 0.8rem 1.5rem;line-height:1;}
+.sidebar-section{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted2);padding:0.6rem 1rem 0.3rem;margin-top:0.5rem;}
+.nav-item{
+  padding:0.7rem 1rem;border-radius:8px;cursor:pointer;font-size:13.5px;
+  color:var(--muted);transition:all 0.2s;display:flex;align-items:center;gap:10px;
+  user-select:none;
 }
-.stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(to right, var(--rose), transparent); }
-.stat-num { font-size: 36px; font-weight: 600; color: var(--text); line-height: 1; }
-.stat-label { font-size: 12px; color: var(--muted); margin-top: 0.4rem; letter-spacing: 0.1em; text-transform: uppercase; }
-.stat-icon { position: absolute; top: 1rem; right: 1rem; font-size: 20px; opacity: 0.4; }
-
-/* TABLE */
-.table-section { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin-bottom: 2rem; }
-.table-header { padding: 1.2rem 1.5rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
-.table-title { font-size: 15px; font-weight: 500; color: var(--text); }
-.search-inp {
-  padding: 0.5rem 1rem; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px;
-  color: var(--text); font-size: 13px; outline: none; width: 200px; font-family: 'DM Sans', sans-serif;
+.nav-item:hover{background:rgba(192,82,90,0.1);color:var(--text);}
+.nav-item.active{background:rgba(192,82,90,0.14);color:var(--rose);font-weight:500;}
+.nav-badge{margin-left:auto;font-size:10px;background:rgba(192,82,90,0.2);color:var(--rose);padding:2px 7px;border-radius:50px;}
+.sidebar-footer{margin-top:auto;padding-top:1rem;border-top:1px solid var(--border);}
+.logout-btn{
+  width:100%;padding:0.65rem 1rem;background:transparent;color:var(--muted);
+  border:1px solid var(--border);border-radius:8px;font-size:13px;cursor:pointer;
+  transition:all 0.25s;display:flex;align-items:center;gap:8px;font-family:'DM Sans',sans-serif;
 }
-.search-inp:focus { border-color: var(--rose); }
-.search-inp::placeholder { color: var(--muted); }
-table { width: 100%; border-collapse: collapse; }
-th { padding: 0.8rem 1rem; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); text-align: left; border-bottom: 1px solid var(--border); }
-td { padding: 0.9rem 1rem; font-size: 13px; border-bottom: 1px solid rgba(192,82,90,0.05); vertical-align: middle; }
-tr:last-child td { border-bottom: none; }
-tr:hover td { background: rgba(192,82,90,0.03); }
-.name-cell { font-family: 'Cormorant Garamond', serif; font-size: 18px; color: var(--rose); }
-.badge { display: inline-block; padding: 3px 10px; border-radius: 50px; font-size: 11px; font-weight: 500; }
-.badge-yes { background: rgba(72,187,120,0.15); color: #68d391; }
-.badge-no { background: rgba(192,82,90,0.1); color: var(--muted); }
-.badge-views { background: rgba(184,150,90,0.15); color: var(--gold); }
-.link-cell { font-size: 11px; color: var(--muted); font-family: monospace; }
-.link-cell a { color: var(--rose); text-decoration: none; }
-.link-cell a:hover { text-decoration: underline; }
-.delete-btn { padding: 4px 12px; background: transparent; border: 1px solid rgba(192,82,90,0.3); border-radius: 6px; color: var(--rose); font-size: 12px; cursor: pointer; transition: all 0.2s; }
-.delete-btn:hover { background: rgba(192,82,90,0.15); }
-.empty-state { text-align: center; padding: 4rem 2rem; color: var(--muted); }
-.empty-state div { font-size: 40px; margin-bottom: 1rem; }
+.logout-btn:hover{background:rgba(192,82,90,0.08);color:var(--rose);border-color:var(--border2);}
 
-/* TOP NAMES */
-.names-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 0.8rem; padding: 1.5rem; }
-.name-tag {
-  background: var(--surface2); border: 1px solid var(--border); border-radius: 10px;
-  padding: 0.8rem 1rem; display: flex; justify-content: space-between; align-items: center;
+/* ===== MAIN ===== */
+.main{margin-left:224px;padding:2.5rem 2rem;flex:1;min-width:0;}
+.page-header{margin-bottom:2rem;display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
+.page-title{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:var(--text);}
+.page-sub{font-size:13px;color:var(--muted);margin-top:0.3rem;}
+
+/* ===== STATS ===== */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:1rem;margin-bottom:2rem;}
+.stat-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:14px;
+  padding:1.4rem 1.5rem;position:relative;overflow:hidden;
+  transition:border-color 0.25s,transform 0.25s;
 }
-.name-tag-name { font-family: 'Cormorant Garamond', serif; font-size: 18px; color: var(--rose); text-transform: capitalize; }
-.name-tag-count { font-size: 12px; color: var(--muted); background: rgba(192,82,90,0.1); padding: 2px 8px; border-radius: 50px; }
+.stat-card:hover{border-color:var(--border2);transform:translateY(-2px);}
+.stat-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,var(--rose),rgba(192,82,90,0.2));}
+.stat-num{font-size:34px;font-weight:600;color:var(--text);line-height:1;font-variant-numeric:tabular-nums;}
+.stat-label{font-size:11px;color:var(--muted);margin-top:0.5rem;letter-spacing:0.12em;text-transform:uppercase;}
+.stat-icon{position:absolute;top:1rem;right:1rem;font-size:18px;opacity:0.3;}
+.stat-trend{font-size:11px;color:#68d391;margin-top:0.3rem;display:flex;align-items:center;gap:3px;}
 
-/* TABS */
-.tab-btns { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; }
-.tab-btn { padding: 0.5rem 1.2rem; background: transparent; border: 1px solid var(--border); border-radius: 8px; color: var(--muted); font-size: 13px; cursor: pointer; transition: all 0.2s; }
-.tab-btn.active { background: rgba(192,82,90,0.12); border-color: var(--rose); color: var(--rose); }
+/* ===== TABLE ===== */
+.section-box{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:2rem;}
+.section-header{
+  padding:1.2rem 1.5rem;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;
+}
+.section-title{font-size:14px;font-weight:500;color:var(--text);}
+.search-wrap{position:relative;}
+.search-wrap::before{content:'🔍';position:absolute;left:0.7rem;top:50%;transform:translateY(-50%);font-size:13px;pointer-events:none;}
+.search-inp{
+  padding:0.5rem 1rem 0.5rem 2.2rem;background:var(--surface2);border:1px solid var(--border);
+  border-radius:8px;color:var(--text);font-size:13px;outline:none;width:200px;
+  font-family:'DM Sans',sans-serif;transition:border-color 0.25s;
+}
+.search-inp:focus{border-color:var(--rose);}
+.search-inp::placeholder{color:var(--muted);}
+table{width:100%;border-collapse:collapse;}
+th{
+  padding:0.75rem 1rem;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;
+  color:var(--muted2);text-align:left;border-bottom:1px solid var(--border);
+  background:rgba(0,0,0,0.15);white-space:nowrap;
+}
+td{
+  padding:0.85rem 1rem;font-size:13px;border-bottom:1px solid rgba(192,82,90,0.05);
+  vertical-align:middle;
+}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:rgba(192,82,90,0.03);}
+.name-cell{font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--rose);white-space:nowrap;}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:50px;font-size:11px;font-weight:500;}
+.badge-yes{background:rgba(72,187,120,0.12);color:#68d391;}
+.badge-no{background:rgba(192,82,90,0.08);color:var(--muted);}
+.badge-views{background:rgba(184,150,90,0.12);color:var(--gold);}
+.badge-romantic{background:rgba(192,82,90,0.1);color:var(--rose);}
+.badge-college{background:rgba(45,106,159,0.12);color:#6aabdf;}
+.link-cell{font-size:11px;font-family:monospace;}
+.link-cell a{color:var(--rose);text-decoration:none;opacity:0.8;}
+.link-cell a:hover{opacity:1;text-decoration:underline;}
+.delete-btn{
+  padding:4px 12px;background:transparent;border:1px solid rgba(192,82,90,0.2);
+  border-radius:6px;color:var(--rose);font-size:12px;cursor:pointer;
+  transition:all 0.2s;font-family:'DM Sans',sans-serif;opacity:0.6;
+}
+.delete-btn:hover{background:rgba(192,82,90,0.12);opacity:1;}
+.empty-state{text-align:center;padding:4rem 2rem;color:var(--muted);}
+.loading-row td{text-align:center;padding:3rem;color:var(--muted);font-size:14px;}
 
-/* LOADING */
-.loading-row td { text-align: center; padding: 3rem; color: var(--muted); font-size: 14px; }
+/* ===== TOP NAMES ===== */
+.names-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:0.8rem;padding:1.5rem;}
+.name-tag{
+  background:var(--surface2);border:1px solid var(--border);border-radius:10px;
+  padding:0.8rem 1rem;display:flex;justify-content:space-between;align-items:center;
+  transition:border-color 0.2s;
+}
+.name-tag:hover{border-color:var(--border2);}
+.name-tag-name{font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--rose);text-transform:capitalize;}
+.name-tag-count{font-size:11px;color:var(--muted);background:rgba(192,82,90,0.08);padding:2px 8px;border-radius:50px;}
 
-/* REFRESH */
-.refresh-btn { padding: 0.5rem 1rem; background: transparent; border: 1px solid var(--border); border-radius: 8px; color: var(--muted); font-size: 13px; cursor: pointer; transition: all 0.2s; }
-.refresh-btn:hover { border-color: var(--rose); color: var(--rose); }
-.refresh-btn.spinning { animation: spin 1s linear infinite; }
-@keyframes spin { to { transform: rotate(360deg); } }
+/* ===== BUTTONS ===== */
+.refresh-btn{
+  padding:0.5rem 1rem;background:transparent;border:1px solid var(--border);
+  border-radius:8px;color:var(--muted);font-size:13px;cursor:pointer;
+  transition:all 0.2s;font-family:'DM Sans',sans-serif;display:flex;align-items:center;gap:6px;
+}
+.refresh-btn:hover{border-color:var(--border2);color:var(--rose);}
+.refresh-btn.spinning svg{animation:spin 0.8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
 
-/* TOAST */
-.toast { position: fixed; bottom: 2rem; right: 2rem; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 0.8rem 1.5rem; font-size: 14px; color: var(--text); z-index: 9999; transform: translateY(100px); opacity: 0; transition: all 0.3s; }
-.toast.show { transform: translateY(0); opacity: 1; }
-.toast.success { border-color: rgba(72,187,120,0.4); }
-.toast.error { border-color: rgba(192,82,90,0.4); color: var(--rose); }
+/* ===== TOAST ===== */
+.toast{
+  position:fixed;bottom:2rem;right:2rem;background:var(--surface);
+  border:1px solid var(--border);border-radius:10px;padding:0.8rem 1.5rem;
+  font-size:14px;color:var(--text);z-index:9999;
+  transform:translateY(20px);opacity:0;transition:all 0.3s;pointer-events:none;
+}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast.success{border-color:rgba(72,187,120,0.3);}
+.toast.error{border-color:rgba(192,82,90,0.4);color:#e57373;}
 
-@media (max-width: 768px) {
-  .sidebar { width: 100%; height: auto; position: static; flex-direction: row; flex-wrap: wrap; }
-  .main { margin-left: 0; }
-  .stats-grid { grid-template-columns: repeat(2, 1fr); }
-  table { font-size: 12px; }
-  .search-inp { width: 140px; }
+/* ===== OVERVIEW CHARTS ===== */
+.mini-chart{display:flex;align-items:flex-end;gap:4px;height:40px;padding:0.3rem 0;}
+.mini-bar{background:rgba(192,82,90,0.3);border-radius:2px 2px 0 0;flex:1;min-height:4px;transition:background 0.2s;}
+.mini-bar:hover{background:var(--rose);}
+.theme-split{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1.5rem;}
+.theme-split-item{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:1rem;text-align:center;}
+.theme-split-num{font-size:24px;font-weight:600;color:var(--text);}
+.theme-split-label{font-size:11px;color:var(--muted);margin-top:0.3rem;}
+
+@media(max-width:768px){
+  .sidebar{width:100%;height:auto;position:static;flex-direction:row;overflow-x:auto;}
+  .sidebar-logo{display:none;}
+  .sidebar-section{display:none;}
+  .sidebar-footer{margin-top:0;padding:0;border:none;}
+  .nav-item{white-space:nowrap;flex-direction:column;gap:2px;font-size:11px;padding:0.5rem 0.8rem;}
+  .main{margin-left:0;}
+  .stats-grid{grid-template-columns:repeat(2,1fr);}
+  table{font-size:11px;}
+  td,th{padding:0.65rem 0.7rem;}
+  .search-inp{width:130px;}
+  .search-wrap::before{display:none;}
+  .search-inp{padding-left:0.8rem;}
 }
 </style>
 </head>
 <body>
 
-<!-- LOGIN -->
-<div id="login-screen">
+<!-- ===== LOGIN ===== -->
+<!-- 
+  PHISHING FIX:
+  1. Clearly labelled as ProposeHer admin panel 
+  2. autocomplete="new-password" prevents browser from treating it as a real login
+  3. noindex robots tag
+  4. Context text explains this is a private admin tool
+-->
+<div id="login-screen" role="main" aria-labelledby="login-heading">
   <div class="login-box">
-    <div class="login-logo">ProposeHer</div>
-    <p class="login-sub">Admin Panel · Sirf tumhare liye 🔐</p>
-    <input class="login-inp" type="password" id="adminPass" placeholder="Password daalo..." />
-    <button class="login-btn" onclick="doLogin()">Login →</button>
-    <p class="login-err" id="loginErr">Galat password! Dobara try karo.</p>
+    <div class="login-logo" aria-hidden="true">ProposeHer</div>
+    <div class="login-brand">Admin Panel</div>
+    <div class="login-context" role="note">
+      Yeh ProposeHer ka private admin panel hai — sirf site owner ke liye. Agar tum galti se yahan aaye ho, 
+      <a href="/" style="color:var(--rose);">homepage pe jao</a>.
+    </div>
+    <label class="login-label" for="adminPass" id="login-heading">Admin Password</label>
+    <input 
+      class="login-inp" 
+      type="password" 
+      id="adminPass" 
+      placeholder="Password daalo..."
+      autocomplete="new-password"
+      aria-label="Admin panel password"
+      aria-describedby="loginErr"
+    />
+    <button class="login-btn" onclick="doLogin()" aria-label="Login karo">Login karo →</button>
+    <p class="login-err" id="loginErr" role="alert" aria-live="assertive">Galat password. Dobara try karo.</p>
   </div>
 </div>
 
-<!-- DASHBOARD -->
-<div id="dashboard">
+<!-- ===== DASHBOARD ===== -->
+<div id="dashboard" role="main" aria-label="Admin dashboard">
   <div class="layout">
-    <!-- SIDEBAR -->
-    <div class="sidebar">
-      <div class="sidebar-logo">ProposeHer</div>
-      <div class="nav-item active" onclick="showTab('overview')">📊 Overview</div>
-      <div class="nav-item" onclick="showTab('proposals')">💌 All Proposals</div>
-      <div class="nav-item" onclick="showTab('names')">🌸 Top Names</div>
-      <div class="sidebar-footer">
-        <button class="logout-btn" onclick="logout()">← Logout</button>
-      </div>
-    </div>
 
-    <!-- MAIN -->
+    <!-- SIDEBAR -->
+    <nav class="sidebar" aria-label="Admin navigation">
+      <div class="sidebar-logo" aria-hidden="true">ProposeHer</div>
+      <div class="sidebar-section" aria-hidden="true">Main</div>
+      <div class="nav-item active" onclick="showTab('overview')" role="button" tabindex="0" onkeydown="if(event.key==='Enter')showTab('overview')" aria-label="Overview tab">
+        <span aria-hidden="true">📊</span> Overview
+      </div>
+      <div class="nav-item" onclick="showTab('proposals')" role="button" tabindex="0" onkeydown="if(event.key==='Enter')showTab('proposals')" aria-label="All proposals tab">
+        <span aria-hidden="true">💌</span> All Proposals
+        <span class="nav-badge" id="sidebarTotal" aria-hidden="true">—</span>
+      </div>
+      <div class="nav-item" onclick="showTab('names')" role="button" tabindex="0" onkeydown="if(event.key==='Enter')showTab('names')" aria-label="Top names tab">
+        <span aria-hidden="true">🌸</span> Top Names
+      </div>
+      <div class="sidebar-footer">
+        <button class="logout-btn" onclick="logout()" aria-label="Logout karo">
+          <span aria-hidden="true">←</span> Logout
+        </button>
+      </div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
     <div class="main">
 
       <!-- OVERVIEW TAB -->
       <div id="tab-overview">
         <div class="page-header">
-          <h1 class="page-title">Dashboard Overview</h1>
-          <p class="page-sub">Real-time stats — sab kuch ek jagah</p>
+          <div>
+            <h1 class="page-title">Dashboard Overview</h1>
+            <p class="page-sub" id="lastUpdated">Loading...</p>
+          </div>
+          <button class="refresh-btn" onclick="loadData()" aria-label="Data refresh karo">
+            <svg id="refreshIcon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+            Refresh
+          </button>
         </div>
-        <div class="stats-grid">
-          <div class="stat-card"><span class="stat-icon">💌</span><div class="stat-num" id="statTotal">—</div><div class="stat-label">Total Proposals</div></div>
-          <div class="stat-card"><span class="stat-icon">👁️</span><div class="stat-num" id="statViews">—</div><div class="stat-label">Total Views</div></div>
-          <div class="stat-card"><span class="stat-icon">💕</span><div class="stat-num" id="statYes">—</div><div class="stat-label">Yes Clicked</div></div>
-          <div class="stat-card"><span class="stat-icon">🔥</span><div class="stat-num" id="statToday">—</div><div class="stat-label">Aaj ke Proposals</div></div>
-          <div class="stat-card"><span class="stat-icon">📈</span><div class="stat-num" id="statConv">—%</div><div class="stat-label">Yes Rate</div></div>
+
+        <!-- STATS CARDS -->
+        <div class="stats-grid" aria-label="Dashboard statistics">
+          <div class="stat-card"><span class="stat-icon" aria-hidden="true">💌</span><div class="stat-num" id="statTotal">—</div><div class="stat-label">Total Proposals</div></div>
+          <div class="stat-card"><span class="stat-icon" aria-hidden="true">👁️</span><div class="stat-num" id="statViews">—</div><div class="stat-label">Total Views</div></div>
+          <div class="stat-card"><span class="stat-icon" aria-hidden="true">💕</span><div class="stat-num" id="statYes">—</div><div class="stat-label">Yes Clicked</div></div>
+          <div class="stat-card"><span class="stat-icon" aria-hidden="true">🔥</span><div class="stat-num" id="statToday">—</div><div class="stat-label">Aaj ke Proposals</div></div>
+          <div class="stat-card"><span class="stat-icon" aria-hidden="true">📈</span><div class="stat-num" id="statConv">—%</div><div class="stat-label">Yes Rate</div></div>
         </div>
-        <div class="table-section">
-          <div class="table-header"><span class="table-title">Recent 10 Proposals</span><button class="refresh-btn" onclick="loadData()">↻ Refresh</button></div>
-          <table><thead><tr><th>Naam</th><th>Views</th><th>Yes?</th><th>Date</th><th>Link</th></tr></thead>
-          <tbody id="recentBody"><tr class="loading-row"><td colspan="5">Loading...</td></tr></tbody></table>
+
+        <!-- Theme split -->
+        <div class="section-box" style="margin-bottom:1.5rem;">
+          <div class="section-header"><span class="section-title">Theme Breakdown</span></div>
+          <div class="theme-split" style="padding:1.5rem;" id="themeSplit">
+            <div class="theme-split-item"><div class="theme-split-num" id="themeRomantic">—</div><div class="theme-split-label">🌸 Romantic Rose</div></div>
+            <div class="theme-split-item"><div class="theme-split-num" id="themeCollege">—</div><div class="theme-split-label">📚 College Story</div></div>
+          </div>
+        </div>
+
+        <!-- Recent proposals table -->
+        <div class="section-box">
+          <div class="section-header">
+            <span class="section-title">Recent 10 Proposals</span>
+            <button class="refresh-btn" onclick="loadData()" aria-label="Table refresh karo">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+              Refresh
+            </button>
+          </div>
+          <div style="overflow-x:auto;">
+            <table aria-label="Recent proposals">
+              <thead>
+                <tr>
+                  <th scope="col">Naam</th>
+                  <th scope="col">Theme</th>
+                  <th scope="col">Views</th>
+                  <th scope="col">Yes?</th>
+                  <th scope="col">Date</th>
+                  <th scope="col">Link</th>
+                </tr>
+              </thead>
+              <tbody id="recentBody"><tr class="loading-row"><td colspan="6">Loading...</td></tr></tbody>
+            </table>
+          </div>
         </div>
       </div>
 
       <!-- ALL PROPOSALS TAB -->
       <div id="tab-proposals" style="display:none;">
-        <div class="page-header" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;">
-          <div><h1 class="page-title">All Proposals</h1><p class="page-sub" id="propCount">Loading...</p></div>
-          <input class="search-inp" type="text" id="searchInp" placeholder="Naam se search..." oninput="filterTable()" />
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">All Proposals</h1>
+            <p class="page-sub" id="propCount">Loading...</p>
+          </div>
+          <div class="search-wrap">
+            <input class="search-inp" type="search" id="searchInp" placeholder="Naam se search..." oninput="filterTable()" aria-label="Proposals search karo" autocomplete="off" />
+          </div>
         </div>
-        <div class="table-section">
-          <table><thead><tr><th>Naam</th><th>Tumhara Naam</th><th>Views</th><th>Yes?</th><th>IP</th><th>Date</th><th>Link</th><th>Action</th></tr></thead>
-          <tbody id="allBody"><tr class="loading-row"><td colspan="8">Loading...</td></tr></tbody></table>
+        <div class="section-box">
+          <div style="overflow-x:auto;">
+            <table aria-label="All proposals table">
+              <thead>
+                <tr>
+                  <th scope="col">Naam</th>
+                  <th scope="col">Tera Naam</th>
+                  <th scope="col">Theme</th>
+                  <th scope="col">Views</th>
+                  <th scope="col">Yes?</th>
+                  <th scope="col">IP</th>
+                  <th scope="col">Date</th>
+                  <th scope="col">Link</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody id="allBody"><tr class="loading-row"><td colspan="9">Loading...</td></tr></tbody>
+            </table>
+          </div>
         </div>
       </div>
 
       <!-- TOP NAMES TAB -->
       <div id="tab-names" style="display:none;">
-        <div class="page-header"><h1 class="page-title">Top Names</h1><p class="page-sub">Sabse zyada propose ki gayi names</p></div>
-        <div class="table-section">
-          <div class="names-grid" id="namesGrid"><p style="padding:2rem;color:var(--muted)">Loading...</p></div>
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Top Names</h1>
+            <p class="page-sub">Sabse zyada propose ki gayi names</p>
+          </div>
+        </div>
+        <div class="section-box">
+          <div class="names-grid" id="namesGrid" aria-label="Top girlfriend names">
+            <p style="padding:2rem;color:var(--muted)">Loading...</p>
+          </div>
         </div>
       </div>
 
-    </div>
-  </div>
-</div>
+    </div><!-- /main -->
+  </div><!-- /layout -->
+</div><!-- /dashboard -->
 
-<div class="toast" id="toast"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
 let adminKey = '';
 let allProposals = [];
 
+// ===== LOGIN =====
 function doLogin() {
-  const pass = document.getElementById('adminPass').value;
-  if (!pass) return;
+  const pass = document.getElementById('adminPass').value.trim();
+  const errEl = document.getElementById('loginErr');
+  if (!pass) {
+    errEl.classList.add('show');
+    errEl.textContent = 'Password daalo.';
+    return;
+  }
+  errEl.classList.remove('show');
   adminKey = pass;
   loadData();
 }
 
-document.getElementById('adminPass').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+document.getElementById('adminPass').addEventListener('keydown', e => {
+  if (e.key === 'Enter') doLogin();
+});
 
+// ===== LOAD DATA =====
 async function loadData() {
+  // Spinning refresh icon
+  const icon = document.getElementById('refreshIcon');
+  if (icon) icon.style.animation = 'spin 0.8s linear infinite';
+
   try {
-    const res = await fetch('/api/stats', { headers: { 'x-admin-key': adminKey } });
+    const res = await fetch('/api/stats', {
+      headers: { 'x-admin-key': adminKey }
+    });
+
     if (res.status === 401) {
       document.getElementById('loginErr').classList.add('show');
+      document.getElementById('loginErr').textContent = 'Galat password. Dobara try karo.';
       adminKey = '';
+      if (icon) icon.style.animation = '';
       return;
     }
+
+    if (!res.ok) throw new Error('Server error: ' + res.status);
+
     const data = await res.json();
 
     // Show dashboard
@@ -255,88 +443,124 @@ async function loadData() {
     document.getElementById('statYes').textContent = data.stats.yesCount;
     document.getElementById('statToday').textContent = data.stats.todayCount;
     document.getElementById('statConv').textContent = data.stats.conversionRate + '%';
+    document.getElementById('sidebarTotal').textContent = data.stats.total;
+    document.getElementById('lastUpdated').textContent = 'Last updated: ' + new Date().toLocaleTimeString('hi-IN');
 
-    allProposals = data.proposals;
+    // Theme split
+    if (data.stats.themeBreakdown) {
+      document.getElementById('themeRomantic').textContent = data.stats.themeBreakdown.romantic || 0;
+      document.getElementById('themeCollege').textContent = data.stats.themeBreakdown.college || 0;
+    }
+
+    allProposals = data.proposals || [];
     document.getElementById('propCount').textContent = allProposals.length + ' total proposals';
 
-    // Recent 10
     renderRecent(allProposals.slice(0, 10));
-    // All
     renderAll(allProposals);
-    // Names
-    renderNames(data.topNames);
+    renderNames(data.topNames || []);
+
+    if (icon) icon.style.animation = '';
 
   } catch (e) {
-    showToast('Error loading data', 'error');
+    console.error('loadData error:', e);
+    showToast('Data load nahi hua: ' + e.message, 'error');
+    if (icon) icon.style.animation = '';
   }
 }
 
+// ===== RENDER RECENT =====
 function renderRecent(proposals) {
   const tbody = document.getElementById('recentBody');
-  if (!proposals.length) { tbody.innerHTML = '<tr class="loading-row"><td colspan="5">Koi proposal nahi abhi</td></tr>'; return; }
+  if (!proposals.length) {
+    tbody.innerHTML = '<tr class="loading-row"><td colspan="6">Koi proposal nahi abhi</td></tr>';
+    return;
+  }
   tbody.innerHTML = proposals.map(p => `
     <tr>
       <td class="name-cell">${esc(p.girlfriend_name)}</td>
-      <td><span class="badge badge-views">👁 ${p.views || 0}</span></td>
-      <td><span class="badge ${p.yes_clicked ? 'badge-yes' : 'badge-no'}">${p.yes_clicked ? '💕 Yes!' : 'Pending'}</span></td>
-      <td style="color:var(--muted);font-size:12px">${formatDate(p.created_at)}</td>
-      <td class="link-cell"><a href="/p/${p.id}" target="_blank">/p/${p.id}</a></td>
-    </tr>
-  `).join('');
-}
-
-function renderAll(proposals) {
-  const tbody = document.getElementById('allBody');
-  if (!proposals.length) { tbody.innerHTML = '<tr class="loading-row"><td colspan="8">Koi proposal nahi</td></tr>'; return; }
-  tbody.innerHTML = proposals.map(p => `
-    <tr id="row-${p.id}">
-      <td class="name-cell">${esc(p.girlfriend_name)}</td>
-      <td style="color:var(--muted);font-size:12px">${p.your_name ? esc(p.your_name) : '—'}</td>
+      <td><span class="badge ${p.theme === 'college' ? 'badge-college' : 'badge-romantic'}">${p.theme === 'college' ? '📚' : '🌸'} ${esc(p.theme || 'romantic')}</span></td>
       <td><span class="badge badge-views">👁 ${p.views || 0}</span></td>
       <td><span class="badge ${p.yes_clicked ? 'badge-yes' : 'badge-no'}">${p.yes_clicked ? '💕 Yes!' : '—'}</span></td>
-      <td style="color:var(--muted);font-size:11px;font-family:monospace">${p.creator_ip ? p.creator_ip.split(',')[0].trim().substring(0,15) : '—'}</td>
-      <td style="color:var(--muted);font-size:12px">${formatDate(p.created_at)}</td>
-      <td class="link-cell"><a href="/p/${p.id}" target="_blank">/p/${p.id} ↗</a></td>
-      <td><button class="delete-btn" onclick="deleteProposal('${p.id}')">Delete</button></td>
+      <td style="color:var(--muted);font-size:12px;white-space:nowrap">${formatDate(p.created_at)}</td>
+      <td class="link-cell"><a href="/p/${esc(p.id)}" target="_blank" rel="noopener noreferrer">/p/${esc(p.id)} ↗</a></td>
     </tr>
   `).join('');
 }
 
+// ===== RENDER ALL =====
+function renderAll(proposals) {
+  const tbody = document.getElementById('allBody');
+  if (!proposals.length) {
+    tbody.innerHTML = '<tr class="loading-row"><td colspan="9">Koi proposal nahi</td></tr>';
+    return;
+  }
+  tbody.innerHTML = proposals.map(p => `
+    <tr id="row-${esc(p.id)}">
+      <td class="name-cell">${esc(p.girlfriend_name)}</td>
+      <td style="color:var(--muted);font-size:12px">${p.your_name ? esc(p.your_name) : '—'}</td>
+      <td><span class="badge ${p.theme === 'college' ? 'badge-college' : 'badge-romantic'}">${p.theme === 'college' ? '📚' : '🌸'}</span></td>
+      <td><span class="badge badge-views">👁 ${p.views || 0}</span></td>
+      <td><span class="badge ${p.yes_clicked ? 'badge-yes' : 'badge-no'}">${p.yes_clicked ? '💕 Yes!' : '—'}</span></td>
+      <td style="color:var(--muted);font-size:11px;font-family:monospace">${p.creator_ip ? esc(p.creator_ip.split(',')[0].trim().substring(0,16)) : '—'}</td>
+      <td style="color:var(--muted);font-size:12px;white-space:nowrap">${formatDate(p.created_at)}</td>
+      <td class="link-cell"><a href="/p/${esc(p.id)}" target="_blank" rel="noopener noreferrer">/p/${esc(p.id)} ↗</a></td>
+      <td><button class="delete-btn" onclick="deleteProposal('${esc(p.id)}')" aria-label="${esc(p.girlfriend_name)} ka proposal delete karo">Delete</button></td>
+    </tr>
+  `).join('');
+}
+
+// ===== RENDER NAMES =====
 function renderNames(names) {
   const grid = document.getElementById('namesGrid');
-  if (!names.length) { grid.innerHTML = '<p style="padding:2rem;color:var(--muted)">Data nahi hai abhi</p>'; return; }
+  if (!names.length) {
+    grid.innerHTML = '<p style="padding:2rem;color:var(--muted)">Data nahi hai abhi</p>';
+    return;
+  }
   grid.innerHTML = names.map((n, i) => `
     <div class="name-tag">
       <span class="name-tag-name">${i+1}. ${esc(n.name)}</span>
-      <span class="name-tag-count">${n.count}x</span>
+      <span class="name-tag-count">${n.count}×</span>
     </div>
   `).join('');
 }
 
+// ===== FILTER =====
 function filterTable() {
-  const q = document.getElementById('searchInp').value.toLowerCase();
+  const q = document.getElementById('searchInp').value.toLowerCase().trim();
+  if (!q) { renderAll(allProposals); return; }
   const filtered = allProposals.filter(p =>
-    p.girlfriend_name.toLowerCase().includes(q) || (p.your_name || '').toLowerCase().includes(q)
+    p.girlfriend_name.toLowerCase().includes(q) ||
+    (p.your_name || '').toLowerCase().includes(q) ||
+    p.id.toLowerCase().includes(q)
   );
   renderAll(filtered);
 }
 
+// ===== DELETE =====
 async function deleteProposal(id) {
-  if (!confirm('Yeh proposal delete karna chahte ho?')) return;
+  if (!confirm('Yeh proposal permanently delete karna chahte ho?')) return;
   try {
-    const res = await fetch('/api/delete?id=' + id, { method: 'POST', headers: { 'x-admin-key': adminKey } });
+    const res = await fetch('/api/delete?id=' + encodeURIComponent(id), {
+      method: 'POST',
+      headers: { 'x-admin-key': adminKey }
+    });
     if (res.ok) {
       document.getElementById('row-' + id)?.remove();
       allProposals = allProposals.filter(p => p.id !== id);
       document.getElementById('statTotal').textContent = allProposals.length;
+      document.getElementById('sidebarTotal').textContent = allProposals.length;
       document.getElementById('propCount').textContent = allProposals.length + ' total proposals';
       showToast('Proposal delete ho gaya ✓', 'success');
+    } else {
+      const err = await res.json().catch(() => ({}));
+      showToast('Delete fail hua: ' + (err.error || res.status), 'error');
     }
   } catch (e) {
-    showToast('Delete fail hua', 'error');
+    showToast('Delete fail hua: ' + e.message, 'error');
   }
 }
 
+// ===== TAB SWITCH =====
 function showTab(tab) {
   ['overview','proposals','names'].forEach(t => {
     document.getElementById('tab-' + t).style.display = t === tab ? 'block' : 'none';
@@ -346,28 +570,38 @@ function showTab(tab) {
   });
 }
 
+// ===== LOGOUT =====
 function logout() {
   adminKey = '';
   document.getElementById('dashboard').classList.remove('show');
   document.getElementById('login-screen').style.display = 'flex';
   document.getElementById('adminPass').value = '';
+  allProposals = [];
 }
 
+// ===== TOAST =====
 function showToast(msg, type = '') {
   const t = document.getElementById('toast');
   t.textContent = msg;
   t.className = 'toast ' + type + ' show';
-  setTimeout(() => t.classList.remove('show'), 3000);
+  setTimeout(() => t.classList.remove('show'), 3500);
 }
 
+// ===== HELPERS =====
 function formatDate(str) {
   if (!str) return '—';
-  const d = new Date(str);
-  return d.toLocaleDateString('hi-IN', { day: '2-digit', month: 'short', year: '2-digit' });
+  try {
+    return new Date(str).toLocaleDateString('hi-IN', { day: '2-digit', month: 'short', year: '2-digit' });
+  } catch { return '—'; }
 }
 
 function esc(s) {
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  return String(s)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&#39;');
 }
 </script>
 </body>
